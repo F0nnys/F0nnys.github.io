@@ -69,19 +69,19 @@
 
 
 
-<meta name="description" content="第二届智慧中国杯首数据科学竞赛，首发皇包车（HI GUIDES）精品旅行服务成单预测竞赛精品旅行服务成单预测竞赛官网 -&amp;gt; github地址-&amp;gt; 1 特征工程用户标签：  orderhistory 购买过的旅游服务总数量 购买过的普通旅游服务数量 购买过的精品旅游服务数量 精品+1/普通+1 or 精品订单数/（精品+普通）得出百分比 最后一次订单的时间，时间戳最后一次订单的年份，月份">
+<meta name="description" content="第二届智慧中国杯首数据科学竞赛，首发皇包车（HI GUIDES）精品旅行服务成单预测竞赛精品旅行服务成单预测竞赛官网 -&amp;gt; github地址-&amp;gt; 1 特征工程用户标签：  orderhistory  购买过的旅游服务总数量  购买过的普通旅游服务数量  购买过的精品旅游服务数量  精品+1/普通+1 or 精品订单数/（精品+普通）得出百分比  最后一次订单的时间，时间戳最后一次订单的">
 <meta name="keywords" content="ML,XGBOOST">
 <meta property="og:type" content="article">
 <meta property="og:title" content="精品旅行服务成单预测竞赛">
 <meta property="og:url" content="http://yoursite.com/2018/01/15/精品旅行服务成单预测竞赛/index.html">
 <meta property="og:site_name" content="My Study Notes">
-<meta property="og:description" content="第二届智慧中国杯首数据科学竞赛，首发皇包车（HI GUIDES）精品旅行服务成单预测竞赛精品旅行服务成单预测竞赛官网 -&amp;gt; github地址-&amp;gt; 1 特征工程用户标签：  orderhistory 购买过的旅游服务总数量 购买过的普通旅游服务数量 购买过的精品旅游服务数量 精品+1/普通+1 or 精品订单数/（精品+普通）得出百分比 最后一次订单的时间，时间戳最后一次订单的年份，月份">
+<meta property="og:description" content="第二届智慧中国杯首数据科学竞赛，首发皇包车（HI GUIDES）精品旅行服务成单预测竞赛精品旅行服务成单预测竞赛官网 -&amp;gt; github地址-&amp;gt; 1 特征工程用户标签：  orderhistory  购买过的旅游服务总数量  购买过的普通旅游服务数量  购买过的精品旅游服务数量  精品+1/普通+1 or 精品订单数/（精品+普通）得出百分比  最后一次订单的时间，时间戳最后一次订单的">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://owmmu20d1.bkt.clouddn.com/18-1-15/53824794.jpg">
-<meta property="og:updated_time" content="2018-01-15T08:51:07.606Z">
+<meta property="og:updated_time" content="2018-01-15T08:52:46.955Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="精品旅行服务成单预测竞赛">
-<meta name="twitter:description" content="第二届智慧中国杯首数据科学竞赛，首发皇包车（HI GUIDES）精品旅行服务成单预测竞赛精品旅行服务成单预测竞赛官网 -&amp;gt; github地址-&amp;gt; 1 特征工程用户标签：  orderhistory 购买过的旅游服务总数量 购买过的普通旅游服务数量 购买过的精品旅游服务数量 精品+1/普通+1 or 精品订单数/（精品+普通）得出百分比 最后一次订单的时间，时间戳最后一次订单的年份，月份">
+<meta name="twitter:description" content="第二届智慧中国杯首数据科学竞赛，首发皇包车（HI GUIDES）精品旅行服务成单预测竞赛精品旅行服务成单预测竞赛官网 -&amp;gt; github地址-&amp;gt; 1 特征工程用户标签：  orderhistory  购买过的旅游服务总数量  购买过的普通旅游服务数量  购买过的精品旅游服务数量  精品+1/普通+1 or 精品订单数/（精品+普通）得出百分比  最后一次订单的时间，时间戳最后一次订单的">
 <meta name="twitter:image" content="http://owmmu20d1.bkt.clouddn.com/18-1-15/53824794.jpg">
 
 
@@ -340,14 +340,22 @@
 <p><a href="https://github.com/F0nnys/Data-competition" target="_blank" rel="external">github地址-&gt;</a></p>
 <h2 id="1-特征工程"><a href="#1-特征工程" class="headerlink" title="1 特征工程"></a>1 特征工程</h2><p>用户标签：</p>
 <ul>
-<li>orderhistory<ul>
-<li>购买过的旅游服务总数量</li>
-<li>购买过的普通旅游服务数量</li>
-<li>购买过的精品旅游服务数量</li>
-<li>精品+1/普通+1 or 精品订单数/（精品+普通）得出百分比</li>
-<li>最后一次订单的时间，时间戳最后一次订单的年份，月份</li>
-<li>一个用户的历史订单中去过每个大洲的次数</li>
-<li>一个用户的历史订单中去过每个国家的次数（training data中有51个国家）</li>
+<li><p>orderhistory</p>
+<ul>
+<li><p>购买过的旅游服务总数量</p>
+</li>
+<li><p>购买过的普通旅游服务数量</p>
+</li>
+<li><p>购买过的精品旅游服务数量</p>
+</li>
+<li><p>精品+1/普通+1 or 精品订单数/（精品+普通）得出百分比</p>
+</li>
+<li><p>最后一次订单的时间，时间戳最后一次订单的年份，月份</p>
+</li>
+<li><p>一个用户的历史订单中去过每个大洲的次数</p>
+</li>
+<li><p>一个用户的历史订单中去过每个国家的次数（training data中有51个国家）</p>
+<a id="more"></a></li>
 </ul>
 </li>
 <li>action<ul>
