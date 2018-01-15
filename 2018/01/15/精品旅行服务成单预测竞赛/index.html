@@ -53,7 +53,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="SVM,ML," />
+  <meta name="keywords" content="ML,XGBOOST," />
 
 
 
@@ -69,22 +69,20 @@
 
 
 
-<meta name="description" content="要介绍SVM，就必须从感知机这一个基础概念说起。因为感知机是很多机器学习甚至神经网络的模型基础。（通过简单修改损失函数可以变为SVM，通过简单堆叠可以发展成神经网络）  感知机是什么 感知机能使用超平面将线性可分数据集分开。如图所示：">
-<meta name="keywords" content="SVM,ML">
+<meta name="description" content="第二届智慧中国杯首数据科学竞赛，首发皇包车（HI GUIDES）精品旅行服务成单预测竞赛精品旅行服务成单预测竞赛官网 -&amp;gt; github地址-&amp;gt; 1 特征工程用户标签：  orderhistory 购买过的旅游服务总数量 购买过的普通旅游服务数量 购买过的精品旅游服务数量 精品+1/普通+1 or 精品订单数/（精品+普通）得出百分比 最后一次订单的时间，时间戳最后一次订单的年份，月份">
+<meta name="keywords" content="ML,XGBOOST">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SVM-1">
-<meta property="og:url" content="http://yoursite.com/2017/09/22/SVM/index.html">
+<meta property="og:title" content="精品旅行服务成单预测竞赛">
+<meta property="og:url" content="http://yoursite.com/2018/01/15/精品旅行服务成单预测竞赛/index.html">
 <meta property="og:site_name" content="My Study Notes">
-<meta property="og:description" content="要介绍SVM，就必须从感知机这一个基础概念说起。因为感知机是很多机器学习甚至神经网络的模型基础。（通过简单修改损失函数可以变为SVM，通过简单堆叠可以发展成神经网络）  感知机是什么 感知机能使用超平面将线性可分数据集分开。如图所示：">
+<meta property="og:description" content="第二届智慧中国杯首数据科学竞赛，首发皇包车（HI GUIDES）精品旅行服务成单预测竞赛精品旅行服务成单预测竞赛官网 -&amp;gt; github地址-&amp;gt; 1 特征工程用户标签：  orderhistory 购买过的旅游服务总数量 购买过的普通旅游服务数量 购买过的精品旅游服务数量 精品+1/普通+1 or 精品订单数/（精品+普通）得出百分比 最后一次订单的时间，时间戳最后一次订单的年份，月份">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://owmmu20d1.bkt.clouddn.com/17-9-22/76383780.jpg">
-<meta property="og:image" content="http://owmmu20d1.bkt.clouddn.com/17-9-22/72932865.jpg">
-<meta property="og:image" content="https://pic1.zhimg.com/v2-646760ec59dccb6dfd5251f46e339ae0_b.gif">
-<meta property="og:updated_time" content="2018-01-15T08:26:27.027Z">
+<meta property="og:image" content="http://owmmu20d1.bkt.clouddn.com/18-1-15/53824794.jpg">
+<meta property="og:updated_time" content="2018-01-15T08:51:07.606Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SVM-1">
-<meta name="twitter:description" content="要介绍SVM，就必须从感知机这一个基础概念说起。因为感知机是很多机器学习甚至神经网络的模型基础。（通过简单修改损失函数可以变为SVM，通过简单堆叠可以发展成神经网络）  感知机是什么 感知机能使用超平面将线性可分数据集分开。如图所示：">
-<meta name="twitter:image" content="http://owmmu20d1.bkt.clouddn.com/17-9-22/76383780.jpg">
+<meta name="twitter:title" content="精品旅行服务成单预测竞赛">
+<meta name="twitter:description" content="第二届智慧中国杯首数据科学竞赛，首发皇包车（HI GUIDES）精品旅行服务成单预测竞赛精品旅行服务成单预测竞赛官网 -&amp;gt; github地址-&amp;gt; 1 特征工程用户标签：  orderhistory 购买过的旅游服务总数量 购买过的普通旅游服务数量 购买过的精品旅游服务数量 精品+1/普通+1 or 精品订单数/（精品+普通）得出百分比 最后一次订单的时间，时间戳最后一次订单的年份，月份">
+<meta name="twitter:image" content="http://owmmu20d1.bkt.clouddn.com/18-1-15/53824794.jpg">
 
 
 
@@ -114,13 +112,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/09/22/SVM/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/01/15/精品旅行服务成单预测竞赛/"/>
 
 
 
 
 
-  <title>SVM-1 | My Study Notes</title>
+  <title>精品旅行服务成单预测竞赛 | My Study Notes</title>
   
 
 
@@ -249,7 +247,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/22/SVM/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/15/精品旅行服务成单预测竞赛/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="F0nnys">
@@ -266,7 +264,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">SVM-1</h1>
+          <h1 class="post-title" itemprop="name headline">精品旅行服务成单预测竞赛</h1>
         
 
         <div class="post-meta">
@@ -278,8 +276,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-22T09:00:51+08:00">
-                2017-09-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-15T16:31:03+08:00">
+                2018-01-15
               </time>
             
 
@@ -301,8 +299,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
+                  <a href="/categories/数据挖掘比赛/" itemprop="url" rel="index">
+                    <span itemprop="name">数据挖掘比赛</span>
                   </a>
                 </span>
 
@@ -338,28 +336,68 @@
       
 
       
-        <p>要介绍SVM，就必须从感知机这一个基础概念说起。因为感知机是很多机器学习甚至神经网络的模型基础。（通过简单修改损失函数可以变为SVM，通过简单堆叠可以发展成神经网络）</p>
-<blockquote>
-<h1 id="感知机是什么"><a href="#感知机是什么" class="headerlink" title="感知机是什么"></a>感知机是什么</h1></blockquote>
-<p>感知机能使用超平面将线性可分数据集分开。如图所示：</p>
-<p><img src="http://owmmu20d1.bkt.clouddn.com/17-9-22/76383780.jpg" alt=""></p>
-<a id="more"></a>
-<p>具体分割过程：<br><img src="http://owmmu20d1.bkt.clouddn.com/17-9-22/72932865.jpg" alt=""></p>
-<p>对于线性不可分数据集，感知机会一直荡来荡去，最后因设置的迭代上限而停止：<br><img src="https://pic1.zhimg.com/v2-646760ec59dccb6dfd5251f46e339ae0_b.gif" alt=""></p>
-<blockquote>
-<h1 id="如何实现感知机模型呢？"><a href="#如何实现感知机模型呢？" class="headerlink" title="如何实现感知机模型呢？"></a>如何实现感知机模型呢？</h1></blockquote>
-<p>超平面的一般定义式为：</p>
-<script type="math/tex; mode=display">
-wx+b=0</script><p>其中$w$、$x$为n维向量。对于一个数据集D={($x_1$,$y_1$),($x_2$,$y_2$),($x_3$,$y_3$)……($x_N$,$y_N$)}(其中$x$为输入坐标，$y$为标签类别，取1或者-1)。接下来只需要根据样本逐步更新$w$和$b$就可以使超平面分开数据集D。</p>
-<p>这里将$w$和$b$都先置0：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Perception</span>:</span></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">    self._w = self._b = <span class="keyword">None</span></div><div class="line">    </div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">fit</span><span class="params">(self,x,y,lr=<span class="number">0.01</span>,epoch=<span class="number">1000</span>)</span>:</span></div><div class="line">    x,y = np.asarray(x,np.float32),np.asarray(y, np.float32)</div><div class="line">    self._w = np.zeros(x.shape[<span class="number">1</span>])</div><div class="line">    self._b = <span class="number">0.</span></div></pre></td></tr></table></figure>
-<p>其中的lr和epoch表示的是学习速率和迭代最大次数。</p>
-<p>运用函数距离来表示损失函数，且只有分类错误的点才会贡献梯度：</p>
-<p>$L(x,y)=max(-y(w\cdot x+b),0)$ </p>
-<p>选择使损失函数值最大的一个样本($x_i$,$y_i$)，用它来计算梯度然后梯度下降。如果这个样本 都被正确分类的话，那其他所有样本都已经被正确分类了。</p>
-<p>$\frac{\partial L(x_i,y_i)}{\partial w}=-y_ix_i$、$\frac{\partial L(x_i,y_i)}{\partial b}=-y_i$</p>
-<p>代码表示为：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(epoch):</div><div class="line">  y_pred = x.dot(self._w) + self._b</div><div class="line">  max_point = np.argmax(np.maximum(<span class="number">0</span>,-y_pred)*y)</div><div class="line">  <span class="keyword">if</span> y[max_point]*y_pred[max_point]&gt;<span class="number">0</span>:</div><div class="line">    <span class="keyword">break</span></div><div class="line">  delta = lr*y[max_point]</div><div class="line">  self._w +=delta*x[max_point]</div><div class="line">  self._b +=delta</div></pre></td></tr></table></figure>
+        <h2 id="第二届智慧中国杯首数据科学竞赛，首发皇包车（HI-GUIDES）精品旅行服务成单预测竞赛"><a href="#第二届智慧中国杯首数据科学竞赛，首发皇包车（HI-GUIDES）精品旅行服务成单预测竞赛" class="headerlink" title="第二届智慧中国杯首数据科学竞赛，首发皇包车（HI GUIDES）精品旅行服务成单预测竞赛"></a>第二届智慧中国杯首数据科学竞赛，首发皇包车（HI GUIDES）精品旅行服务成单预测竞赛</h2><p><a href="http://www.dcjingsai.com/common/cmpt/%E7%B2%BE%E5%93%81%E6%97%85%E8%A1%8C%E6%9C%8D%E5%8A%A1%E6%88%90%E5%8D%95%E9%A2%84%E6%B5%8B_%E7%AB%9E%E8%B5%9B%E4%BF%A1%E6%81%AF.html" target="_blank" rel="external">精品旅行服务成单预测竞赛官网 -&gt;</a></p>
+<p><a href="https://github.com/F0nnys/Data-competition" target="_blank" rel="external">github地址-&gt;</a></p>
+<h2 id="1-特征工程"><a href="#1-特征工程" class="headerlink" title="1 特征工程"></a>1 特征工程</h2><p>用户标签：</p>
+<ul>
+<li>orderhistory<ul>
+<li>购买过的旅游服务总数量</li>
+<li>购买过的普通旅游服务数量</li>
+<li>购买过的精品旅游服务数量</li>
+<li>精品+1/普通+1 or 精品订单数/（精品+普通）得出百分比</li>
+<li>最后一次订单的时间，时间戳最后一次订单的年份，月份</li>
+<li>一个用户的历史订单中去过每个大洲的次数</li>
+<li>一个用户的历史订单中去过每个国家的次数（training data中有51个国家）</li>
+</ul>
+</li>
+<li>action<ul>
+<li>一个用户action的总次数（用处不大）</li>
+<li>倒数第1-20个actionType（缺失的用0替代）</li>
+<li>倒数第1-20个actionTime（缺失的用0替代）</li>
+<li>每种actionType的数目</li>
+<li>每种actionType的次数占比</li>
+<li>actionType1-5的时间间隔 timespan<em>1-5</em></li>
+<li>最后一次每种actionType与下一个actionType之间的间隔，如1-5，5-6, e.g., timespanlast_5-6，timespanlast_6-7，timespanlast_7-8</li>
+<li>actionType2-4与actionType5-9之间的比例</li>
+<li>倒数1个actionTime的年份，月份</li>
+<li>每个actionType最后一次出现的时间</li>
+<li>actionType5-9的连续程度sequential_ratio（从最后一个5开始计算，没有5则为0，只有5，则为1，5之后只出现6，则为2，还出现了7则为3，出现8为4）</li>
+<li>最后20个action中，每个actionType出现的次数</li>
+<li>倒数3个actiontimespan：倒数第1个action与倒数第2个action之间的时间差，倒数第2个action与倒数第3个action之间的时间差……</li>
+<li>最后3个，5个，actiontimespan的均值</li>
+<li>最后3个，5个，actiontimespan的标准差</li>
+<li>第一个actionTime（用户第一次使用app的时间）action_firsttime</li>
+<li>最后一个actionTime与第一个actionTime的时间差，描述用户用了app总时间（是否是老用户）timespan_total</li>
+</ul>
+</li>
+<li>comment<ul>
+<li>一个用户在其所有订单中的平均打分数rating_average</li>
+<li>最低打分数rating_min</li>
+<li>最后一次打分数rating_last</li>
+</ul>
+</li>
+<li>profile<ul>
+<li>是否有男女信息</li>
+<li>是否是男</li>
+<li>是否是女</li>
+<li>是否有年龄信息</li>
+<li>是否60后，70后，80后，90后，00后</li>
+<li>用户所属省份</li>
+</ul>
+</li>
+<li>不同表之间的复合信息<ul>
+<li>每个用户最后一个actionTime和最后一个orderTime之间的时间差 timespan_action_lastord</li>
+<li>每个actionType最后一次出现的时间与最后一个actionTIme之间的时间差 timespan_action1tolast, timespan_action2tolast, …</li>
+<li>ordertime_last_1与ordertime_last_2之间的时间差timespan_lastord_1_2，ordertime_last_2与ordertime_last_3之间的时间差timespan_lastord_2_3</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-模型选择与训练"><a href="#2-模型选择与训练" class="headerlink" title="2 模型选择与训练"></a>2 模型选择与训练</h2><p>首选 xgboost，初始参数列表为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">model_xgb1 = XGBClassifier(</div><div class="line">    learning_rate=<span class="number">0.03</span>,</div><div class="line">    n_estimators=<span class="number">3000</span>,</div><div class="line">    max_depth=<span class="number">5</span>,</div><div class="line">    min_child_weight=<span class="number">1</span>,</div><div class="line">    gamma=<span class="number">0</span>,</div><div class="line">    subsample=<span class="number">0.8</span>,</div><div class="line">    colsample_bytree=<span class="number">0.8</span>,</div><div class="line">    objective=<span class="string">'binary:logistic'</span>,</div><div class="line">    nthread=<span class="number">4</span>,</div><div class="line">    scale_pos_weight=<span class="number">1</span>,</div><div class="line">    seed=<span class="number">314</span></div><div class="line">    )</div></pre></td></tr></table></figure>
+<p>设置评价指标为 AUC，在模型 training 阶段使用 cross_validation(k_folds=5) 计算得到 AUC 值：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">model_xgb_final = model_xgb1</div><div class="line"><span class="comment">#model_xgb_final.fit(X_train, y_train)</span></div><div class="line">y_train_pred = model_xgb_final.predict(X_train)</div><div class="line">y_train_predprob = model_xgb_final.predict_proba(X_train)[:,<span class="number">1</span>]</div><div class="line">importances = model_xgb_final.feature_importances_</div><div class="line">df_featImp = pd.DataFrame(&#123;<span class="string">'tags'</span>: x_tags, <span class="string">'importance'</span>: importances&#125;)</div><div class="line">df_featImp.sort_values(by=[<span class="string">'importance'</span>], ascending=<span class="keyword">False</span>).plot(x=<span class="string">'tags'</span>, y=<span class="string">'importance'</span>, kind=<span class="string">'bar'</span>)</div><div class="line"></div><div class="line">print(<span class="string">'score_AUC:'</span>, round(metrics.roc_auc_score(y_train, y_train_predprob), <span class="number">5</span>))</div><div class="line">print(<span class="string">'score_precision:'</span>, round(metrics.accuracy_score(y_train, y_train_pred), <span class="number">5</span>))</div><div class="line">scores_cross = model_selection.cross_val_score(model_xgb_final, X_train, y_train, cv=<span class="number">5</span>, scoring=<span class="string">'roc_auc'</span>)</div><div class="line">print(<span class="string">'score_cross:'</span>, round(np.mean(scores_cross), <span class="number">5</span>), <span class="string">'std:'</span>, round(np.std(scores_cross), <span class="number">5</span>))</div></pre></td></tr></table></figure>
+<p>目前排名：（1月15日）</p>
+<p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-15/53824794.jpg" alt=""></p>
 
       
     </div>
@@ -377,9 +415,9 @@ wx+b=0</script><p>其中$w$、$x$为n维向量。对于一个数据集D={($x_1$,
       
         <div class="post-tags">
           
-            <a href="/tags/SVM/" rel="tag"># SVM</a>
-          
             <a href="/tags/ML/" rel="tag"># ML</a>
+          
+            <a href="/tags/XGBOOST/" rel="tag"># XGBOOST</a>
           
         </div>
       
@@ -392,8 +430,8 @@ wx+b=0</script><p>其中$w$、$x$为n维向量。对于一个数据集D={($x_1$,
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/09/21/kaggle/" rel="next" title="Leetcode-1">
-                <i class="fa fa-chevron-left"></i> Leetcode-1
+              <a href="/2018/01/15/利用Spark机器学习分析银行营销数据/" rel="next" title="利用Spark机器学习分析银行营销数据">
+                <i class="fa fa-chevron-left"></i> 利用Spark机器学习分析银行营销数据
               </a>
             
           </div>
@@ -401,10 +439,6 @@ wx+b=0</script><p>其中$w$、$x$为n维向量。对于一个数据集D={($x_1$,
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/01/15/利用Spark机器学习分析银行营销数据/" rel="prev" title="利用Spark机器学习分析银行营销数据">
-                利用Spark机器学习分析银行营销数据 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -543,7 +577,7 @@ wx+b=0</script><p>其中$w$、$x$为n维向量。对于一个数据集D={($x_1$,
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#感知机是什么"><span class="nav-number">1.</span> <span class="nav-text">感知机是什么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何实现感知机模型呢？"><span class="nav-number">2.</span> <span class="nav-text">如何实现感知机模型呢？</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第二届智慧中国杯首数据科学竞赛，首发皇包车（HI-GUIDES）精品旅行服务成单预测竞赛"><span class="nav-number">1.</span> <span class="nav-text">第二届智慧中国杯首数据科学竞赛，首发皇包车（HI GUIDES）精品旅行服务成单预测竞赛</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-特征工程"><span class="nav-number">2.</span> <span class="nav-text">1 特征工程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-模型选择与训练"><span class="nav-number">3.</span> <span class="nav-text">2 模型选择与训练</span></a></li></ol></div>
             
 
           </div>

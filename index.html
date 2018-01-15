@@ -418,8 +418,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
+                  <a href="/categories/数据挖掘比赛/" itemprop="url" rel="index">
+                    <span itemprop="name">数据挖掘比赛</span>
                   </a>
                 </span>
 
@@ -666,6 +666,209 @@ return [0, 1].
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/15/精品旅行服务成单预测竞赛/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="F0nnys">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://ws1.sinaimg.cn/large/005NPOAjgy1fjr42pk1hjj3050050a9w.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="My Study Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/15/精品旅行服务成单预测竞赛/" itemprop="url">精品旅行服务成单预测竞赛</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-15T16:31:03+08:00">
+                2018-01-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据挖掘比赛/" itemprop="url" rel="index">
+                    <span itemprop="name">数据挖掘比赛</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="第二届智慧中国杯首数据科学竞赛，首发皇包车（HI-GUIDES）精品旅行服务成单预测竞赛"><a href="#第二届智慧中国杯首数据科学竞赛，首发皇包车（HI-GUIDES）精品旅行服务成单预测竞赛" class="headerlink" title="第二届智慧中国杯首数据科学竞赛，首发皇包车（HI GUIDES）精品旅行服务成单预测竞赛"></a>第二届智慧中国杯首数据科学竞赛，首发皇包车（HI GUIDES）精品旅行服务成单预测竞赛</h2><p><a href="http://www.dcjingsai.com/common/cmpt/%E7%B2%BE%E5%93%81%E6%97%85%E8%A1%8C%E6%9C%8D%E5%8A%A1%E6%88%90%E5%8D%95%E9%A2%84%E6%B5%8B_%E7%AB%9E%E8%B5%9B%E4%BF%A1%E6%81%AF.html" target="_blank" rel="external">精品旅行服务成单预测竞赛官网 -&gt;</a></p>
+<p><a href="https://github.com/F0nnys/Data-competition" target="_blank" rel="external">github地址-&gt;</a></p>
+<h2 id="1-特征工程"><a href="#1-特征工程" class="headerlink" title="1 特征工程"></a>1 特征工程</h2><p>用户标签：</p>
+<ul>
+<li>orderhistory<ul>
+<li>购买过的旅游服务总数量</li>
+<li>购买过的普通旅游服务数量</li>
+<li>购买过的精品旅游服务数量</li>
+<li>精品+1/普通+1 or 精品订单数/（精品+普通）得出百分比</li>
+<li>最后一次订单的时间，时间戳最后一次订单的年份，月份</li>
+<li>一个用户的历史订单中去过每个大洲的次数</li>
+<li>一个用户的历史订单中去过每个国家的次数（training data中有51个国家）</li>
+</ul>
+</li>
+<li>action<ul>
+<li>一个用户action的总次数（用处不大）</li>
+<li>倒数第1-20个actionType（缺失的用0替代）</li>
+<li>倒数第1-20个actionTime（缺失的用0替代）</li>
+<li>每种actionType的数目</li>
+<li>每种actionType的次数占比</li>
+<li>actionType1-5的时间间隔 timespan<em>1-5</em></li>
+<li>最后一次每种actionType与下一个actionType之间的间隔，如1-5，5-6, e.g., timespanlast_5-6，timespanlast_6-7，timespanlast_7-8</li>
+<li>actionType2-4与actionType5-9之间的比例</li>
+<li>倒数1个actionTime的年份，月份</li>
+<li>每个actionType最后一次出现的时间</li>
+<li>actionType5-9的连续程度sequential_ratio（从最后一个5开始计算，没有5则为0，只有5，则为1，5之后只出现6，则为2，还出现了7则为3，出现8为4）</li>
+<li>最后20个action中，每个actionType出现的次数</li>
+<li>倒数3个actiontimespan：倒数第1个action与倒数第2个action之间的时间差，倒数第2个action与倒数第3个action之间的时间差……</li>
+<li>最后3个，5个，actiontimespan的均值</li>
+<li>最后3个，5个，actiontimespan的标准差</li>
+<li>第一个actionTime（用户第一次使用app的时间）action_firsttime</li>
+<li>最后一个actionTime与第一个actionTime的时间差，描述用户用了app总时间（是否是老用户）timespan_total</li>
+</ul>
+</li>
+<li>comment<ul>
+<li>一个用户在其所有订单中的平均打分数rating_average</li>
+<li>最低打分数rating_min</li>
+<li>最后一次打分数rating_last</li>
+</ul>
+</li>
+<li>profile<ul>
+<li>是否有男女信息</li>
+<li>是否是男</li>
+<li>是否是女</li>
+<li>是否有年龄信息</li>
+<li>是否60后，70后，80后，90后，00后</li>
+<li>用户所属省份</li>
+</ul>
+</li>
+<li>不同表之间的复合信息<ul>
+<li>每个用户最后一个actionTime和最后一个orderTime之间的时间差 timespan_action_lastord</li>
+<li>每个actionType最后一次出现的时间与最后一个actionTIme之间的时间差 timespan_action1tolast, timespan_action2tolast, …</li>
+<li>ordertime_last_1与ordertime_last_2之间的时间差timespan_lastord_1_2，ordertime_last_2与ordertime_last_3之间的时间差timespan_lastord_2_3</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-模型选择与训练"><a href="#2-模型选择与训练" class="headerlink" title="2 模型选择与训练"></a>2 模型选择与训练</h2><p>首选 xgboost，初始参数列表为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">model_xgb1 = XGBClassifier(</div><div class="line">    learning_rate=<span class="number">0.03</span>,</div><div class="line">    n_estimators=<span class="number">3000</span>,</div><div class="line">    max_depth=<span class="number">5</span>,</div><div class="line">    min_child_weight=<span class="number">1</span>,</div><div class="line">    gamma=<span class="number">0</span>,</div><div class="line">    subsample=<span class="number">0.8</span>,</div><div class="line">    colsample_bytree=<span class="number">0.8</span>,</div><div class="line">    objective=<span class="string">'binary:logistic'</span>,</div><div class="line">    nthread=<span class="number">4</span>,</div><div class="line">    scale_pos_weight=<span class="number">1</span>,</div><div class="line">    seed=<span class="number">314</span></div><div class="line">    )</div></pre></td></tr></table></figure>
+<p>设置评价指标为 AUC，在模型 training 阶段使用 cross_validation(k_folds=5) 计算得到 AUC 值：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">model_xgb_final = model_xgb1</div><div class="line"><span class="comment">#model_xgb_final.fit(X_train, y_train)</span></div><div class="line">y_train_pred = model_xgb_final.predict(X_train)</div><div class="line">y_train_predprob = model_xgb_final.predict_proba(X_train)[:,<span class="number">1</span>]</div><div class="line">importances = model_xgb_final.feature_importances_</div><div class="line">df_featImp = pd.DataFrame(&#123;<span class="string">'tags'</span>: x_tags, <span class="string">'importance'</span>: importances&#125;)</div><div class="line">df_featImp.sort_values(by=[<span class="string">'importance'</span>], ascending=<span class="keyword">False</span>).plot(x=<span class="string">'tags'</span>, y=<span class="string">'importance'</span>, kind=<span class="string">'bar'</span>)</div><div class="line"></div><div class="line">print(<span class="string">'score_AUC:'</span>, round(metrics.roc_auc_score(y_train, y_train_predprob), <span class="number">5</span>))</div><div class="line">print(<span class="string">'score_precision:'</span>, round(metrics.accuracy_score(y_train, y_train_pred), <span class="number">5</span>))</div><div class="line">scores_cross = model_selection.cross_val_score(model_xgb_final, X_train, y_train, cv=<span class="number">5</span>, scoring=<span class="string">'roc_auc'</span>)</div><div class="line">print(<span class="string">'score_cross:'</span>, round(np.mean(scores_cross), <span class="number">5</span>), <span class="string">'std:'</span>, round(np.std(scores_cross), <span class="number">5</span>))</div></pre></td></tr></table></figure>
+<p>目前排名：（1月15日）</p>
+<p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-15/53824794.jpg" alt=""></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/15/利用Spark机器学习分析银行营销数据/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -758,86 +961,15 @@ return [0, 1].
 
       
         
-          
-            <h1 id="利用Spark机器学习分析银行营销数据"><a href="#利用Spark机器学习分析银行营销数据" class="headerlink" title="利用Spark机器学习分析银行营销数据"></a>利用Spark机器学习分析银行营销数据</h1><p>​    本实验会使用spark机器学习中的逻辑回归算法，分析银行营销数据，按照机器学习开发步骤，建立逻辑回归模型，预测客户是否会存款，并评估预测模型的精确度。</p>
+          <h1 id="利用Spark机器学习分析银行营销数据"><a href="#利用Spark机器学习分析银行营销数据" class="headerlink" title="利用Spark机器学习分析银行营销数据"></a>利用Spark机器学习分析银行营销数据</h1><p>​    本实验会使用spark机器学习中的逻辑回归算法，分析银行营销数据，按照机器学习开发步骤，建立逻辑回归模型，预测客户是否会存款，并评估预测模型的精确度。</p>
 <p>​    编程语言为Scala<br>​    编程软件为idea工具，通过软件内运行，以及用maven打jar包到集群两种方式进行试验<br>​    Spark API版本为2.2</p>
-<h2 id="特征工程"><a href="#特征工程" class="headerlink" title="特征工程"></a>特征工程</h2><p>​    主要是对于类别型数据进行StringIndex、OneHotEncoder</p>
-<p>StringIndex:</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>id</th>
-<th>category</th>
-<th>categoryIndex</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0</td>
-<td>a</td>
-<td>0.0</td>
-</tr>
-<tr>
-<td>1</td>
-<td>b</td>
-<td>2.0</td>
-</tr>
-<tr>
-<td>2</td>
-<td>c</td>
-<td>1.0</td>
-</tr>
-<tr>
-<td>3</td>
-<td>a</td>
-<td>0.0</td>
-</tr>
-<tr>
-<td>4</td>
-<td>a</td>
-<td>0.0</td>
-</tr>
-<tr>
-<td>5</td>
-<td>c</td>
-<td>1.0</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>上述结果中，由于 a 出现了 3 次，c 出现了 2 次,b 出现了 1 次，按照出现频率由高到低，从 0 开始编码，所以 a 的编码为 0.0,c 的编码为1.0,b 的编码为2.0。</p>
-<p>OneHotEncoder:</p>
-<p>​    OneHot编码将已经转换为数值型的类别特征，映射为一个稀疏向量对象,对于某一个类别映射的向量中只有一位有效,即只有一位数字是 1，其他数字位都是 0。</p>
-<h2 id="试验步骤"><a href="#试验步骤" class="headerlink" title="试验步骤"></a>试验步骤</h2><p>数据来源：<a href="https://github.com/ChitturiPadma/datasets/blob/master/bank_marketing_data.csv" target="_blank" rel="external">https://github.com/ChitturiPadma/datasets/blob/master/bank_marketing_data.csv</a></p>
-<p>启动hadoop集群的hdfs、yarn和spark集群</p>
-<p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-15/16418549.jpg" alt=""></p>
-<p>上传csv文件到hdfs集群上 hdfs dfs -put bank_marketing_data.csv /sparkml/lr-test/bank_marketing_data.csv</p>
-<p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-15/48934791.jpg" alt=""></p>
-<h3 id="1、数据观察"><a href="#1、数据观察" class="headerlink" title="1、数据观察"></a>1、数据观察</h3><p>在数据bank_marketing_data.csv中，包含4万多条记录和21个字段，本次实验中，我们使用其中10个字段作为因变量，1个字段作为目标变量，进行分析预测。11个字段的名称和中文含义如下：</p>
-<p>字段名称    中文含义<br>age    客户年龄<br>job    客户职业<br>marital    婚姻状况<br>default    是否有信用违约<br>housing    是否有住房贷款<br>loan    是否有住房贷款<br>duration    最后一次联系持续时间(秒)<br>previous    之前活动中与用户联系次数<br>poutcome    之前市场营销活动的结果<br>empvarrate    就业变化速率<br>y    目标变量，本次活动实施结果：是否同意存款</p>
-<h4 id="1-1-简要观察"><a href="#1-1-简要观察" class="headerlink" title="1.1 简要观察"></a>1.1 简要观察</h4><p>建立idea工程spark-lr,将spark-2.2.0-bin-hadoop2.7/jars里的所有包导入，编写代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">//实例化SparkSession对象</div><div class="line">val spark=SparkSession.builder().appName(&quot;Logistic_Prediction&quot;).master(&quot;spark://192.168.40.10:7077&quot;).getOrCreate()</div><div class="line">//设置日志级别，减少日志输出，便于查看运行结果</div><div class="line">spark.sparkContext.setLogLevel(&quot;WARN&quot;)</div><div class="line">//导入隐式转换包，方便使用转换函数</div><div class="line">import spark.implicits._</div><div class="line">//读取数据，传入数据路径/sparkml/lr-test/bank_marketing_data.csv</div><div class="line">val bank_Marketing_Data=spark.read</div><div class="line">                             .option(&quot;header&quot;, true)</div><div class="line">                             .option(&quot;inferSchema&quot;, &quot;true&quot;)</div><div class="line">                             .csv(&quot;/sparkml/lr-test/bank_marketing_data.csv&quot;)</div><div class="line">//查看营销数据的前5条记录，包括所有字段</div><div class="line">println(&quot;all columns data:&quot;)</div><div class="line">bank_Marketing_Data.show(5)</div><div class="line">//读取营销数据指定的11个字段，并将age、duration、previous三个字段的类型从Integer类型转换为Double类型</div><div class="line">val selected_Data=bank_Marketing_Data.select(&quot;age&quot;, </div><div class="line">                                            &quot;job&quot;,</div><div class="line">                                            &quot;marital&quot;, </div><div class="line">                                            &quot;default&quot;, </div><div class="line">                                            &quot;housing&quot;, </div><div class="line">                                            &quot;loan&quot;, </div><div class="line">                                            &quot;duration&quot;,</div><div class="line">                                            &quot;previous&quot;, </div><div class="line">                                            &quot;poutcome&quot;, </div><div class="line">                                            &quot;empvarrate&quot;, </div><div class="line">                                            &quot;y&quot;)</div><div class="line">                                            .withColumn(&quot;age&quot;, bank_Marketing_Data(&quot;age&quot;).cast(DoubleType))</div><div class="line">                                            .withColumn(&quot;duration&quot;, bank_Marketing_Data(&quot;duration&quot;).cast(DoubleType))</div><div class="line">                                            .withColumn(&quot;previous&quot;, bank_Marketing_Data(&quot;previous&quot;).cast(DoubleType))</div><div class="line"> //显示前5条记录，只包含指定的11个字段</div><div class="line"> println(&quot;11 columns data:&quot;)</div><div class="line"> selected_Data.show(5)  </div><div class="line"> //显示营销数据的数据量</div><div class="line"> println(&quot;data count:&quot;+selected_Data.count())</div></pre></td></tr></table></figure>
-<h4 id="注意此时调用的是hdfs里的文件，所以在工程中，resources里添加core-site-xml-并把defaultFS里的值修改，原来是master：9000-主机上没配置名称可能不识别。"><a href="#注意此时调用的是hdfs里的文件，所以在工程中，resources里添加core-site-xml-并把defaultFS里的值修改，原来是master：9000-主机上没配置名称可能不识别。" class="headerlink" title="注意此时调用的是hdfs里的文件，所以在工程中，resources里添加core-site.xml 并把defaultFS里的值修改，原来是master：9000  主机上没配置名称可能不识别。"></a>注意此时调用的是hdfs里的文件，所以在工程中，resources里添加core-site.xml 并把defaultFS里的值修改，原来是master：9000  主机上没配置名称可能不识别。</h4><p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-15/25863767.jpg" alt=""></p>
-<p>得到结果为：</p>
-<p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-15/14531169.jpg" alt=""></p>
-<h4 id="1-2-观察概要统计"><a href="#1-2-观察概要统计" class="headerlink" title="1.2 观察概要统计"></a>1.2 观察概要统计</h4><p>​    在之前代码后面添加：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">//对数据进行概要统计</div><div class="line">val summary=selected_Data.describe()</div><div class="line">println(&quot;Summary Statistics:&quot;)</div><div class="line">//显示概要统计信息</div><div class="line">summary.show()</div><div class="line"></div><div class="line">//查看每一列所包含的不同值数量</div><div class="line">val columnNames=selected_Data.columns</div><div class="line">val uniqueValues_PerField=columnNames.map &#123; field =&gt; field+&quot;:&quot;+selected_Data.select(field).distinct().count() &#125;</div><div class="line">println(&quot;Unique Values For each Field:&quot;)</div><div class="line">uniqueValues_PerField.foreach(println)</div></pre></td></tr></table></figure>
-<p>输出数据的概要统计：</p>
-<p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-15/56378710.jpg" alt=""></p>
-<h3 id="2、特征工程"><a href="#2、特征工程" class="headerlink" title="2、特征工程"></a>2、特征工程</h3><p>​    主要特征工程代码为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">val indexer = new StringIndexer().setInputCol(&quot;job&quot;).setOutputCol(&quot;jobIndex&quot;)</div><div class="line">val indexed = indexer.fit(selected_Data).transform(selected_Data)</div><div class="line">val encoder = new </div><div class="line">OneHotEncoder().setDropLast(false).setInputCol(&quot;jobIndex&quot;).setOutputCol(&quot;jobVec&quot;)</div><div class="line">val encoded = encoder.transform(indexed)</div><div class="line"></div><div class="line">val maritalIndexer=new StringIndexer().setInputCol(&quot;marital&quot;).setOutputCol(&quot;maritalIndex&quot;)</div><div class="line">val maritalIndexed=maritalIndexer.fit(encoded).transform(encoded)</div><div class="line">val maritalEncoder=new OneHotEncoder().setDropLast(false).setInputCol(&quot;maritalIndex&quot;).setOutputCol(&quot;maritalVec&quot;)</div><div class="line">val maritalEncoded=maritalEncoder.transform(maritalIndexed)</div><div class="line"></div><div class="line">val defaultIndexer=new StringIndexer().setInputCol(&quot;default&quot;).setOutputCol(&quot;defaultIndex&quot;)</div><div class="line">val defaultIndexed=defaultIndexer.fit(maritalEncoded).transform(maritalEncoded)</div><div class="line">val defaultEncoder=new OneHotEncoder().setDropLast(false).setInputCol(&quot;defaultIndex&quot;).setOutputCol(&quot;defaultVec&quot;)</div><div class="line">val defaultEncoded=defaultEncoder.transform(defaultIndexed)</div><div class="line"></div><div class="line">val housingIndexer=new StringIndexer().setInputCol(&quot;housing&quot;).setOutputCol(&quot;housingIndex&quot;)</div><div class="line">val housingIndexed=housingIndexer.fit(defaultEncoded).transform(defaultEncoded)</div><div class="line">val housingEncoder=new OneHotEncoder().setDropLast(false).setInputCol(&quot;housingIndex&quot;).setOutputCol(&quot;housingVec&quot;)</div><div class="line">val housingEncoded=housingEncoder.transform(housingIndexed)</div><div class="line"></div><div class="line">val poutcomeIndexer=new StringIndexer().setInputCol(&quot;poutcome&quot;).setOutputCol(&quot;poutcomeIndex&quot;)</div><div class="line">val poutcomeIndexed=poutcomeIndexer.fit(housingEncoded).transform(housingEncoded)</div><div class="line">val poutcomeEncoder=new OneHotEncoder().setDropLast(false).setInputCol(&quot;poutcomeIndex&quot;).setOutputCol(&quot;poutcomeVec&quot;)</div><div class="line">val poutcomeEncoded=poutcomeEncoder.transform(poutcomeIndexed)</div><div class="line"></div><div class="line">val loanIndexer=new StringIndexer().setInputCol(&quot;loan&quot;).setOutputCol(&quot;loanIndex&quot;)</div><div class="line">val loanIndexed=loanIndexer.fit(poutcomeEncoded).transform(poutcomeEncoded)</div><div class="line">val loanEncoder=new OneHotEncoder().setDropLast(false).setInputCol(&quot;loanIndex&quot;).setOutputCol(&quot;loanVec&quot;)</div><div class="line">val loanEncoded=loanEncoder.transform(loanIndexed)</div></pre></td></tr></table></figure>
-<p>运行结果：</p>
-<p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-15/5865170.jpg" alt=""></p>
-<h3 id="3、建立逻辑回归模型进行预测"><a href="#3、建立逻辑回归模型进行预测" class="headerlink" title="3、建立逻辑回归模型进行预测"></a>3、建立逻辑回归模型进行预测</h3><p>在上述代码中添加：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">//实例化一个向量组装器对象，</div><div class="line">//将向量类型字段(&quot;jobVec&quot;,&quot;maritalVec&quot;, &quot;defaultVec&quot;,&quot;housingVec&quot;,&quot;poutcomeVec&quot;,&quot;loanVec&quot;)</div><div class="line">//和数值型字段(&quot;age&quot;,&quot;duration&quot;,&quot;previous&quot;,&quot;empvarrate&quot;)</div><div class="line">//形成一个新的字段:features，其中包含了所有的特征值</div><div class="line">val vectorAssembler = new VectorAssembler()</div><div class="line">.setInputCols(Array(&quot;jobVec&quot;,&quot;maritalVec&quot;, &quot;defaultVec&quot;,&quot;housingVec&quot;,&quot;poutcomeVec&quot;,&quot;loanVec&quot;,&quot;age&quot;,&quot;duration&quot;,&quot;previous&quot;,&quot;empvarrate&quot;))</div><div class="line">.setOutputCol(&quot;features&quot;)</div><div class="line"></div><div class="line">//对目标变量进行StringIndexer特征转换,输出新列:label</div><div class="line"> val indexerY = new StringIndexer().setInputCol(&quot;y&quot;).setOutputCol(&quot;label&quot;)</div><div class="line"> //将特征算法按顺序进行合并，形成一个算法数组</div><div class="line"> val transformers=Array(indexer,</div><div class="line">                        encoder,</div><div class="line">                        maritalIndexer,</div><div class="line">                        maritalEncoder,</div><div class="line">                        defaultIndexer,</div><div class="line">                        defaultEncoder,</div><div class="line">                        housingIndexer,</div><div class="line">                        housingEncoder,</div><div class="line">                        poutcomeIndexer,</div><div class="line">                        poutcomeEncoder,</div><div class="line">                        loanIndexer,</div><div class="line">                        loanEncoder,</div><div class="line">                        vectorAssembler,</div><div class="line">                        indexerY);</div><div class="line">//将原始数据selected_Data进行8-2分，80%用于训练数据。20%用于测试数据，评估训练模型的精确度。</div><div class="line">val splits = selected_Data.randomSplit(Array(0.8,0.2))</div><div class="line">val training = splits(0).cache()</div><div class="line">val test = splits(1).cache()</div><div class="line">//实例化逻辑回归算法</div><div class="line">val lr = new LogisticRegression()</div><div class="line">//将算法数组和逻辑回归算法合并,传入pipeline对象的stages中，然后作用于训练数据，训练模型</div><div class="line">var model = new Pipeline().setStages(transformers :+ lr).fit(training)</div><div class="line">//将上一步的训练模型作用于测试数据，返回测试结果</div><div class="line">var result = model.transform(test)</div><div class="line">//显示测试结果集中的真实值、预测值、原始值、百分比字段</div><div class="line">result.select(&quot;label&quot;, &quot;prediction&quot;,&quot;rawPrediction&quot;,&quot;probability&quot;).show(10,false)</div><div class="line">//创建二分类算法评估器，对测试结果进行评估</div><div class="line">val evaluator = new BinaryClassificationEvaluator()  </div><div class="line">var aucTraining = evaluator.evaluate(result)</div><div class="line">println(&quot;aucTraining = &quot;+aucTraining)</div></pre></td></tr></table></figure>
-<p>结果为：</p>
-<p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-15/18368171.jpg" alt=""></p>
-<h3 id="4、打成jar包提交集群上去运行"><a href="#4、打成jar包提交集群上去运行" class="headerlink" title="4、打成jar包提交集群上去运行"></a>4、打成jar包提交集群上去运行</h3><p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-15/48749115.jpg" alt=""></p>
-<p>运行结果：</p>
-<p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-15/78858619.jpg" alt=""></p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/01/15/利用Spark机器学习分析银行营销数据/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -903,7 +1035,7 @@ return [0, 1].
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/09/22/SVM/" itemprop="url">SVM</a></h1>
+                <a class="post-title-link" href="/2017/09/22/SVM/" itemprop="url">SVM-1</a></h1>
         
 
         <div class="post-meta">
@@ -1070,7 +1202,7 @@ return [0, 1].
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1081,7 +1213,7 @@ return [0, 1].
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
