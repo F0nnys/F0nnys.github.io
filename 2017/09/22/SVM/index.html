@@ -53,7 +53,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="ML,SVM," />
+  <meta name="keywords" content="SVM,ML," />
 
 
 
@@ -70,7 +70,7 @@
 
 
 <meta name="description" content="要介绍SVM，就必须从感知机这一个基础概念说起。因为感知机是很多机器学习甚至神经网络的模型基础。（通过简单修改损失函数可以变为SVM，通过简单堆叠可以发展成神经网络）  感知机是什么 感知机能使用超平面将线性可分数据集分开。如图所示：">
-<meta name="keywords" content="ML,SVM">
+<meta name="keywords" content="SVM,ML">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SVM-1">
 <meta property="og:url" content="http://yoursite.com/2017/09/22/SVM/index.html">
@@ -80,7 +80,7 @@
 <meta property="og:image" content="http://owmmu20d1.bkt.clouddn.com/17-9-22/76383780.jpg">
 <meta property="og:image" content="http://owmmu20d1.bkt.clouddn.com/17-9-22/72932865.jpg">
 <meta property="og:image" content="https://pic1.zhimg.com/v2-646760ec59dccb6dfd5251f46e339ae0_b.gif">
-<meta property="og:updated_time" content="2018-01-15T08:26:27.027Z">
+<meta property="og:updated_time" content="2018-01-17T07:44:49.357Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SVM-1">
 <meta name="twitter:description" content="要介绍SVM，就必须从感知机这一个基础概念说起。因为感知机是很多机器学习甚至神经网络的模型基础。（通过简单修改损失函数可以变为SVM，通过简单堆叠可以发展成神经网络）  感知机是什么 感知机能使用超平面将线性可分数据集分开。如图所示：">
@@ -357,7 +357,7 @@ wx+b=0</script><p>其中$w$、$x$为n维向量。对于一个数据集D={($x_1$,
 <p>运用函数距离来表示损失函数，且只有分类错误的点才会贡献梯度：</p>
 <p>$L(x,y)=max(-y(w\cdot x+b),0)$ </p>
 <p>选择使损失函数值最大的一个样本($x_i$,$y_i$)，用它来计算梯度然后梯度下降。如果这个样本 都被正确分类的话，那其他所有样本都已经被正确分类了。</p>
-<p>$\frac{\partial L(x_i,y_i)}{\partial w}=-y_ix_i$、$\frac{\partial L(x_i,y_i)}{\partial b}=-y_i$</p>
+<p>$\frac{\partial L(x_i,y_i)}{\partial w}=-y_ix_i​$、$\frac{\partial L(x_i,y_i)}{\partial b}=-y_i​$</p>
 <p>代码表示为：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(epoch):</div><div class="line">  y_pred = x.dot(self._w) + self._b</div><div class="line">  max_point = np.argmax(np.maximum(<span class="number">0</span>,-y_pred)*y)</div><div class="line">  <span class="keyword">if</span> y[max_point]*y_pred[max_point]&gt;<span class="number">0</span>:</div><div class="line">    <span class="keyword">break</span></div><div class="line">  delta = lr*y[max_point]</div><div class="line">  self._w +=delta*x[max_point]</div><div class="line">  self._b +=delta</div></pre></td></tr></table></figure>
 
@@ -377,9 +377,9 @@ wx+b=0</script><p>其中$w$、$x$为n维向量。对于一个数据集D={($x_1$,
       
         <div class="post-tags">
           
-            <a href="/tags/ML/" rel="tag"># ML</a>
-          
             <a href="/tags/SVM/" rel="tag"># SVM</a>
+          
+            <a href="/tags/ML/" rel="tag"># ML</a>
           
         </div>
       
@@ -486,7 +486,7 @@ wx+b=0</script><p>其中$w$、$x$为n维向量。对于一个数据集D={($x_1$,
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -508,7 +508,7 @@ wx+b=0</script><p>其中$w$、$x$为n维向量。对于一个数据集D={($x_1$,
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
