@@ -53,7 +53,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="ML,SPARK," />
+  <meta name="keywords" content="SPARK,ML," />
 
 
 
@@ -70,7 +70,7 @@
 
 
 <meta name="description" content="利用Spark分析出租车打车数据1 数据集简介本数据集为四川省成都市的出租车GPS记录数据集。该数据集已提前清洗完成，仅提取了原始数据集中某一天的部分数据，并且去除了时间段在 0 点至 6 点之间的较少数据。 数据记录了成都市部分出租车在载客时的GPS位置和时间等信息，数据记录的格式为 CSV 格式。 该数据集中的一条记录如下所示： 1      30.624806     104.136604">
-<meta name="keywords" content="ML,SPARK">
+<meta name="keywords" content="SPARK,ML">
 <meta property="og:type" content="article">
 <meta property="og:title" content="spark出租车数据挖掘">
 <meta property="og:url" content="http://yoursite.com/2018/01/16/spark出租车数据挖掘/index.html">
@@ -86,8 +86,8 @@
 <meta property="og:image" content="http://owmmu20d1.bkt.clouddn.com/18-1-19/42413440.jpg">
 <meta property="og:image" content="http://owmmu20d1.bkt.clouddn.com/18-1-19/59061510.jpg">
 <meta property="og:image" content="http://owmmu20d1.bkt.clouddn.com/18-1-19/55759273.jpg">
-<meta property="og:image" content="http://owmmu20d1.bkt.clouddn.com/18-1-19/77419643.jpg">
-<meta property="og:updated_time" content="2018-01-19T09:01:50.092Z">
+<meta property="og:image" content="http://owmmu20d1.bkt.clouddn.com/18-1-19/13339071.jpg">
+<meta property="og:updated_time" content="2018-01-19T09:44:21.625Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spark出租车数据挖掘">
 <meta name="twitter:description" content="利用Spark分析出租车打车数据1 数据集简介本数据集为四川省成都市的出租车GPS记录数据集。该数据集已提前清洗完成，仅提取了原始数据集中某一天的部分数据，并且去除了时间段在 0 点至 6 点之间的较少数据。 数据记录了成都市部分出租车在载客时的GPS位置和时间等信息，数据记录的格式为 CSV 格式。 该数据集中的一条记录如下所示： 1      30.624806     104.136604">
@@ -374,10 +374,10 @@
 <p>可视化图：</p>
 <p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-19/42413440.jpg" alt=""></p>
 <p>运用python解析API返回的地址参数,得到统计图形：</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> pandas_highcharts.display <span class="keyword">import</span> display_charts</div><div class="line"><span class="keyword">from</span> pandas_highcharts.core <span class="keyword">import</span> serialize</div><div class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</div><div class="line"><span class="keyword">import</span> urllib.request</div><div class="line"><span class="keyword">import</span> json</div><div class="line">data = pd.read_csv(<span class="string">"G://gongxiang//busyZones.csv"</span>,header=<span class="keyword">None</span>,names=(<span class="string">"area"</span>,<span class="string">"counts"</span>))</div><div class="line">pre = pd.read_csv(<span class="string">"G://gongxiang//kmresult2.csv"</span>,header=<span class="keyword">None</span>,names=(<span class="string">"lon"</span>,<span class="string">"lat"</span>))</div><div class="line">pre[<span class="string">"area"</span>] = pre.index</div><div class="line">df = pd.merge(data,pre,on=<span class="string">"area"</span>,how=<span class="string">"left"</span>)</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">foundloc</span><span class="params">(lon,lat)</span>:</span></div><div class="line">    url=<span class="string">"http://api.map.baidu.com/geocoder/v2/?location=%f,%f&amp;output=json&amp;ak=Yrf32LVk9DEHOYchZAQlG9nFICRTst5V"</span>%(lat,lon)</div><div class="line">    req = urllib.request.urlopen(url)</div><div class="line">    res = req.read().decode(<span class="string">"utf-8"</span>)</div><div class="line">    temp = json.loads(res)</div><div class="line">    <span class="keyword">return</span> temp[<span class="string">"result"</span>][<span class="string">"formatted_address"</span>]</div><div class="line">lon = list(df[<span class="string">"lon"</span>])</div><div class="line">lat = list(df[<span class="string">"lat"</span>])</div><div class="line">situation = zip(lon,lat)</div><div class="line">situa = []</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> situation:</div><div class="line">    situa.append(foundloc(i[<span class="number">0</span>],i[<span class="number">1</span>])[<span class="number">6</span>:<span class="number">-1</span>])</div><div class="line">df[<span class="string">"name"</span>] = situa</div><div class="line">df1 = df[[<span class="string">"counts"</span>,<span class="string">"name"</span>]]</div><div class="line">df1 = df1.set_index(<span class="string">"name"</span>)</div><div class="line">display_charts(df1,title=<span class="string">"区域打车次数"</span>)</div><div class="line">display_charts(df1, kind=<span class="string">'pie'</span>, y=[<span class="string">'counts'</span>], title=<span class="string">'Angel Deals By Sector'</span>, tooltip=&#123;<span class="string">'pointFormat'</span>: <span class="string">'&#123;series.name&#125;: &lt;b&gt;&#123;point.percentage:.1f&#125;%&lt;/b&gt;'</span>&#125;)</div></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> pandas_highcharts.display <span class="keyword">import</span> display_charts</div><div class="line"><span class="keyword">from</span> pandas_highcharts.core <span class="keyword">import</span> serialize</div><div class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</div><div class="line"><span class="keyword">import</span> urllib.request</div><div class="line"><span class="keyword">import</span> json</div><div class="line">data = pd.read_csv(<span class="string">"G://gongxiang//busyZones.csv"</span>,header=<span class="keyword">None</span>,names=(<span class="string">"area"</span>,<span class="string">"counts"</span>))</div><div class="line">pre = pd.read_csv(<span class="string">"G://gongxiang//kmresult2.csv"</span>,header=<span class="keyword">None</span>,names=(<span class="string">"lon"</span>,<span class="string">"lat"</span>))</div><div class="line">pre[<span class="string">"area"</span>] = pre.index</div><div class="line">df = pd.merge(data,pre,on=<span class="string">"area"</span>,how=<span class="string">"left"</span>)</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">foundloc</span><span class="params">(lon,lat)</span>:</span></div><div class="line">    url=<span class="string">"http://api.map.baidu.com/geocoder/v2/?location=%f,%f&amp;output=json&amp;ak=Yrf32LVk9DEHOYchZAQlG9nFICRTst5V"</span>%(lat,lon)</div><div class="line">    req = urllib.request.urlopen(url)</div><div class="line">    res = req.read().decode(<span class="string">"utf-8"</span>)</div><div class="line">    temp = json.loads(res)</div><div class="line">    <span class="keyword">return</span> temp[<span class="string">"result"</span>][<span class="string">"formatted_address"</span>]</div><div class="line">lon = list(df[<span class="string">"lon"</span>])</div><div class="line">lat = list(df[<span class="string">"lat"</span>])</div><div class="line">situation = zip(lon,lat)</div><div class="line">situa = []</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> situation:</div><div class="line">    situa.append(foundloc(i[<span class="number">0</span>],i[<span class="number">1</span>])[<span class="number">6</span>:<span class="number">-1</span>])</div><div class="line">df[<span class="string">"name"</span>] = situa</div><div class="line">df1 = df[[<span class="string">"counts"</span>,<span class="string">"name"</span>]]</div><div class="line">df1 = df1.set_index(<span class="string">"name"</span>)</div><div class="line">display_charts(df1,title=<span class="string">"区域打车次数"</span>)</div><div class="line">display_charts(df1, kind=<span class="string">'pie'</span>, y=[<span class="string">'counts'</span>], title=<span class="string">'区域打车次数'</span>, tooltip=&#123;<span class="string">'pointFormat'</span>: <span class="string">'&#123;series.name&#125;: &lt;b&gt;&#123;point.percentage:.1f&#125;%&lt;/b&gt;'</span>&#125;)</div></pre></td></tr></table></figure>
 <p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-19/59061510.jpg" alt=""></p>
 <p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-19/55759273.jpg" alt=""></p>
-<p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-19/77419643.jpg" alt=""></p>
+<p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-19/13339071.jpg" alt=""></p>
 
       
     </div>
@@ -395,9 +395,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/ML/" rel="tag"># ML</a>
-          
             <a href="/tags/SPARK/" rel="tag"># SPARK</a>
+          
+            <a href="/tags/ML/" rel="tag"># ML</a>
           
         </div>
       
