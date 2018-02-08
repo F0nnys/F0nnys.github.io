@@ -69,23 +69,23 @@
 
 
 
-<meta name="description" content="利用SparkSQL分析网页日志数据1、分析目的​    ·得到一个网站上最受欢迎模块的TopN访问次数 ​    ·按地市统计最受欢迎的TopN模块 ​    ·按流量统计最受欢迎的TopN模块 2、分析步骤​    ·利用idea进行spark离线分析（local模式） ​    ·利用spark集群讲作业提交到yarn上进行运行 ​    ·整体程序性能调优 3、具体过程首先是原始网页日志数">
+<meta name="description" content="利用SparkSQL分析网页日志数据1、分析目的​    ·得到一个网站上最受欢迎模块的TopN访问次数 ​    ·按地市统计最受欢迎的TopN模块 ​    ·按流量统计最受欢迎的TopN模块 2、分析步骤​    ·利用idea进行spark离线分析（local模式） ​    ·利用spark集群讲作业提交到yarn上进行运行 ​    ·整体程序性能调优">
 <meta name="keywords" content="SPARK">
 <meta property="og:type" content="article">
 <meta property="og:title" content="sparksql">
 <meta property="og:url" content="http://yoursite.com/2018/02/06/sparksql/index.html">
 <meta property="og:site_name" content="My Study Notes">
-<meta property="og:description" content="利用SparkSQL分析网页日志数据1、分析目的​    ·得到一个网站上最受欢迎模块的TopN访问次数 ​    ·按地市统计最受欢迎的TopN模块 ​    ·按流量统计最受欢迎的TopN模块 2、分析步骤​    ·利用idea进行spark离线分析（local模式） ​    ·利用spark集群讲作业提交到yarn上进行运行 ​    ·整体程序性能调优 3、具体过程首先是原始网页日志数">
+<meta property="og:description" content="利用SparkSQL分析网页日志数据1、分析目的​    ·得到一个网站上最受欢迎模块的TopN访问次数 ​    ·按地市统计最受欢迎的TopN模块 ​    ·按流量统计最受欢迎的TopN模块 2、分析步骤​    ·利用idea进行spark离线分析（local模式） ​    ·利用spark集群讲作业提交到yarn上进行运行 ​    ·整体程序性能调优">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://owmmu20d1.bkt.clouddn.com/18-2-8/75790291.jpg">
 <meta property="og:image" content="http://owmmu20d1.bkt.clouddn.com/18-2-8/41335902.jpg">
 <meta property="og:image" content="http://owmmu20d1.bkt.clouddn.com/18-2-8/28077699.jpg">
 <meta property="og:image" content="http://owmmu20d1.bkt.clouddn.com/18-2-8/85381767.jpg">
 <meta property="og:image" content="http://owmmu20d1.bkt.clouddn.com/18-2-8/9547840.jpg">
-<meta property="og:updated_time" content="2018-02-08T05:05:41.149Z">
+<meta property="og:updated_time" content="2018-02-08T07:25:23.458Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="sparksql">
-<meta name="twitter:description" content="利用SparkSQL分析网页日志数据1、分析目的​    ·得到一个网站上最受欢迎模块的TopN访问次数 ​    ·按地市统计最受欢迎的TopN模块 ​    ·按流量统计最受欢迎的TopN模块 2、分析步骤​    ·利用idea进行spark离线分析（local模式） ​    ·利用spark集群讲作业提交到yarn上进行运行 ​    ·整体程序性能调优 3、具体过程首先是原始网页日志数">
+<meta name="twitter:description" content="利用SparkSQL分析网页日志数据1、分析目的​    ·得到一个网站上最受欢迎模块的TopN访问次数 ​    ·按地市统计最受欢迎的TopN模块 ​    ·按流量统计最受欢迎的TopN模块 2、分析步骤​    ·利用idea进行spark离线分析（local模式） ​    ·利用spark集群讲作业提交到yarn上进行运行 ​    ·整体程序性能调优">
 <meta name="twitter:image" content="http://owmmu20d1.bkt.clouddn.com/18-2-8/75790291.jpg">
 
 
@@ -346,6 +346,7 @@
 <h3 id="2、分析步骤"><a href="#2、分析步骤" class="headerlink" title="2、分析步骤"></a>2、分析步骤</h3><p>​    ·利用idea进行spark离线分析（local模式）</p>
 <p>​    ·利用spark集群讲作业提交到yarn上进行运行</p>
 <p>​    ·整体程序性能调优</p>
+<a id="more"></a>
 <h3 id="3、具体过程"><a href="#3、具体过程" class="headerlink" title="3、具体过程"></a>3、具体过程</h3><p>首先是原始网页日志数据：(其中一行)</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">60.165.39.1 - - [10/Nov/2016:00:01:53 +0800] &quot;POST /course/ajaxmediauser HTTP/1.1&quot; 200 54 &quot;www.imooc.com&quot; &quot;http://www.imooc.com/code/1431&quot; mid=1431&amp;time=60 &quot;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 Safari/537.36 SE 2.X MetaSr 1.0&quot; &quot;-&quot; 10.100.136.64:80 200 0.014 0.014</div></pre></td></tr></table></figure>
 <p>将日志首先做一个简单的抽取，格式化(代码见SparkFormat类和DataUtils类)，结果为：</p>
@@ -359,10 +360,13 @@
 <p><img src="http://owmmu20d1.bkt.clouddn.com/18-2-8/85381767.jpg" alt=""></p>
 <p>需求3：</p>
 <p><img src="http://owmmu20d1.bkt.clouddn.com/18-2-8/9547840.jpg" alt=""></p>
-<p>用mvn assembly:assembly 打包项目提交到yarn上运行，修改Sparkclean，TopNJob类为SparkcleanYARN，TopNJobYARN</p>
+<p>用mvn assembly:assembly 打包项目提交到yarn上运行，修改Sparkclean，TopNJob类为SparkcleanYARN，TopNJobYARN,并将清洗后文件上传hdfs，输出文件也在hdfs上。</p>
 <p>提交命令为：</p>
 <p>1、spark-submit —master yarn —class com.test.log.SparkcleanYARN —executor-memory 1G —num-executors 1 ~/IdeaProjects/Test/target/Test-1.0-SNAPSHOT-jar-with-dependencies.jar —files  /home/hadoop/IdeaProjects/Test/src/main/resources/ipDatabase.csv,/home/hadoop/IdeaProjects/Test/src/main/resources/ipRegion.xlsx hdfs://spark1234:8020/weblog/input/* hdfs://spark1234:8020/weblog/output</p>
 <p>2、spark-submit —master yarn —class com.test.log.TopNJobYARN —executor-memory 1G —num-executors 1 ~/IdeaProjects/Test/target/Test-1.0-SNAPSHOT-jar-with-dependencies.jar hdfs://spark1234:8020/weblog/output 20161110</p>
+<p>优化方面：</p>
+<p>​    可以考虑将数据重复部分复用，比如每一种统计都是根据天和模块先进行了筛选，所以可以将之提取到外部先做处理，存进缓存后在调用每一种方法，可以提升效率。</p>
+<p>​    改变spark输出的压缩格式，这对在hdfs上存取效率有些提升</p>
 
       
     </div>
