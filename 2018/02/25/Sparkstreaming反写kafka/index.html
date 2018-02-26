@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="SPARK," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="http://owmmu20d1.bkt.clouddn.com/17-9-21/79010605.jpg?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="Spark streaming数据反写kafka实现数据清洗1、准备日志数据： 其中一行包括了：commandid houseid gathertime srcip destip srcport destport…….. 目的格式是：commandid|houseid|gathertime|srcip:srcport|destip:destport|url 2、启动一个生产者，topic为test">
+<meta name="keywords" content="SPARK">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Sparkstreaming反写kafka">
+<meta property="og:url" content="http://yoursite.com/2018/02/25/Sparkstreaming反写kafka/index.html">
+<meta property="og:site_name" content="My Study Notes">
+<meta property="og:description" content="Spark streaming数据反写kafka实现数据清洗1、准备日志数据： 其中一行包括了：commandid houseid gathertime srcip destip srcport destport…….. 目的格式是：commandid|houseid|gathertime|srcip:srcport|destip:destport|url 2、启动一个生产者，topic为test">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://owmmu20d1.bkt.clouddn.com/18-2-25/1539395.jpg">
+<meta property="og:image" content="http://owmmu20d1.bkt.clouddn.com/18-2-25/79182721.jpg">
+<meta property="og:image" content="http://owmmu20d1.bkt.clouddn.com/18-2-26/33174347.jpg">
+<meta property="og:updated_time" content="2018-02-26T16:46:29.065Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Sparkstreaming反写kafka">
+<meta name="twitter:description" content="Spark streaming数据反写kafka实现数据清洗1、准备日志数据： 其中一行包括了：commandid houseid gathertime srcip destip srcport destport…….. 目的格式是：commandid|houseid|gathertime|srcip:srcport|destip:destport|url 2、启动一个生产者，topic为test">
+<meta name="twitter:image" content="http://owmmu20d1.bkt.clouddn.com/18-2-25/1539395.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/02/25/Sparkstreaming反写kafka/"/>
+
+
+
+
+
+  <title>Sparkstreaming反写kafka | My Study Notes</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	
+	<a href="https://github.com/F0nnys"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">My Study Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人生には三つの坂があんですつて，上り坂，下り坂，まさか</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/25/Sparkstreaming反写kafka/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="F0nnys">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://ws1.sinaimg.cn/large/005NPOAjgy1fjr42pk1hjj3050050a9w.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="My Study Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Sparkstreaming反写kafka</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-25T23:07:25+08:00">
+                2018-02-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spark机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">Spark机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Spark-streaming数据反写kafka实现数据清洗"><a href="#Spark-streaming数据反写kafka实现数据清洗" class="headerlink" title="Spark streaming数据反写kafka实现数据清洗"></a>Spark streaming数据反写kafka实现数据清洗</h1><p>1、准备日志数据：<img src="http://owmmu20d1.bkt.clouddn.com/18-2-25/1539395.jpg" alt=""></p>
+<p>其中一行包括了：commandid houseid gathertime srcip destip srcport destport……..</p>
+<p>目的格式是：commandid|houseid|gathertime|srcip:srcport|destip:destport|url</p>
+<p>2、启动一个生产者，topic为testkafka，并将日志数据喂进去=、=</p>
+<a id="more"></a>
+<p>3、写用于解析数据的方法：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">ParseUtils</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">parseMsg</span></span>(msg:<span class="type">String</span>) :<span class="type">String</span> = &#123;</div><div class="line">    <span class="keyword">try</span>&#123;</div><div class="line">      <span class="keyword">val</span> newMsg = msg.replaceAll(<span class="string">"&lt;&lt;&lt;!&gt;&gt;&gt;"</span>, <span class="string">""</span>)</div><div class="line">      <span class="keyword">val</span> arr = newMsg.split(<span class="string">","</span>, <span class="number">15</span>)</div><div class="line">      <span class="keyword">val</span> houseid= arr(<span class="number">1</span>)</div><div class="line">      <span class="keyword">val</span> gathertime = arr(<span class="number">2</span>)</div><div class="line">      <span class="keyword">val</span> srcip = arr(<span class="number">3</span>)</div><div class="line">      <span class="keyword">val</span> destip = arr(<span class="number">4</span>)</div><div class="line">      <span class="keyword">val</span> srcport = arr(<span class="number">5</span>)</div><div class="line">      <span class="keyword">val</span> desport = arr(<span class="number">6</span>)</div><div class="line">      <span class="keyword">val</span> url = arr(<span class="number">13</span>)</div><div class="line">      houseid + <span class="string">"|"</span> + gathertime + <span class="string">"|"</span> + srcip  + <span class="string">":"</span> + srcport + <span class="string">"|"</span> + destip +<span class="string">":"</span> + desport + <span class="string">"|"</span> + url</div><div class="line">    &#125;<span class="keyword">catch</span> &#123;</div><div class="line">      <span class="keyword">case</span> e:<span class="type">Exception</span> =&gt;&#123;</div><div class="line">        <span class="string">"0"</span></div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>4、创建sparkstreaming流读取topic里的信息(部分函数在之前文章代码里有，复用了一下,sinkTopic为清洗完后写入的topic)：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">Kafka2KafkaPerBatch</span> </span>&#123;</div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</div><div class="line"></div><div class="line">    <span class="keyword">val</span> processingInterval = <span class="number">2</span></div><div class="line">    <span class="keyword">val</span> brokers = <span class="string">"spark1234:9092"</span></div><div class="line">    <span class="keyword">val</span> topic = <span class="string">"testkafka"</span></div><div class="line">    <span class="keyword">val</span> sparkConf = <span class="keyword">new</span> <span class="type">SparkConf</span>().setAppName(<span class="string">"test"</span>).setMaster(<span class="string">"local[2]"</span>)</div><div class="line">    <span class="comment">// Create direct kafka stream with brokers and topics</span></div><div class="line">    <span class="keyword">val</span> topicsSet = topic.split(<span class="string">","</span>).toSet</div><div class="line">    <span class="keyword">val</span> kafkaParams = <span class="type">Map</span>[<span class="type">String</span>, <span class="type">String</span>](<span class="string">"metadata.broker.list"</span> -&gt; brokers,</div><div class="line">      <span class="string">"auto.offset.reset"</span> -&gt; <span class="string">"largest"</span>)</div><div class="line"></div><div class="line">    <span class="keyword">val</span> ssc = <span class="keyword">new</span> <span class="type">StreamingContext</span>(sparkConf, <span class="type">Seconds</span>(processingInterval))</div><div class="line">    <span class="keyword">val</span> streaming = createMyDirectKafkaStream(ssc, kafkaParams, topic, <span class="string">"testp2"</span>)</div><div class="line">    <span class="keyword">val</span> sinkTopic = <span class="string">"mykafka"</span></div><div class="line">    ………………</div></pre></td></tr></table></figure>
+<p>5、坑1：先创建producer尝试将清洗后的数据写入kafka：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">streaming.foreachRDD(rdd=&gt;&#123;</div><div class="line">      <span class="keyword">if</span>(!rdd.isEmpty())&#123;</div><div class="line">        <span class="keyword">val</span> props = <span class="keyword">new</span> util.<span class="type">HashMap</span>[<span class="type">String</span>, <span class="type">Object</span>]()</div><div class="line">        props.put(<span class="type">ProducerConfig</span>.<span class="type">BOOTSTRAP_SERVERS_CONFIG</span>, brokers)</div><div class="line">        props.put(<span class="type">ProducerConfig</span>.<span class="type">VALUE_SERIALIZER_CLASS_CONFIG</span>,</div><div class="line">          <span class="string">"org.apache.kafka.common.serialization.StringSerializer"</span>)</div><div class="line">        props.put(<span class="type">ProducerConfig</span>.<span class="type">KEY_SERIALIZER_CLASS_CONFIG</span>,</div><div class="line">          <span class="string">"org.apache.kafka.common.serialization.StringSerializer"</span>)</div><div class="line">        <span class="keyword">val</span> producer = <span class="keyword">new</span> <span class="type">KafkaProducer</span>[<span class="type">String</span>,<span class="type">String</span>](props)</div><div class="line">        rdd.map(x=&gt;x._2).map(msg=&gt;<span class="type">ParseUtils</span>.parseMsg(msg)).foreach(msg=&gt;&#123;</div><div class="line">          <span class="keyword">val</span> message=<span class="keyword">new</span> <span class="type">ProducerRecord</span>[<span class="type">String</span>, <span class="type">String</span>]( sinkTopic ,<span class="literal">null</span>,msg)</div><div class="line">          producer.send(message)</div><div class="line">        &#125;)</div><div class="line">      &#125;</div></pre></td></tr></table></figure>
+<p>提示producer无法序列化：<img src="http://owmmu20d1.bkt.clouddn.com/18-2-25/79182721.jpg" alt=""></p>
+<p>6、将producer放入每次rdd处理中：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">streaming.foreachRDD(rdd=&gt;&#123;</div><div class="line">      <span class="keyword">if</span>(!rdd.isEmpty())&#123;</div><div class="line">        rdd.map(x=&gt;x._2).map(msg=&gt;<span class="type">ParseUtils</span>.parseMsg(msg)).foreach(msg=&gt;&#123;</div><div class="line">          <span class="keyword">val</span> props = <span class="keyword">new</span> util.<span class="type">HashMap</span>[<span class="type">String</span>, <span class="type">Object</span>]()</div><div class="line">          props.put(<span class="type">ProducerConfig</span>.<span class="type">BOOTSTRAP_SERVERS_CONFIG</span>, brokers)</div><div class="line">          props.put(<span class="type">ProducerConfig</span>.<span class="type">VALUE_SERIALIZER_CLASS_CONFIG</span>,</div><div class="line">          <span class="string">"org.apache.kafka.common.serialization.StringSerializer"</span>)</div><div class="line">          props.put(<span class="type">ProducerConfig</span>.<span class="type">KEY_SERIALIZER_CLASS_CONFIG</span>,</div><div class="line">          <span class="string">"org.apache.kafka.common.serialization.StringSerializer"</span>)</div><div class="line">          <span class="keyword">val</span> producer = <span class="keyword">new</span> <span class="type">KafkaProducer</span>[<span class="type">String</span>,<span class="type">String</span>](props)</div><div class="line">          <span class="keyword">val</span> message=<span class="keyword">new</span> <span class="type">ProducerRecord</span>[<span class="type">String</span>, <span class="type">String</span>]( sinkTopic ,<span class="literal">null</span>,msg)</div><div class="line">          producer.send(message)</div><div class="line">        &#125;)</div><div class="line">      &#125;</div></pre></td></tr></table></figure>
+<p>启动mykafka主题消费者来看数据是否成功清洗后进入。</p>
+<p>./bin/kafka-console-consumer.sh —zookeeper localhost:12181/kafka0.9 —topic mykafka</p>
+<p><img src="http://owmmu20d1.bkt.clouddn.com/18-2-26/33174347.jpg" alt=""></p>
+<p>成功进入。。。</p>
+<p>7、上述方式每条记录都要创建一个producer。。性能开销太大，所以可以利用spark的广播变量实现将producer广播到每个excutor节点：(由于原本的KafkaProducer不支持序列化，得自己建立新的producer类)</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.util.concurrent.<span class="type">Future</span></div><div class="line"><span class="keyword">import</span> org.apache.kafka.clients.producer.&#123;<span class="type">KafkaProducer</span>, <span class="type">ProducerRecord</span>, <span class="type">RecordMetadata</span>&#125;</div><div class="line"><span class="keyword">import</span> scala.collection.<span class="type">JavaConversions</span>._</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyKafkaProducer</span>[<span class="type">K</span>,<span class="type">V</span>](<span class="params">createProducer:(</span>)<span class="title">=&gt;KafkaProducer</span>[<span class="type">K</span>, <span class="type">V</span>])  <span class="keyword">extends</span> <span class="title">Serializable</span></span>&#123;</div><div class="line"></div><div class="line">  <span class="keyword">lazy</span> <span class="keyword">val</span> producer:<span class="type">KafkaProducer</span>[<span class="type">K</span>, <span class="type">V</span>] = createProducer()</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">send</span></span>(topic: <span class="type">String</span>, key: <span class="type">K</span>, value: <span class="type">V</span>): <span class="type">Future</span>[<span class="type">RecordMetadata</span>] =</div><div class="line">    producer.send(<span class="keyword">new</span> <span class="type">ProducerRecord</span>[<span class="type">K</span>, <span class="type">V</span>](topic, key, value))</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">send</span></span>(topic: <span class="type">String</span>, value: <span class="type">V</span>): <span class="type">Future</span>[<span class="type">RecordMetadata</span>] =</div><div class="line">    producer.send(<span class="keyword">new</span> <span class="type">ProducerRecord</span>[<span class="type">K</span>, <span class="type">V</span>](topic, value))</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">apply</span></span>() = &#123;&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">MyKafkaProducer</span></span>&#123;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">apply</span></span>[<span class="type">K</span>, <span class="type">V</span>](properties: java.util.<span class="type">Properties</span>): <span class="type">MyKafkaProducer</span>[<span class="type">K</span>, <span class="type">V</span>] = &#123;</div><div class="line">    <span class="keyword">val</span> config = properties.toMap</div><div class="line">    <span class="keyword">val</span> createProducer = () =&gt; &#123;</div><div class="line">      <span class="keyword">val</span> producer = <span class="keyword">new</span> <span class="type">KafkaProducer</span>[<span class="type">K</span>, <span class="type">V</span>](config)</div><div class="line">      sys.addShutdownHook &#123;</div><div class="line">        producer.close()</div><div class="line">      &#125;</div><div class="line">      producer</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">new</span> <span class="type">MyKafkaProducer</span>(createProducer)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>利用spark广播发送后，进行清洗后的生产数据：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">val</span> kafkaProducer: <span class="type">Broadcast</span>[<span class="type">MyKafkaProducer</span>[<span class="type">String</span>, <span class="type">String</span>]] = &#123;</div><div class="line">     <span class="keyword">val</span> kafkaProducerConfig = &#123;</div><div class="line">       <span class="keyword">val</span> p = <span class="keyword">new</span> <span class="type">Properties</span>()</div><div class="line">       p.setProperty(<span class="string">"bootstrap.servers"</span>, <span class="string">"spark1234:9092,spark1234:19092"</span>)</div><div class="line">       p.setProperty(<span class="string">"key.serializer"</span>, classOf[<span class="type">StringSerializer</span>].getName)</div><div class="line">       p.setProperty(<span class="string">"value.serializer"</span>, classOf[<span class="type">StringSerializer</span>].getName)</div><div class="line">       p</div><div class="line">     &#125;</div><div class="line"></div><div class="line">     ssc.sparkContext.broadcast(<span class="type">MyKafkaProducer</span>[<span class="type">String</span>, <span class="type">String</span>](kafkaProducerConfig))</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   streaming.foreachRDD(rdd =&gt; &#123;</div><div class="line">     <span class="keyword">if</span>(!rdd.isEmpty())&#123;</div><div class="line">       rdd.map(x=&gt;x._2).map(msg=&gt;<span class="type">ParseUtils</span>.parseMsg(msg)).filter(_.length!=<span class="number">1</span>).foreach(msg=&gt;&#123;</div><div class="line">         kafkaProducer.value.send(sinkTopic, msg)</div><div class="line">       &#125;</div><div class="line">       )</div><div class="line">       <span class="type">KafkaZKManager</span>.storeOffsets(rdd.asInstanceOf[<span class="type">HasOffsetRanges</span>].offsetRanges, <span class="string">"testp3"</span>)</div><div class="line">     &#125;&#125;)</div></pre></td></tr></table></figure>
+<p>速度比上面快得非常多，topic里的数据瞬间消费完了。。。。。</p>
+<p>8、更为简单的方法是直接在每个partition上创建KafkaProducer，速度同样非常快：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">streaming.foreachRDD(rdd=&gt;rdd.foreachPartition(</div><div class="line">      partition=&gt;&#123;</div><div class="line">        <span class="keyword">val</span> props = <span class="keyword">new</span> util.<span class="type">HashMap</span>[<span class="type">String</span>, <span class="type">Object</span>]()</div><div class="line">        props.put(<span class="type">ProducerConfig</span>.<span class="type">BOOTSTRAP_SERVERS_CONFIG</span>, brokers)</div><div class="line">        props.put(<span class="type">ProducerConfig</span>.<span class="type">VALUE_SERIALIZER_CLASS_CONFIG</span>,</div><div class="line">          <span class="string">"org.apache.kafka.common.serialization.StringSerializer"</span>)</div><div class="line">        props.put(<span class="type">ProducerConfig</span>.<span class="type">KEY_SERIALIZER_CLASS_CONFIG</span>,</div><div class="line">          <span class="string">"org.apache.kafka.common.serialization.StringSerializer"</span>)</div><div class="line">        <span class="keyword">val</span> producer = <span class="keyword">new</span> <span class="type">KafkaProducer</span>[<span class="type">String</span>,<span class="type">String</span>](props)</div><div class="line"></div><div class="line">        partition.map(msg=&gt;<span class="type">ParseUtils</span>.parseMsg(msg._2)).filter(_.length!=<span class="number">1</span>).foreach(msg=&gt;&#123;</div><div class="line">          <span class="keyword">val</span> message=<span class="keyword">new</span> <span class="type">ProducerRecord</span>[<span class="type">String</span>, <span class="type">String</span>]( sinkTopic ,<span class="literal">null</span>,msg)</div><div class="line">          producer.send(message)</div><div class="line">        &#125;)</div><div class="line">        <span class="type">KafkaZKManager</span>.storeOffsets(rdd.asInstanceOf[<span class="type">HasOffsetRanges</span>].offsetRanges, <span class="string">"testp1"</span>)</div><div class="line">      &#125;</div><div class="line">    ))</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SPARK/" rel="tag"># SPARK</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/24/Kafka使用/" rel="next" title="Kafka+Sparkstreaming使用">
+                <i class="fa fa-chevron-left"></i> Kafka+Sparkstreaming使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/02/26/Kafka的offset越界管理/" rel="prev" title="Kafka的offset越界管理">
+                Kafka的offset越界管理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMDk4Ni83NTM1"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image"
+              src="https://ws1.sinaimg.cn/large/005NPOAjgy1fjr42pk1hjj3050050a9w.jpg"
+              alt="F0nnys" />
+          
+            <p class="site-author-name" itemprop="name">F0nnys</p>
+            <p class="site-description motion-element" itemprop="description">if you have any questions,here's my QQ:448405043</p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spark-streaming数据反写kafka实现数据清洗"><span class="nav-number">1.</span> <span class="nav-text">Spark streaming数据反写kafka实现数据清洗</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">F0nnys</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.2</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+  
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+</body>
+</html>
