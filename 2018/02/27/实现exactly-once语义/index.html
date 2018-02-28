@@ -79,7 +79,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://owmmu20d1.bkt.clouddn.com/18-2-27/46860619.jpg">
 <meta property="og:image" content="http://owmmu20d1.bkt.clouddn.com/18-2-27/37130709.jpg">
-<meta property="og:updated_time" content="2018-02-26T17:31:59.731Z">
+<meta property="og:updated_time" content="2018-02-27T15:41:16.929Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="实现exactly-once语义">
 <meta name="twitter:description" content="实现exactly-once语义一、幂等写入：需要设置好唯一主键，每次往一个目录覆写数据 创建测试的mysql数据库：create database mytest;  建表：create table myorders(name varchar(100), orderid varchar(100) primary key);  新建topic： mytopic1  ./bin/kafka-topic">
@@ -355,7 +355,32 @@
 <p><img src="http://owmmu20d1.bkt.clouddn.com/18-2-27/46860619.jpg" alt=""></p>
 <p><img src="http://owmmu20d1.bkt.clouddn.com/18-2-27/37130709.jpg" alt=""></p>
 <p>可以看见，在有重复的orderid进来时，覆盖掉了原来orderid上的name，成功覆写。</p>
-<h3 id="二、事务控制：保存数据和offset在同一个事务里面，需要事务储存的支持"><a href="#二、事务控制：保存数据和offset在同一个事务里面，需要事务储存的支持" class="headerlink" title="二、事务控制：保存数据和offset在同一个事务里面，需要事务储存的支持"></a>二、事务控制：保存数据和offset在同一个事务里面，需要事务储存的支持</h3><h3 id="三、自己实现：offset和数据绑定保存"><a href="#三、自己实现：offset和数据绑定保存" class="headerlink" title="三、自己实现：offset和数据绑定保存"></a>三、自己实现：offset和数据绑定保存</h3>
+<h3 id="二、事务控制：保存数据和offset在同一个事务里面，需要事务储存的支持"><a href="#二、事务控制：保存数据和offset在同一个事务里面，需要事务储存的支持" class="headerlink" title="二、事务控制：保存数据和offset在同一个事务里面，需要事务储存的支持"></a>二、事务控制：保存数据和offset在同一个事务里面，需要事务储存的支持</h3><ol>
+<li>创建测试的mysql数据库</li>
+</ol>
+<p>​        create database mytest;</p>
+<ol>
+<li><p>新建topic： mytopic1<br>kafka-topics.sh —zookeeper localhost:12181/kafka0.9 —create —topic mytopic1 —partitions 3 —replication-factor 1</p>
+</li>
+<li><p>建表<br>create table mytopic(topic varchar(200), partid int, offset bigint);<br>create table mydata(name varchar(200), id int);</p>
+<p>初始化表：<br> insert into mytopic(topic, partid, offset) values(‘mytopic1’,0,0);<br> insert into mytopic(topic, partid, offset) values(‘mytopic1’,1,0);<br> insert into mytopic(topic, partid, offset) values(‘mytopic1’,2,0);</p>
+</li>
+<li><p>往mytopic1发送数据， 数据格式为 “字符,数字”  比如  abc,3</p>
+</li>
+<li><p>在pom文件加入依赖</p>
+<dependency>
+   <groupid>org.scalikejdbc</groupid>
+   <artifactid>scalikejdbc_2.11</artifactid>
+   <version>2.2.1</version>
+
+   </dependency>
+</li>
+<li><p>编写事务代码：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">val</span> driver = <span class="string">"com.mysql.jdbc.Driver"</span></div><div class="line">    <span class="keyword">val</span> jdbcUrl =  <span class="string">"jdbc:mysql://localhost:3306/mytest"</span></div><div class="line">    <span class="keyword">val</span> jdbcUser = <span class="string">"root"</span></div><div class="line">    <span class="keyword">val</span> jdbcPassword = <span class="string">"123456"</span></div><div class="line">    <span class="comment">// 设置jdbc</span></div><div class="line">    <span class="type">Class</span>.forName(driver)</div><div class="line">    <span class="comment">// 设置连接池</span></div><div class="line">    <span class="type">ConnectionPool</span>.singleton(jdbcUrl, jdbcUser, jdbcPassword)</div><div class="line">    <span class="keyword">val</span> fromOffsets = <span class="type">DB</span>.readOnly &#123; <span class="keyword">implicit</span> session =&gt; <span class="string">sql"select topic, partid, offset from mytopic"</span>.</div><div class="line">        map &#123; r =&gt;</div><div class="line">          <span class="type">TopicAndPartition</span>(r.string(<span class="number">1</span>), r.int(<span class="number">2</span>)) -&gt; r.long(<span class="number">3</span>)</div><div class="line">        &#125;.list.apply().toMap</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">val</span> messageHandler = (mmd : <span class="type">MessageAndMetadata</span>[<span class="type">String</span>, <span class="type">String</span>]) =&gt; (mmd.topic, mmd.message())</div><div class="line">    <span class="keyword">val</span>  messages = <span class="type">KafkaUtils</span>.createDirectStream[<span class="type">String</span>, <span class="type">String</span>, <span class="type">StringDecoder</span>, <span class="type">StringDecoder</span>, (<span class="type">String</span>, <span class="type">String</span>)](ssc, kafkaParams, fromOffsets, messageHandler)</div><div class="line">    messages.foreachRDD(rdd=&gt; &#123;</div><div class="line">      rdd.foreachPartition(partiton=&gt;&#123;</div><div class="line">        <span class="keyword">val</span> offsetRanges = rdd.asInstanceOf[<span class="type">HasOffsetRanges</span>].offsetRanges</div><div class="line">        <span class="keyword">val</span> pOffsetRange = offsetRanges(<span class="type">TaskContext</span>.get.partitionId)</div><div class="line">        <span class="comment">// localTx</span></div><div class="line">        <span class="type">DB</span>.localTx &#123; <span class="keyword">implicit</span> session =&gt;</div><div class="line"></div><div class="line">          partiton.foreach(msg=&gt;&#123;</div><div class="line">            <span class="comment">// 或者使用scalike的batch 插入</span></div><div class="line">            <span class="keyword">val</span> name = msg._2.split(<span class="string">","</span>)(<span class="number">0</span>)</div><div class="line">            <span class="keyword">val</span> id =msg._2.split(<span class="string">","</span>)(<span class="number">1</span>)</div><div class="line">            <span class="keyword">val</span> dataResult = <span class="string">sql""</span><span class="string">"insert into  mydata(name,id) values ($&#123;name&#125;,$&#123;id&#125;)"</span><span class="string">""</span>.execute().apply()</div><div class="line">          &#125;)</div><div class="line">          <span class="keyword">val</span> offsetResult =</div><div class="line">            <span class="string">sql""</span><span class="string">"update mytopic set offset = $&#123;pOffsetRange.untilOffset&#125; where topic =</span></div><div class="line"><span class="string">                  $&#123;pOffsetRange.topic&#125; and partid = $&#123;pOffsetRange.partition&#125;"</span><span class="string">""</span>.update.apply()</div><div class="line">        &#125;</div><div class="line">      &#125;)</div><div class="line">    &#125;</div><div class="line">    )</div></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+</ol>
+
       
     </div>
     
@@ -394,6 +419,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/02/28/Hbase-Phoenix学习/" rel="prev" title="Hbase+Phoenix学习">
+                Hbase+Phoenix学习 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -475,7 +504,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -532,7 +561,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#实现exactly-once语义"><span class="nav-number">1.</span> <span class="nav-text">实现exactly-once语义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、幂等写入：需要设置好唯一主键，每次往一个目录覆写数据"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、幂等写入：需要设置好唯一主键，每次往一个目录覆写数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、事务控制：保存数据和offset在同一个事务里面，需要事务储存的支持"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、事务控制：保存数据和offset在同一个事务里面，需要事务储存的支持</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、自己实现：offset和数据绑定保存"><span class="nav-number">1.0.3.</span> <span class="nav-text">三、自己实现：offset和数据绑定保存</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#实现exactly-once语义"><span class="nav-number">1.</span> <span class="nav-text">实现exactly-once语义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、幂等写入：需要设置好唯一主键，每次往一个目录覆写数据"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、幂等写入：需要设置好唯一主键，每次往一个目录覆写数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、事务控制：保存数据和offset在同一个事务里面，需要事务储存的支持"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、事务控制：保存数据和offset在同一个事务里面，需要事务储存的支持</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
