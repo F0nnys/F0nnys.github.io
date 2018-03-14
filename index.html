@@ -457,7 +457,8 @@
 
       
         
-          <h1 id="商场中精确定位用户所在店铺-地址"><a href="#商场中精确定位用户所在店铺-地址" class="headerlink" title="商场中精确定位用户所在店铺: 地址"></a>商场中精确定位用户所在店铺: <a href="https://tianchi.aliyun.com/competition/introduction.htm?raceId=231620" target="_blank" rel="noopener">地址</a></h1><p>​    这是我第一次参加的数据挖掘比赛，没有什么经验，最开始通过简单规则计算结果，达到了83%的精确度，后面对数据集进行了简单的特征工程，运用xgboost模型，在调参之后达到了90.96%的精确度，最高在2845个参赛队伍中获得第60名的成绩……</p>
+          <h1 id="商场中精确定位用户所在店铺-地址">商场中精确定位用户所在店铺: <a href="https://tianchi.aliyun.com/competition/introduction.htm?raceId=231620" target="_blank" rel="noopener">地址</a></h1>
+<p>​ 这是我第一次参加的数据挖掘比赛，没有什么经验，最开始通过简单规则计算结果，达到了83%的精确度，后面对数据集进行了简单的特征工程，运用xgboost模型，在调参之后达到了90.96%的精确度，最高在2845个参赛队伍中获得第60名的成绩……</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/09/21/ml-learning/#more" rel="contents">
@@ -603,24 +604,16 @@
 
       
         
-          
-            <h1 id="利用-JAVA-API操作Hbase表"><a href="#利用-JAVA-API操作Hbase表" class="headerlink" title="利用 JAVA API操作Hbase表"></a>利用 JAVA API操作Hbase表</h1><p>1、Hbase的初始化：</p>
+          <p>#利用 JAVA API操作Hbase表</p>
+<p>1、Hbase的初始化：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">  config = HBaseConfiguration.create();</div><div class="line">  config.set(<span class="string">"hbase.zookeeper.quorum"</span>, <span class="string">"spark1234"</span>);</div><div class="line">  config.set(<span class="string">"hbase.zookeeper.property.clientPort"</span>, <span class="string">"12181"</span>);</div><div class="line">  connection = ConnectionFactory.createConnection(config);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>2、创建表的方法：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">createTable</span><span class="params">(String tablename, String[] families)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">  <span class="comment">// hbase 表管理器</span></div><div class="line">  Admin admin = connection.getAdmin();</div><div class="line">  <span class="comment">// 操作的表名</span></div><div class="line">  TableName tableName = TableName.valueOf(tablename);</div><div class="line"></div><div class="line">  <span class="keyword">if</span> (!admin.tableExists(tableName)) &#123;</div><div class="line">    <span class="comment">// hbase表模式</span></div><div class="line">    HTableDescriptor tableDescriptor = <span class="keyword">new</span> HTableDescriptor(tableName);</div><div class="line">    <span class="comment">// 添加列族</span></div><div class="line">    <span class="keyword">for</span> (String family : families) &#123;</div><div class="line">      tableDescriptor.addFamily(<span class="keyword">new</span> HColumnDescriptor(family.getBytes()));</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 创建表</span></div><div class="line">    admin.createTable(tableDescriptor);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>3、创建main方法试验一下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">HbaseMainTest hmain = <span class="keyword">new</span> HbaseMainTest();</div><div class="line">        hmain.init();</div><div class="line">        String tableName = <span class="string">"mytest"</span>;</div><div class="line">        String[] families = &#123;<span class="string">"info1"</span>, <span class="string">"info2"</span>&#125;;</div><div class="line">        hmain.createTable(tableName, families);</div></pre></td></tr></table></figure>
-<p><img src="http://owmmu20d1.bkt.clouddn.com/18-3-5/63348550.jpg" alt=""></p>
-<p>4、删除表:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dropTable</span><span class="params">(String tablename)</span> </span>&#123;</div><div class="line">  <span class="keyword">try</span> &#123;</div><div class="line">    <span class="comment">// hbase 表管理器</span></div><div class="line">    Admin admin = connection.getAdmin();</div><div class="line">    <span class="comment">// 操作的表名</span></div><div class="line">    TableName tableName = TableName.valueOf(tablename);</div><div class="line">    admin.disableTable(tableName); <span class="comment">//注意要先disable一下才能删除</span></div><div class="line">    admin.deleteTable(tableName);</div><div class="line">  &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">    e.printStackTrace();</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>5、操作列：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment">     * 增加或者删除列</span></div><div class="line"><span class="comment">     *</span></div><div class="line"><span class="comment">     * <span class="doctag">@param</span> tablename</span></div><div class="line"><span class="comment">     * <span class="doctag">@param</span> families</span></div><div class="line"><span class="comment">     * <span class="doctag">@param</span> action    对表列的操作类型， del-删除， add-添加</span></div><div class="line"><span class="comment">     */</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">editTable</span><span class="params">(String tablename, String[] families, String action)</span> </span>&#123;</div><div class="line">  <span class="keyword">try</span> &#123;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (!<span class="string">"add"</span>.equals(action) &amp;&amp; !<span class="string">"del"</span>.equals(action)) &#123;</div><div class="line">      System.err.println(<span class="string">"action err. expected:add|del"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// hbase 表管理器</span></div><div class="line">    Admin admin = connection.getAdmin();</div><div class="line">    <span class="comment">// 操作的表名</span></div><div class="line">    TableName tableName = TableName.valueOf(tablename);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (admin.tableExists(tableName)) &#123;</div><div class="line">      <span class="comment">// hbase表模式</span></div><div class="line">      HTableDescriptor tableDescriptor = admin.getTableDescriptor(tableName);</div><div class="line">      HColumnDescriptor[] columnDescriptors = tableDescriptor.getColumnFamilies();</div><div class="line"></div><div class="line">      <span class="comment">// 添加列族</span></div><div class="line">      <span class="keyword">for</span> (String family : families) &#123;</div><div class="line">        <span class="keyword">if</span> (<span class="string">"add"</span>.equals(action)) &#123;</div><div class="line">          <span class="keyword">if</span> (!tableDescriptor.hasFamily(family.getBytes())) &#123;</div><div class="line">            tableDescriptor.addFamily(<span class="keyword">new</span> HColumnDescriptor(family.getBytes()));</div><div class="line">            admin.modifyTable(tableName, tableDescriptor);</div><div class="line">          &#125;</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"del"</span>.equals(action)) &#123;</div><div class="line">          <span class="keyword">if</span> (tableDescriptor.hasFamily(family.getBytes())) &#123;</div><div class="line">            admin.deleteColumn(tableName, family.getBytes());</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">  &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">    e.printStackTrace();</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>6、插入数据操作：</p>
-<p>注意在单条插入中使用getBufferedMutator（异步插入）比table.put方法快非常多</p>
-<p>批量插入将插入数据存在一个list中，最后再table.put插入，速度会比上面第一种方法快一点。。。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Put</span><span class="params">()</span> <span class="keyword">throws</span>  IOException </span>&#123;</div><div class="line">        String tablename = <span class="string">"test"</span>;</div><div class="line">        Table table = connection.getTable(TableName.valueOf(tablename));</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            BufferedMutator bufferedMutator = connection.getBufferedMutator(TableName.valueOf(tablename));</div><div class="line">            <span class="keyword">long</span> begin = System.currentTimeMillis();</div><div class="line">		   <span class="comment">//List&lt;Put&gt; puts = new ArrayList&lt;Put&gt;();//第三种方法</span></div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++) &#123;</div><div class="line">                String rowkey = String.format(<span class="string">"%05d"</span>, i);</div><div class="line">                Put put = <span class="keyword">new</span> Put(rowkey.getBytes());</div><div class="line">                put.addColumn(Bytes.toBytes(<span class="string">"info1"</span>), Bytes.toBytes(<span class="string">"good"</span>), Bytes.toBytes(<span class="string">"goood"</span> + Math.random()));</div><div class="line">                put.addColumn(Bytes.toBytes(<span class="string">"info1"</span>), Bytes.toBytes(<span class="string">"price"</span>), Bytes.toBytes(String.valueOf(i)));</div><div class="line">                bufferedMutator.mutate(put);</div><div class="line">               <span class="comment">// table.put(put);//第二种方法</span></div><div class="line">            &#125;</div><div class="line">          <span class="comment">///table.put(puts);//第三种方法</span></div><div class="line">            <span class="keyword">long</span> end = System.currentTimeMillis();</div><div class="line">            bufferedMutator.flush();</div><div class="line">            System.out.println((end - begin) + <span class="string">"ms"</span>); <span class="comment">// 860ms  19608ms</span></div><div class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/05/Hbase-Phoenix学习2/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -759,16 +752,16 @@
 
       
         
-          <h1 id="Hbase基础"><a href="#Hbase基础" class="headerlink" title="Hbase基础"></a>Hbase基础</h1><h3 id="Hbase是什么？"><a href="#Hbase是什么？" class="headerlink" title="Hbase是什么？"></a>Hbase是什么？</h3><ol>
-<li><p>HBase是一个分布式的、面向列的开源数据库</p>
-</li>
-<li><p>源于 Fay Chang 所撰写的Google论文“Bigtable：一个结构化数据的分布式存储系统” </p>
-</li>
-<li><p>适合于非结构化数据存储的数据库</p>
-</li>
-<li><p>数据存储于HDFS之上， 有很好的备份机制。</p>
-</li>
-<li><p>线性扩展</p>
+          <h1 id="hbase基础">Hbase基础</h1>
+<p>###Hbase是什么？</p>
+<ol type="1">
+<li><p>HBase是一个分布式的、面向列的开源数据库</p></li>
+<li><p>源于 Fay Chang 所撰写的Google论文“Bigtable：一个结构化数据的分布式存储系统”</p></li>
+<li><p>适合于非结构化数据存储的数据库</p></li>
+<li><p>数据存储于HDFS之上， 有很好的备份机制。</p></li>
+<li><p>线性扩展</p></li>
+</ol>
+<p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/02/28/Hbase-Phoenix学习/#more" rel="contents">
@@ -914,16 +907,16 @@
 
       
         
-          <h1 id="实现exactly-once语义"><a href="#实现exactly-once语义" class="headerlink" title="实现exactly-once语义"></a>实现exactly-once语义</h1><h3 id="一、幂等写入：需要设置好唯一主键，每次往一个目录覆写数据"><a href="#一、幂等写入：需要设置好唯一主键，每次往一个目录覆写数据" class="headerlink" title="一、幂等写入：需要设置好唯一主键，每次往一个目录覆写数据"></a>一、幂等写入：需要设置好唯一主键，每次往一个目录覆写数据</h3><ol>
-<li><p>创建测试的mysql数据库：create database mytest;</p>
-</li>
-<li><p>建表：<br>create table myorders(name varchar(100), orderid varchar(100) primary key);</p>
-</li>
-<li><p>新建topic： mytopic1<br>  ./bin/kafka-topics.sh —zookeeper localhost:12181/kafka0.9 —create —topic mytopic3 —partitions 3 —replication-factor 1</p>
-</li>
-<li><p>启动生产者：./bin/kafka-console-producer.sh —broker-list localhost:9092 —topic mytopic1</p>
-</li>
-<li><p>在sparkstreaming中加入存储数据到mysql的代码:(主要就是on duplicate key update的使用)</p>
+          <h1 id="实现exactly-once语义">实现exactly-once语义</h1>
+<p>###一、幂等写入：需要设置好唯一主键，每次往一个目录覆写数据</p>
+<ol type="1">
+<li><p>创建测试的mysql数据库：create database mytest;</p></li>
+<li><p>建表： create table myorders(name varchar(100), orderid varchar(100) primary key);</p></li>
+<li><p>新建topic： mytopic1 ./bin/kafka-topics.sh –zookeeper localhost:12181/kafka0.9 –create –topic mytopic3 –partitions 3 –replication-factor 1</p></li>
+<li><p>启动生产者：./bin/kafka-console-producer.sh –broker-list localhost:9092 –topic mytopic1</p></li>
+<li><p>在sparkstreaming中加入存储数据到mysql的代码:(主要就是on duplicate key update的使用)</p></li>
+</ol>
+<p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/02/27/实现exactly-once语义/#more" rel="contents">
@@ -1069,8 +1062,9 @@
 
       
         
-          <h1 id="Kafka的offset越界管理"><a href="#Kafka的offset越界管理" class="headerlink" title="Kafka的offset越界管理"></a>Kafka的offset越界管理</h1><p>​        指当sparkstreaming挂掉时间超过了kafka内部数据的保存时间，或者sparkstreaming消费速度跟不上时，会发生外部储存设备如zookeeper储存的offset小于kafka内既有数据的情况，这时候就要调整外部储存设备的offset使之与kafka内offset最大与最小相对应。</p>
-<p>​        由于spark不提供获取最早最终offset的接口，所以得自己改动源码，获得offset，再去在zookeeper里进行修剪。</p>
+          <h1 id="kafka的offset越界管理">Kafka的offset越界管理</h1>
+<p>​ 指当sparkstreaming挂掉时间超过了kafka内部数据的保存时间，或者sparkstreaming消费速度跟不上时，会发生外部储存设备如zookeeper储存的offset小于kafka内既有数据的情况，这时候就要调整外部储存设备的offset使之与kafka内offset最大与最小相对应。</p>
+<p>​ 由于spark不提供获取最早最终offset的接口，所以得自己改动源码，获得offset，再去在zookeeper里进行修剪。</p>
 <p>1、通过源码发现，设置的参数最终传进了org.apache.spark.streaming.kafka.KafkaCluster这个类中，但是这个类是用了private[spark]限制只能在spark包中使用，所以自己创建一个类，将之全复制过去，改掉权限就可以用里面的获取offset函数了。</p>
           <!--noindex-->
           <div class="post-button text-center">
@@ -1217,7 +1211,8 @@
 
       
         
-          <h1 id="Spark-streaming数据反写kafka实现数据清洗"><a href="#Spark-streaming数据反写kafka实现数据清洗" class="headerlink" title="Spark streaming数据反写kafka实现数据清洗"></a>Spark streaming数据反写kafka实现数据清洗</h1><p>1、准备日志数据：<img src="http://owmmu20d1.bkt.clouddn.com/18-2-25/1539395.jpg" alt=""></p>
+          <h1 id="spark-streaming数据反写kafka实现数据清洗">Spark streaming数据反写kafka实现数据清洗</h1>
+<p>1、准备日志数据：<img src="http://owmmu20d1.bkt.clouddn.com/18-2-25/1539395.jpg"></p>
 <p>其中一行包括了：commandid houseid gathertime srcip destip srcport destport……..</p>
 <p>目的格式是：commandid|houseid|gathertime|srcip:srcport|destip:destport|url</p>
 <p>2、启动一个生产者，topic为testkafka，并将日志数据喂进去=、=</p>
@@ -1366,7 +1361,8 @@
 
       
         
-          <h1 id="一、Kafka的基本使用"><a href="#一、Kafka的基本使用" class="headerlink" title="一、Kafka的基本使用"></a>一、Kafka的基本使用</h1><p>首先安装zookeeper(用来保存kafka的offset)、kafka，过程就不详细说明了。</p>
+          <p>#一、Kafka的基本使用</p>
+<p>首先安装zookeeper(用来保存kafka的offset)、kafka，过程就不详细说明了。</p>
 <p>1、启动zookeeper：./bin/zkServer.sh start</p>
 <p>2、配置kafka的log.dirs目录，以及zookeeper.connect=spark1234:12181/kafka0.9 (kafka在zookeeper的目录)</p>
 <p>3、复制一份server.properties为server1.properties，修改其中broker.id、log保存地址和listeners端口号，以便启动两个broker。</p>
@@ -1515,13 +1511,16 @@
 
       
         
-          <h2 id="利用SparkSQL分析网页日志数据"><a href="#利用SparkSQL分析网页日志数据" class="headerlink" title="利用SparkSQL分析网页日志数据"></a>利用SparkSQL分析网页日志数据</h2><p><a href="https://github.com/F0nnys/ML/tree/master/SPARKSQL/src/main/scala/com/test/log" target="_blank" rel="noopener">Github地址-&gt;</a></p>
-<h3 id="1、分析目的"><a href="#1、分析目的" class="headerlink" title="1、分析目的"></a>1、分析目的</h3><p>​    ·得到一个网站上最受欢迎模块的TopN访问次数</p>
-<p>​    ·按地市统计最受欢迎的TopN模块</p>
-<p>​    ·按流量统计最受欢迎的TopN模块</p>
-<h3 id="2、分析步骤"><a href="#2、分析步骤" class="headerlink" title="2、分析步骤"></a>2、分析步骤</h3><p>​    ·利用idea进行spark离线分析（local模式）</p>
-<p>​    ·利用spark集群讲作业提交到yarn上进行运行</p>
-<p>​    ·整体程序性能调优</p>
+          <h2 id="利用sparksql分析网页日志数据">利用SparkSQL分析网页日志数据</h2>
+<p><a href="https://github.com/F0nnys/ML/tree/master/SPARKSQL/src/main/scala/com/test/log" target="_blank" rel="noopener">Github地址-&gt;</a></p>
+<h3 id="分析目的">1、分析目的</h3>
+<p>​ ·得到一个网站上最受欢迎模块的TopN访问次数</p>
+<p>​ ·按地市统计最受欢迎的TopN模块</p>
+<p>​ ·按流量统计最受欢迎的TopN模块</p>
+<h3 id="分析步骤">2、分析步骤</h3>
+<p>​ ·利用idea进行spark离线分析（local模式）</p>
+<p>​ ·利用spark集群讲作业提交到yarn上进行运行</p>
+<p>​ ·整体程序性能调优</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/02/06/sparksql/#more" rel="contents">
@@ -1667,11 +1666,13 @@
 
       
         
-          <h1 id="利用Spark分析出租车打车数据"><a href="#利用Spark分析出租车打车数据" class="headerlink" title="利用Spark分析出租车打车数据"></a>利用Spark分析出租车打车数据</h1><h2 id="1-数据集简介"><a href="#1-数据集简介" class="headerlink" title="1 数据集简介"></a>1 数据集简介</h2><p>本数据集为四川省成都市的出租车GPS记录数据集。该数据集已提前清洗完成，仅提取了原始数据集中某一天的部分数据，并且去除了时间段在 0 点至 6 点之间的较少数据。</p>
+          <p>#利用Spark分析出租车打车数据</p>
+<p>##1 数据集简介</p>
+<p>本数据集为四川省成都市的出租车GPS记录数据集。该数据集已提前清洗完成，仅提取了原始数据集中某一天的部分数据，并且去除了时间段在 0 点至 6 点之间的较少数据。</p>
 <p>数据记录了成都市部分出租车在载客时的GPS位置和时间等信息，数据记录的格式为 CSV 格式。</p>
 <p>该数据集中的一条记录如下所示：</p>
-<p>1      30.624806     104.136604      211846<br>对各个字段逐个解释如下：</p>
-<p>TID：出租车的ID。每辆出租车的TID都是唯一的。<br>Lat：出租车状态为载客时的纬度。<br>Lon：出租车状态为载客时的经度。<br>Time：该条记录的时间戳。如 211846 代表 21 点 18 分 46 秒。</p>
+<p>1 30.624806 104.136604 211846 对各个字段逐个解释如下：</p>
+<p>TID：出租车的ID。每辆出租车的TID都是唯一的。 Lat：出租车状态为载客时的纬度。 Lon：出租车状态为载客时的经度。 Time：该条记录的时间戳。如 211846 代表 21 点 18 分 46 秒。</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/01/16/spark出租车数据挖掘/#more" rel="contents">
