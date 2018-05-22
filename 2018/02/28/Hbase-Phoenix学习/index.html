@@ -69,13 +69,13 @@
 
 
 
-<meta name="description" content="Hbase基础 ###Hbase是什么？  HBase是一个分布式的、面向列的开源数据库 源于 Fay Chang 所撰写的Google论文“Bigtable：一个结构化数据的分布式存储系统” 适合于非结构化数据存储的数据库 数据存储于HDFS之上， 有很好的备份机制。 线性扩展">
+<meta name="description" content="Hbase基础Hbase是什么？ HBase是一个分布式的、面向列的开源数据库  源于 Fay Chang 所撰写的Google论文“Bigtable：一个结构化数据的分布式存储系统”   适合于非结构化数据存储的数据库  数据存储于HDFS之上， 有很好的备份机制。  线性扩展">
 <meta name="keywords" content="SPARK">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hbase+Phoenix学习(1)">
 <meta property="og:url" content="http://yoursite.com/2018/02/28/Hbase-Phoenix学习/index.html">
 <meta property="og:site_name" content="My Study Notes">
-<meta property="og:description" content="Hbase基础 ###Hbase是什么？  HBase是一个分布式的、面向列的开源数据库 源于 Fay Chang 所撰写的Google论文“Bigtable：一个结构化数据的分布式存储系统” 适合于非结构化数据存储的数据库 数据存储于HDFS之上， 有很好的备份机制。 线性扩展">
+<meta property="og:description" content="Hbase基础Hbase是什么？ HBase是一个分布式的、面向列的开源数据库  源于 Fay Chang 所撰写的Google论文“Bigtable：一个结构化数据的分布式存储系统”   适合于非结构化数据存储的数据库  数据存储于HDFS之上， 有很好的备份机制。  线性扩展">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://owmmu20d1.bkt.clouddn.com/18-3-1/89182917.jpg">
 <meta property="og:image" content="http://owmmu20d1.bkt.clouddn.com/18-3-1/8441167.jpg">
@@ -85,7 +85,7 @@
 <meta property="og:updated_time" content="2018-03-04T16:59:45.637Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hbase+Phoenix学习(1)">
-<meta name="twitter:description" content="Hbase基础 ###Hbase是什么？  HBase是一个分布式的、面向列的开源数据库 源于 Fay Chang 所撰写的Google论文“Bigtable：一个结构化数据的分布式存储系统” 适合于非结构化数据存储的数据库 数据存储于HDFS之上， 有很好的备份机制。 线性扩展">
+<meta name="twitter:description" content="Hbase基础Hbase是什么？ HBase是一个分布式的、面向列的开源数据库  源于 Fay Chang 所撰写的Google论文“Bigtable：一个结构化数据的分布式存储系统”   适合于非结构化数据存储的数据库  数据存储于HDFS之上， 有很好的备份机制。  线性扩展">
 <meta name="twitter:image" content="http://owmmu20d1.bkt.clouddn.com/18-3-1/89182917.jpg">
 
 
@@ -340,21 +340,22 @@
       
 
       
-        <h1 id="hbase基础">Hbase基础</h1>
-<p>###Hbase是什么？</p>
-<ol type="1">
-<li><p>HBase是一个分布式的、面向列的开源数据库</p></li>
-<li><p>源于 Fay Chang 所撰写的Google论文“Bigtable：一个结构化数据的分布式存储系统”</p></li>
-<li><p>适合于非结构化数据存储的数据库</p></li>
-<li><p>数据存储于HDFS之上， 有很好的备份机制。</p></li>
-<li><p>线性扩展</p></li>
+        <h1 id="Hbase基础"><a href="#Hbase基础" class="headerlink" title="Hbase基础"></a>Hbase基础</h1><h3 id="Hbase是什么？"><a href="#Hbase是什么？" class="headerlink" title="Hbase是什么？"></a>Hbase是什么？</h3><ol>
+<li><p>HBase是一个分布式的、面向列的开源数据库</p>
+</li>
+<li><p>源于 Fay Chang 所撰写的Google论文“Bigtable：一个结构化数据的分布式存储系统” </p>
+</li>
+<li><p>适合于非结构化数据存储的数据库</p>
+</li>
+<li><p>数据存储于HDFS之上， 有很好的备份机制。</p>
+</li>
+<li><p>线性扩展</p>
+<a id="more"></a>
+</li>
 </ol>
-<p><a id="more"></a></p>
-<p>###Hbase集群的角色</p>
-<p>Hbase集群是主从架构。 主：一个或多个HMaster 从：多个RegionServer</p>
-<p>###Hbase组件功能</p>
-<p> Zookeeper</p>
-<ol type="1">
+<h3 id="Hbase集群的角色"><a href="#Hbase集群的角色" class="headerlink" title="Hbase集群的角色"></a>Hbase集群的角色</h3><p>Hbase集群是主从架构。<br>主：一个或多个HMaster<br>从：多个RegionServer</p>
+<h3 id="Hbase组件功能"><a href="#Hbase组件功能" class="headerlink" title="Hbase组件功能"></a>Hbase组件功能</h3><p> Zookeeper</p>
+<ol>
 <li>保证HMaster节点的HA （ephemeral node）</li>
 <li>保存RegionServer节点的信息， 监控RegionServer的上下线， 异常宕机等 （ephemeral node）</li>
 <li>维护Hbase的元数据表的位置信息</li>
@@ -364,35 +365,29 @@
 <p>2.记录region在哪台region server上， 负责region的分配和负载均衡。</p>
 <p>3.负责split后新的region的分配。</p>
 <p>4.新的regionserver上线， 负责region的迁移。</p>
-<p>5.regionserver下线， 负责失效regionserver上region的迁移 HMaser失效， 不会影响数据的读写。</p>
+<p>5.regionserver下线， 负责失效regionserver上region的迁移<br>HMaser失效， 不会影响数据的读写。 </p>
 <p> RegionServer</p>
 <p>1.负责Client向HDFS写数据</p>
 <p>2.管理region， region 的split等。</p>
-<h3 id="hbase数据模型">Hbase数据模型</h3>
-<p>####NameSpace:</p>
-<p>可以理解成关系型数据库中的用户、hive中的数据库。 访问执行NameSpace下的表： 名称空间: 表名， 比如default:test 就是default名称空间下的test表 Hbase默认有两个名称空间，分别是hbase（存放hbase元数据表）和default（默认）。</p>
-<p>####RowKey：</p>
-<p>可以类比关系数据库中的主键。 rowkey的最大长度是64kb。 数据存储时候， 按照rowkey的字典序存储。 可能会出现存储热点。</p>
-<p>####Column Family（列族）：</p>
-<p>一个列族可以管理很多列。 列表示为 列族名:列名， 如info:age , 表示info这个列族下的age列。 在建表时， 必须要先指定列族，但是不需要指定列名。 也就是说， 列族是表schema的一部分， 但是列不 是schema的部分， 列可以在插入数据时动态添加。 create ‘test2’,‘info1’,‘info2’,‘info3’</p>
-<p>####TimeStamp、Cell：</p>
-<p>Cell： 通过rowkey和列唯一确定一个Cell。 一个Cell保存着这个rowkey的多个版本， 如下图所示。 TimeStamp：每个版本通过timestamp时间戳唯一标识。 Hbase提供两种数据版本管理方式： 1. 保留N个版本。 2. 数据的保留时间。 create ‘spark_kafka_offsets’, {NAME=&gt;‘offsets’, TTL=&gt;2592000} 保留7天的数据 create ‘test1’,{NAME=&gt;‘info1’,VERSIONS=&gt;3},{NAME=&gt;‘info2’,VERSIONS=&gt;2} 格式：create ‘表名’,{NAME=‘列族1’,VERSIONS=版本号},{NAME=‘列族2’,VERSIONS=版本号}</p>
-<p><img src="http://owmmu20d1.bkt.clouddn.com/18-3-1/89182917.jpg"></p>
-<h3 id="hbase基本操作">Hbase基本操作</h3>
-<p>1、确保开启了hdfs、zookeeper、hbase三个服务。进入hbase shell</p>
-<p>2、建表：create ‘testorder’, ‘info’,‘orders’，查看表list，查看详细信息desc ‘表名’</p>
-<p><img src="http://owmmu20d1.bkt.clouddn.com/18-3-1/8441167.jpg"></p>
+<h3 id="Hbase数据模型"><a href="#Hbase数据模型" class="headerlink" title="Hbase数据模型"></a>Hbase数据模型</h3><h4 id="NameSpace"><a href="#NameSpace" class="headerlink" title="NameSpace:"></a>NameSpace:</h4><p>可以理解成关系型数据库中的用户、hive中的数据库。<br>访问执行NameSpace下的表： 名称空间: 表名， 比如default:test 就是default名称空间下的test表<br>Hbase默认有两个名称空间，分别是hbase（存放hbase元数据表）和default（默认）。</p>
+<h4 id="RowKey："><a href="#RowKey：" class="headerlink" title="RowKey："></a>RowKey：</h4><p>可以类比关系数据库中的主键。<br>rowkey的最大长度是64kb。<br>数据存储时候， 按照rowkey的字典序存储。<br>可能会出现存储热点。</p>
+<h4 id="Column-Family（列族）："><a href="#Column-Family（列族）：" class="headerlink" title="Column Family（列族）："></a>Column Family（列族）：</h4><p>一个列族可以管理很多列。 列表示为 列族名:列名， 如info:age , 表示info这个列族下的age列。<br>在建表时， 必须要先指定列族，但是不需要指定列名。 也就是说， 列族是表schema的一部分， 但是列不<br>是schema的部分， 列可以在插入数据时动态添加。<br>create ‘test2’,’info1’,’info2’,’info3’</p>
+<h4 id="TimeStamp、Cell："><a href="#TimeStamp、Cell：" class="headerlink" title="TimeStamp、Cell："></a>TimeStamp、Cell：</h4><p>Cell： 通过rowkey和列唯一确定一个Cell。 一个Cell保存着这个rowkey的多个版本， 如下图所示。<br>TimeStamp：每个版本通过timestamp时间戳唯一标识。<br>Hbase提供两种数据版本管理方式： 1. 保留N个版本。 2. 数据的保留时间。<br>create ‘spark_kafka_offsets’, {NAME=&gt;’offsets’, TTL=&gt;2592000} 保留7天的数据<br>create ‘test1’,{NAME=&gt;’info1’,VERSIONS=&gt;3},{NAME=&gt;’info2’,VERSIONS=&gt;2}<br>格式：create ‘表名’,{NAME=’列族1’,VERSIONS=版本号},{NAME=’列族2’,VERSIONS=版本号}</p>
+<p><img src="http://owmmu20d1.bkt.clouddn.com/18-3-1/89182917.jpg" alt=""></p>
+<h3 id="Hbase基本操作"><a href="#Hbase基本操作" class="headerlink" title="Hbase基本操作"></a>Hbase基本操作</h3><p>1、确保开启了hdfs、zookeeper、hbase三个服务。进入hbase shell</p>
+<p>2、建表：create ‘testorder’, ‘info’,’orders’，查看表list，查看详细信息desc ‘表名’</p>
+<p><img src="http://owmmu20d1.bkt.clouddn.com/18-3-1/8441167.jpg" alt=""></p>
 <p>3、插入数据：</p>
-<p><img src="http://owmmu20d1.bkt.clouddn.com/18-3-1/31248334.jpg"></p>
-<p>4.获取表数据： 获取单条记录：get ‘表名’,‘rowkey值’ 或者 get ‘表名’,‘rowkey值’,‘列族名’ 扫描全表： scan ‘表名’ 或者 scan ‘表名’ , {COLUMNS=&gt;‘列族名’} 或者 scan ‘表 名’ , {COLUMNS=&gt;‘列族名:列名’} scan ‘testorder’</p>
-<p><img src="http://owmmu20d1.bkt.clouddn.com/18-3-1/44253323.jpg"></p>
-<p>5、删除操作： 删除列： delete ‘表名’ ,‘行名’ , ‘列族：列’ 删除整个行： deleteall ‘表名’,‘rowkey’ 清空表数据： truncate ‘表名’</p>
-<p>删除表之前需要禁用表。 disable ‘表名’ drop ‘表名’</p>
+<p><img src="http://owmmu20d1.bkt.clouddn.com/18-3-1/31248334.jpg" alt=""></p>
+<p>4.获取表数据：<br>获取单条记录：get ‘表名’,’rowkey值’ 或者 get ‘表名’,’rowkey值’,’列族名’<br>扫描全表： scan ‘表名’ 或者 scan ‘表名’ , {COLUMNS=&gt;’列族名’} 或者 scan ‘表<br>名’ , {COLUMNS=&gt;’列族名:列名’}<br>scan ‘testorder’</p>
+<p> <img src="http://owmmu20d1.bkt.clouddn.com/18-3-1/44253323.jpg" alt=""></p>
+<p>5、删除操作：<br>删除列： delete ‘表名’ ,’行名’ , ‘列族：列’<br>删除整个行： deleteall ‘表名’,’rowkey’<br>清空表数据： truncate ‘表名’</p>
+<p>删除表之前需要禁用表。<br>disable ‘表名’<br>drop ‘表名’</p>
 <p>6、过滤：</p>
-<p>查看列的值为22： scan ‘testorder’,FILTER=&gt;“ValueFilter(=,‘binary:22’)” 查看列的值包含xiao： scan ‘testorder’,FILTER=&gt;“ValueFilter(=,‘substring:xiao’)”</p>
-<p>列名以ag开头， 且为22或者25的记录： scan ‘testorder’, FILTER=&gt;“ColumnPrefixFilter(‘ag’) AND (ValueFilter(=,‘binary:22’) OR</p>
-<p>ValueFilter(=,‘binary:25’) )&quot;</p>
-<p><img src="http://owmmu20d1.bkt.clouddn.com/18-3-1/44211542.jpg"></p>
+<p>查看列的值为22：<br>scan ‘testorder’,FILTER=&gt;”ValueFilter(=,’binary:22’)”<br>查看列的值包含xiao：<br>scan ‘testorder’,FILTER=&gt;”ValueFilter(=,’substring:xiao’)”</p>
+<p>列名以ag开头， 且为22或者25的记录：<br>scan ‘testorder’, FILTER=&gt;”ColumnPrefixFilter(‘ag’) AND (ValueFilter(=,’binary:22’) OR</p>
+<p>ValueFilter(=,’binary:25’) )”</p>
+<p><img src="http://owmmu20d1.bkt.clouddn.com/18-3-1/44211542.jpg" alt=""></p>
 
       
     </div>
@@ -574,7 +569,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#hbase基础"><span class="nav-number">1.</span> <span class="nav-text">Hbase基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#hbase数据模型"><span class="nav-number">1.0.1.</span> <span class="nav-text">Hbase数据模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hbase基本操作"><span class="nav-number">1.0.2.</span> <span class="nav-text">Hbase基本操作</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Hbase基础"><span class="nav-number">1.</span> <span class="nav-text">Hbase基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hbase是什么？"><span class="nav-number">1.0.1.</span> <span class="nav-text">Hbase是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hbase集群的角色"><span class="nav-number">1.0.2.</span> <span class="nav-text">Hbase集群的角色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hbase组件功能"><span class="nav-number">1.0.3.</span> <span class="nav-text">Hbase组件功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hbase数据模型"><span class="nav-number">1.0.4.</span> <span class="nav-text">Hbase数据模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#NameSpace"><span class="nav-number">1.0.4.1.</span> <span class="nav-text">NameSpace:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RowKey："><span class="nav-number">1.0.4.2.</span> <span class="nav-text">RowKey：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Column-Family（列族）："><span class="nav-number">1.0.4.3.</span> <span class="nav-text">Column Family（列族）：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TimeStamp、Cell："><span class="nav-number">1.0.4.4.</span> <span class="nav-text">TimeStamp、Cell：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hbase基本操作"><span class="nav-number">1.0.5.</span> <span class="nav-text">Hbase基本操作</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

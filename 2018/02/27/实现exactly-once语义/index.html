@@ -69,20 +69,20 @@
 
 
 
-<meta name="description" content="实现exactly-once语义 ###一、幂等写入：需要设置好唯一主键，每次往一个目录覆写数据  创建测试的mysql数据库：create database mytest; 建表： create table myorders(name varchar(100), orderid varchar(100) primary key); 新建topic： mytopic1 ./bin/kafka-to">
+<meta name="description" content="实现exactly-once语义一、幂等写入：需要设置好唯一主键，每次往一个目录覆写数据 创建测试的mysql数据库：create database mytest;  建表：create table myorders(name varchar(100), orderid varchar(100) primary key);  新建topic： mytopic1  ./bin/kafka-topic">
 <meta name="keywords" content="SPARK">
 <meta property="og:type" content="article">
 <meta property="og:title" content="实现exactly-once语义">
 <meta property="og:url" content="http://yoursite.com/2018/02/27/实现exactly-once语义/index.html">
 <meta property="og:site_name" content="My Study Notes">
-<meta property="og:description" content="实现exactly-once语义 ###一、幂等写入：需要设置好唯一主键，每次往一个目录覆写数据  创建测试的mysql数据库：create database mytest; 建表： create table myorders(name varchar(100), orderid varchar(100) primary key); 新建topic： mytopic1 ./bin/kafka-to">
+<meta property="og:description" content="实现exactly-once语义一、幂等写入：需要设置好唯一主键，每次往一个目录覆写数据 创建测试的mysql数据库：create database mytest;  建表：create table myorders(name varchar(100), orderid varchar(100) primary key);  新建topic： mytopic1  ./bin/kafka-topic">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://owmmu20d1.bkt.clouddn.com/18-2-27/46860619.jpg">
 <meta property="og:image" content="http://owmmu20d1.bkt.clouddn.com/18-2-27/37130709.jpg">
 <meta property="og:updated_time" content="2018-02-27T15:41:16.929Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="实现exactly-once语义">
-<meta name="twitter:description" content="实现exactly-once语义 ###一、幂等写入：需要设置好唯一主键，每次往一个目录覆写数据  创建测试的mysql数据库：create database mytest; 建表： create table myorders(name varchar(100), orderid varchar(100) primary key); 新建topic： mytopic1 ./bin/kafka-to">
+<meta name="twitter:description" content="实现exactly-once语义一、幂等写入：需要设置好唯一主键，每次往一个目录覆写数据 创建测试的mysql数据库：create database mytest;  建表：create table myorders(name varchar(100), orderid varchar(100) primary key);  新建topic： mytopic1  ./bin/kafka-topic">
 <meta name="twitter:image" content="http://owmmu20d1.bkt.clouddn.com/18-2-27/46860619.jpg">
 
 
@@ -337,36 +337,48 @@
       
 
       
-        <h1 id="实现exactly-once语义">实现exactly-once语义</h1>
-<p>###一、幂等写入：需要设置好唯一主键，每次往一个目录覆写数据</p>
-<ol type="1">
-<li><p>创建测试的mysql数据库：create database mytest;</p></li>
-<li><p>建表： create table myorders(name varchar(100), orderid varchar(100) primary key);</p></li>
-<li><p>新建topic： mytopic1 ./bin/kafka-topics.sh –zookeeper localhost:12181/kafka0.9 –create –topic mytopic3 –partitions 3 –replication-factor 1</p></li>
-<li><p>启动生产者：./bin/kafka-console-producer.sh –broker-list localhost:9092 –topic mytopic1</p></li>
-<li><p>在sparkstreaming中加入存储数据到mysql的代码:(主要就是on duplicate key update的使用)</p></li>
+        <h1 id="实现exactly-once语义"><a href="#实现exactly-once语义" class="headerlink" title="实现exactly-once语义"></a>实现exactly-once语义</h1><h3 id="一、幂等写入：需要设置好唯一主键，每次往一个目录覆写数据"><a href="#一、幂等写入：需要设置好唯一主键，每次往一个目录覆写数据" class="headerlink" title="一、幂等写入：需要设置好唯一主键，每次往一个目录覆写数据"></a>一、幂等写入：需要设置好唯一主键，每次往一个目录覆写数据</h3><ol>
+<li><p>创建测试的mysql数据库：create database mytest;</p>
+</li>
+<li><p>建表：<br>create table myorders(name varchar(100), orderid varchar(100) primary key);</p>
+</li>
+<li><p>新建topic： mytopic1<br>  ./bin/kafka-topics.sh —zookeeper localhost:12181/kafka0.9 —create —topic mytopic3 —partitions 3 —replication-factor 1</p>
+</li>
+<li><p>启动生产者：./bin/kafka-console-producer.sh —broker-list localhost:9092 —topic mytopic1</p>
+</li>
+<li><p>在sparkstreaming中加入存储数据到mysql的代码:(主要就是on duplicate key update的使用)</p>
+<a id="more"></a>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">val</span> jdbcUrl =  <span class="string">"jdbc:mysql://localhost:3306/mytest"</span></div><div class="line"><span class="keyword">val</span> jdbcUser = <span class="string">"root"</span></div><div class="line"><span class="keyword">val</span> jdbcPassword = <span class="string">"123456"</span></div><div class="line">messages.foreachRDD(rdd=&gt;&#123;</div><div class="line">  <span class="keyword">val</span> offsetRanges = rdd.asInstanceOf[<span class="type">HasOffsetRanges</span>].offsetRanges</div><div class="line">  rdd.map(x=&gt;x._2).foreachPartition(partition =&gt;&#123;</div><div class="line">    <span class="keyword">val</span> pOffsetRange = offsetRanges(<span class="type">TaskContext</span>.get.partitionId)</div><div class="line">    <span class="keyword">val</span> dbConn = <span class="type">DriverManager</span>.getConnection(jdbcUrl, jdbcUser, jdbcPassword)</div><div class="line">    <span class="comment">// dbConn.setAutoCommit(false)</span></div><div class="line">    <span class="comment">// upsert update insert</span></div><div class="line">    partition.foreach(msg=&gt;&#123;</div><div class="line">      <span class="keyword">val</span> name = msg.split(<span class="string">","</span>)(<span class="number">0</span>)</div><div class="line">      <span class="keyword">val</span> orderid = msg.split(<span class="string">","</span>)(<span class="number">1</span>)</div><div class="line">      <span class="keyword">val</span> sql = <span class="string">s"insert into myorders(name, orderid) values ('<span class="subst">$name</span>', '<span class="subst">$orderid</span>') ON DUPLICATE KEY UPDATE name='<span class="subst">$&#123;name&#125;</span>'"</span></div><div class="line">      <span class="keyword">val</span> pstmt = dbConn.prepareStatement(sql)</div><div class="line">      pstmt.execute()</div><div class="line">    &#125;)</div><div class="line">    <span class="comment">// dbConn.commit()</span></div><div class="line">    dbConn.close()</div><div class="line">  &#125;)</div><div class="line">  <span class="type">KafkaZKManager</span>.storeOffsets(rdd.asInstanceOf[<span class="type">HasOffsetRanges</span>].offsetRanges, groupName)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+</li>
 </ol>
-<p><a id="more"></a></p>
-<p><figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">val</span> jdbcUrl =  <span class="string">"jdbc:mysql://localhost:3306/mytest"</span></div><div class="line"><span class="keyword">val</span> jdbcUser = <span class="string">"root"</span></div><div class="line"><span class="keyword">val</span> jdbcPassword = <span class="string">"123456"</span></div><div class="line">messages.foreachRDD(rdd=&gt;&#123;</div><div class="line">  <span class="keyword">val</span> offsetRanges = rdd.asInstanceOf[<span class="type">HasOffsetRanges</span>].offsetRanges</div><div class="line">  rdd.map(x=&gt;x._2).foreachPartition(partition =&gt;&#123;</div><div class="line">    <span class="keyword">val</span> pOffsetRange = offsetRanges(<span class="type">TaskContext</span>.get.partitionId)</div><div class="line">    <span class="keyword">val</span> dbConn = <span class="type">DriverManager</span>.getConnection(jdbcUrl, jdbcUser, jdbcPassword)</div><div class="line">    <span class="comment">// dbConn.setAutoCommit(false)</span></div><div class="line">    <span class="comment">// upsert update insert</span></div><div class="line">    partition.foreach(msg=&gt;&#123;</div><div class="line">      <span class="keyword">val</span> name = msg.split(<span class="string">","</span>)(<span class="number">0</span>)</div><div class="line">      <span class="keyword">val</span> orderid = msg.split(<span class="string">","</span>)(<span class="number">1</span>)</div><div class="line">      <span class="keyword">val</span> sql = <span class="string">s"insert into myorders(name, orderid) values ('<span class="subst">$name</span>', '<span class="subst">$orderid</span>') ON DUPLICATE KEY UPDATE name='<span class="subst">$&#123;name&#125;</span>'"</span></div><div class="line">      <span class="keyword">val</span> pstmt = dbConn.prepareStatement(sql)</div><div class="line">      pstmt.execute()</div><div class="line">    &#125;)</div><div class="line">    <span class="comment">// dbConn.commit()</span></div><div class="line">    dbConn.close()</div><div class="line">  &#125;)</div><div class="line">  <span class="type">KafkaZKManager</span>.storeOffsets(rdd.asInstanceOf[<span class="type">HasOffsetRanges</span>].offsetRanges, groupName)</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
 <p>6、启动sparkstreaming，在生产者中输入数据，观察mysql中的情况：</p>
-<p><img src="http://owmmu20d1.bkt.clouddn.com/18-2-27/46860619.jpg"></p>
-<p><img src="http://owmmu20d1.bkt.clouddn.com/18-2-27/37130709.jpg"></p>
+<p><img src="http://owmmu20d1.bkt.clouddn.com/18-2-27/46860619.jpg" alt=""></p>
+<p><img src="http://owmmu20d1.bkt.clouddn.com/18-2-27/37130709.jpg" alt=""></p>
 <p>可以看见，在有重复的orderid进来时，覆盖掉了原来orderid上的name，成功覆写。</p>
-<p>###二、事务控制：保存数据和offset在同一个事务里面，需要事务储存的支持</p>
-<ol type="1">
+<h3 id="二、事务控制：保存数据和offset在同一个事务里面，需要事务储存的支持"><a href="#二、事务控制：保存数据和offset在同一个事务里面，需要事务储存的支持" class="headerlink" title="二、事务控制：保存数据和offset在同一个事务里面，需要事务储存的支持"></a>二、事务控制：保存数据和offset在同一个事务里面，需要事务储存的支持</h3><ol>
 <li>创建测试的mysql数据库</li>
 </ol>
-<p>​ create database mytest;</p>
-<ol start="2" type="1">
-<li><p>新建topic： mytopic1 kafka-topics.sh –zookeeper localhost:12181/kafka0.9 –create –topic mytopic1 –partitions 3 –replication-factor 1</p></li>
-<li><p>建表 create table mytopic(topic varchar(200), partid int, offset bigint); create table mydata(name varchar(200), id int);</p>
-<p>初始化表： insert into mytopic(topic, partid, offset) values(‘mytopic1’,0,0); insert into mytopic(topic, partid, offset) values(‘mytopic1’,1,0); insert into mytopic(topic, partid, offset) values(‘mytopic1’,2,0);</p></li>
-<li><p>往mytopic1发送数据， 数据格式为 “字符,数字” 比如 abc,3</p></li>
-<li><p>在pom文件加入依赖 <dependency> <groupid>org.scalikejdbc</groupid> <artifactid>scalikejdbc_2.11</artifactid> <version>2.2.1</version></dependency></p>
-<p></p></li>
+<p>​        create database mytest;</p>
+<ol>
+<li><p>新建topic： mytopic1<br>kafka-topics.sh —zookeeper localhost:12181/kafka0.9 —create —topic mytopic1 —partitions 3 —replication-factor 1</p>
+</li>
+<li><p>建表<br>create table mytopic(topic varchar(200), partid int, offset bigint);<br>create table mydata(name varchar(200), id int);</p>
+<p>初始化表：<br> insert into mytopic(topic, partid, offset) values(‘mytopic1’,0,0);<br> insert into mytopic(topic, partid, offset) values(‘mytopic1’,1,0);<br> insert into mytopic(topic, partid, offset) values(‘mytopic1’,2,0);</p>
+</li>
+<li><p>往mytopic1发送数据， 数据格式为 “字符,数字”  比如  abc,3</p>
+</li>
+<li><p>在pom文件加入依赖</p>
+<dependency>
+   <groupid>org.scalikejdbc</groupid>
+   <artifactid>scalikejdbc_2.11</artifactid>
+   <version>2.2.1</version>
+
+   </dependency>
+</li>
 <li><p>编写事务代码：</p>
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">val</span> driver = <span class="string">"com.mysql.jdbc.Driver"</span></div><div class="line">    <span class="keyword">val</span> jdbcUrl =  <span class="string">"jdbc:mysql://localhost:3306/mytest"</span></div><div class="line">    <span class="keyword">val</span> jdbcUser = <span class="string">"root"</span></div><div class="line">    <span class="keyword">val</span> jdbcPassword = <span class="string">"123456"</span></div><div class="line">    <span class="comment">// 设置jdbc</span></div><div class="line">    <span class="type">Class</span>.forName(driver)</div><div class="line">    <span class="comment">// 设置连接池</span></div><div class="line">    <span class="type">ConnectionPool</span>.singleton(jdbcUrl, jdbcUser, jdbcPassword)</div><div class="line">    <span class="keyword">val</span> fromOffsets = <span class="type">DB</span>.readOnly &#123; <span class="keyword">implicit</span> session =&gt; <span class="string">sql"select topic, partid, offset from mytopic"</span>.</div><div class="line">        map &#123; r =&gt;</div><div class="line">          <span class="type">TopicAndPartition</span>(r.string(<span class="number">1</span>), r.int(<span class="number">2</span>)) -&gt; r.long(<span class="number">3</span>)</div><div class="line">        &#125;.list.apply().toMap</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">val</span> messageHandler = (mmd : <span class="type">MessageAndMetadata</span>[<span class="type">String</span>, <span class="type">String</span>]) =&gt; (mmd.topic, mmd.message())</div><div class="line">    <span class="keyword">val</span>  messages = <span class="type">KafkaUtils</span>.createDirectStream[<span class="type">String</span>, <span class="type">String</span>, <span class="type">StringDecoder</span>, <span class="type">StringDecoder</span>, (<span class="type">String</span>, <span class="type">String</span>)](ssc, kafkaParams, fromOffsets, messageHandler)</div><div class="line">    messages.foreachRDD(rdd=&gt; &#123;</div><div class="line">      rdd.foreachPartition(partiton=&gt;&#123;</div><div class="line">        <span class="keyword">val</span> offsetRanges = rdd.asInstanceOf[<span class="type">HasOffsetRanges</span>].offsetRanges</div><div class="line">        <span class="keyword">val</span> pOffsetRange = offsetRanges(<span class="type">TaskContext</span>.get.partitionId)</div><div class="line">        <span class="comment">// localTx</span></div><div class="line">        <span class="type">DB</span>.localTx &#123; <span class="keyword">implicit</span> session =&gt;</div><div class="line"></div><div class="line">          partiton.foreach(msg=&gt;&#123;</div><div class="line">            <span class="comment">// 或者使用scalike的batch 插入</span></div><div class="line">            <span class="keyword">val</span> name = msg._2.split(<span class="string">","</span>)(<span class="number">0</span>)</div><div class="line">            <span class="keyword">val</span> id =msg._2.split(<span class="string">","</span>)(<span class="number">1</span>)</div><div class="line">            <span class="keyword">val</span> dataResult = <span class="string">sql""</span><span class="string">"insert into  mydata(name,id) values ($&#123;name&#125;,$&#123;id&#125;)"</span><span class="string">""</span>.execute().apply()</div><div class="line">          &#125;)</div><div class="line">          <span class="keyword">val</span> offsetResult =</div><div class="line">            <span class="string">sql""</span><span class="string">"update mytopic set offset = $&#123;pOffsetRange.untilOffset&#125; where topic =</span></div><div class="line"><span class="string">                  $&#123;pOffsetRange.topic&#125; and partid = $&#123;pOffsetRange.partition&#125;"</span><span class="string">""</span>.update.apply()</div><div class="line">        &#125;</div><div class="line">      &#125;)</div><div class="line">    &#125;</div><div class="line">    )</div></pre></td></tr></table></figure>
-<p>​</p></li>
+<p>​</p>
+</li>
 </ol>
 
       
@@ -549,7 +561,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#实现exactly-once语义"><span class="nav-number">1.</span> <span class="nav-text">实现exactly-once语义</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#实现exactly-once语义"><span class="nav-number">1.</span> <span class="nav-text">实现exactly-once语义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、幂等写入：需要设置好唯一主键，每次往一个目录覆写数据"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、幂等写入：需要设置好唯一主键，每次往一个目录覆写数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、事务控制：保存数据和offset在同一个事务里面，需要事务储存的支持"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、事务控制：保存数据和offset在同一个事务里面，需要事务储存的支持</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
