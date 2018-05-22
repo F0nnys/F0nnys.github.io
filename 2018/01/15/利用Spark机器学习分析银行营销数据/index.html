@@ -69,13 +69,13 @@
 
 
 
-<meta name="description" content="利用Spark机器学习分析银行营销数据​    本实验会使用spark机器学习中的逻辑回归算法，分析银行营销数据，按照机器学习开发步骤，建立逻辑回归模型，预测客户是否会存款，并评估预测模型的精确度。 ​    编程语言为Scala​    编程软件为idea工具，通过软件内运行，以及用maven打jar包到集群两种方式进行试验​    Spark API版本为2.2">
+<meta name="description" content="利用Spark机器学习分析银行营销数据 ​ 本实验会使用spark机器学习中的逻辑回归算法，分析银行营销数据，按照机器学习开发步骤，建立逻辑回归模型，预测客户是否会存款，并评估预测模型的精确度。 ​ 编程语言为Scala ​ 编程软件为idea工具，通过软件内运行，以及用maven打jar包到集群两种方式进行试验 ​ Spark API版本为2.2">
 <meta name="keywords" content="SPARK,ML">
 <meta property="og:type" content="article">
 <meta property="og:title" content="利用Spark机器学习分析银行营销数据">
 <meta property="og:url" content="http://yoursite.com/2018/01/15/利用Spark机器学习分析银行营销数据/index.html">
 <meta property="og:site_name" content="My Study Notes">
-<meta property="og:description" content="利用Spark机器学习分析银行营销数据​    本实验会使用spark机器学习中的逻辑回归算法，分析银行营销数据，按照机器学习开发步骤，建立逻辑回归模型，预测客户是否会存款，并评估预测模型的精确度。 ​    编程语言为Scala​    编程软件为idea工具，通过软件内运行，以及用maven打jar包到集群两种方式进行试验​    Spark API版本为2.2">
+<meta property="og:description" content="利用Spark机器学习分析银行营销数据 ​ 本实验会使用spark机器学习中的逻辑回归算法，分析银行营销数据，按照机器学习开发步骤，建立逻辑回归模型，预测客户是否会存款，并评估预测模型的精确度。 ​ 编程语言为Scala ​ 编程软件为idea工具，通过软件内运行，以及用maven打jar包到集群两种方式进行试验 ​ Spark API版本为2.2">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://owmmu20d1.bkt.clouddn.com/18-1-15/16418549.jpg">
 <meta property="og:image" content="http://owmmu20d1.bkt.clouddn.com/18-1-15/48934791.jpg">
@@ -89,7 +89,7 @@
 <meta property="og:updated_time" content="2018-01-15T11:58:10.719Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="利用Spark机器学习分析银行营销数据">
-<meta name="twitter:description" content="利用Spark机器学习分析银行营销数据​    本实验会使用spark机器学习中的逻辑回归算法，分析银行营销数据，按照机器学习开发步骤，建立逻辑回归模型，预测客户是否会存款，并评估预测模型的精确度。 ​    编程语言为Scala​    编程软件为idea工具，通过软件内运行，以及用maven打jar包到集群两种方式进行试验​    Spark API版本为2.2">
+<meta name="twitter:description" content="利用Spark机器学习分析银行营销数据 ​ 本实验会使用spark机器学习中的逻辑回归算法，分析银行营销数据，按照机器学习开发步骤，建立逻辑回归模型，预测客户是否会存款，并评估预测模型的精确度。 ​ 编程语言为Scala ​ 编程软件为idea工具，通过软件内运行，以及用maven打jar包到集群两种方式进行试验 ​ Spark API版本为2.2">
 <meta name="twitter:image" content="http://owmmu20d1.bkt.clouddn.com/18-1-15/16418549.jpg">
 
 
@@ -344,84 +344,92 @@
       
 
       
-        <h1 id="利用Spark机器学习分析银行营销数据"><a href="#利用Spark机器学习分析银行营销数据" class="headerlink" title="利用Spark机器学习分析银行营销数据"></a>利用Spark机器学习分析银行营销数据</h1><p>​    本实验会使用spark机器学习中的逻辑回归算法，分析银行营销数据，按照机器学习开发步骤，建立逻辑回归模型，预测客户是否会存款，并评估预测模型的精确度。</p>
-<p>​    编程语言为Scala<br>​    编程软件为idea工具，通过软件内运行，以及用maven打jar包到集群两种方式进行试验<br>​    Spark API版本为2.2</p>
+        <h1 id="利用spark机器学习分析银行营销数据">利用Spark机器学习分析银行营销数据</h1>
+<p>​ 本实验会使用spark机器学习中的逻辑回归算法，分析银行营销数据，按照机器学习开发步骤，建立逻辑回归模型，预测客户是否会存款，并评估预测模型的精确度。</p>
+<p>​ 编程语言为Scala ​ 编程软件为idea工具，通过软件内运行，以及用maven打jar包到集群两种方式进行试验 ​ Spark API版本为2.2</p>
 <a id="more"></a>
-<h2 id="特征工程"><a href="#特征工程" class="headerlink" title="特征工程"></a>特征工程</h2><p>​    主要是对于类别型数据进行StringIndex、OneHotEncoder</p>
+<h2 id="特征工程">特征工程</h2>
+<p>​ 主要是对于类别型数据进行StringIndex、OneHotEncoder</p>
 <p>StringIndex:</p>
-<div class="table-container">
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>id</th>
 <th>category</th>
 <th>categoryIndex</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>0</td>
 <td>a</td>
 <td>0.0</td>
 </tr>
-<tr>
+<tr class="even">
 <td>1</td>
 <td>b</td>
 <td>2.0</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>2</td>
 <td>c</td>
 <td>1.0</td>
 </tr>
-<tr>
+<tr class="even">
 <td>3</td>
 <td>a</td>
 <td>0.0</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>4</td>
 <td>a</td>
 <td>0.0</td>
 </tr>
-<tr>
+<tr class="even">
 <td>5</td>
 <td>c</td>
 <td>1.0</td>
 </tr>
 </tbody>
 </table>
-</div>
 <p>上述结果中，由于 a 出现了 3 次，c 出现了 2 次,b 出现了 1 次，按照出现频率由高到低，从 0 开始编码，所以 a 的编码为 0.0,c 的编码为1.0,b 的编码为2.0。</p>
 <p>OneHotEncoder:</p>
-<p>​    OneHot编码将已经转换为数值型的类别特征，映射为一个稀疏向量对象,对于某一个类别映射的向量中只有一位有效,即只有一位数字是 1，其他数字位都是 0。</p>
-<h2 id="试验步骤"><a href="#试验步骤" class="headerlink" title="试验步骤"></a>试验步骤</h2><p>数据来源：<a href="https://github.com/ChitturiPadma/datasets/blob/master/bank_marketing_data.csv" target="_blank" rel="noopener">https://github.com/ChitturiPadma/datasets/blob/master/bank_marketing_data.csv</a></p>
+<p>​ OneHot编码将已经转换为数值型的类别特征，映射为一个稀疏向量对象,对于某一个类别映射的向量中只有一位有效,即只有一位数字是 1，其他数字位都是 0。</p>
+<h2 id="试验步骤">试验步骤</h2>
+<p>数据来源：https://github.com/ChitturiPadma/datasets/blob/master/bank_marketing_data.csv</p>
 <p>启动hadoop集群的hdfs、yarn和spark集群</p>
-<p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-15/16418549.jpg" alt=""></p>
+<p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-15/16418549.jpg"></p>
 <p>上传csv文件到hdfs集群上 hdfs dfs -put bank_marketing_data.csv /sparkml/lr-test/bank_marketing_data.csv</p>
-<p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-15/48934791.jpg" alt=""></p>
-<h3 id="1、数据观察"><a href="#1、数据观察" class="headerlink" title="1、数据观察"></a>1、数据观察</h3><p>在数据bank_marketing_data.csv中，包含4万多条记录和21个字段，本次实验中，我们使用其中10个字段作为因变量，1个字段作为目标变量，进行分析预测。11个字段的名称和中文含义如下：</p>
-<p>字段名称    中文含义<br>age    客户年龄<br>job    客户职业<br>marital    婚姻状况<br>default    是否有信用违约<br>housing    是否有住房贷款<br>loan    是否有住房贷款<br>duration    最后一次联系持续时间(秒)<br>previous    之前活动中与用户联系次数<br>poutcome    之前市场营销活动的结果<br>empvarrate    就业变化速率<br>y    目标变量，本次活动实施结果：是否同意存款</p>
-<h4 id="1-1-简要观察"><a href="#1-1-简要观察" class="headerlink" title="1.1 简要观察"></a>1.1 简要观察</h4><p>建立idea工程spark-lr,将spark-2.2.0-bin-hadoop2.7/jars里的所有包导入，编写代码：</p>
+<p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-15/48934791.jpg"></p>
+<h3 id="数据观察">1、数据观察</h3>
+<p>在数据bank_marketing_data.csv中，包含4万多条记录和21个字段，本次实验中，我们使用其中10个字段作为因变量，1个字段作为目标变量，进行分析预测。11个字段的名称和中文含义如下：</p>
+<p>字段名称 中文含义 age 客户年龄 job 客户职业 marital 婚姻状况 default 是否有信用违约 housing 是否有住房贷款 loan 是否有住房贷款 duration 最后一次联系持续时间(秒) previous 之前活动中与用户联系次数 poutcome 之前市场营销活动的结果 empvarrate 就业变化速率 y 目标变量，本次活动实施结果：是否同意存款</p>
+<h4 id="简要观察">1.1 简要观察</h4>
+<p>建立idea工程spark-lr,将spark-2.2.0-bin-hadoop2.7/jars里的所有包导入，编写代码：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">//实例化SparkSession对象</div><div class="line">val spark=SparkSession.builder().appName(&quot;Logistic_Prediction&quot;).master(&quot;spark://192.168.40.10:7077&quot;).getOrCreate()</div><div class="line">//设置日志级别，减少日志输出，便于查看运行结果</div><div class="line">spark.sparkContext.setLogLevel(&quot;WARN&quot;)</div><div class="line">//导入隐式转换包，方便使用转换函数</div><div class="line">import spark.implicits._</div><div class="line">//读取数据，传入数据路径/sparkml/lr-test/bank_marketing_data.csv</div><div class="line">val bank_Marketing_Data=spark.read</div><div class="line">                             .option(&quot;header&quot;, true)</div><div class="line">                             .option(&quot;inferSchema&quot;, &quot;true&quot;)</div><div class="line">                             .csv(&quot;/sparkml/lr-test/bank_marketing_data.csv&quot;)</div><div class="line">//查看营销数据的前5条记录，包括所有字段</div><div class="line">println(&quot;all columns data:&quot;)</div><div class="line">bank_Marketing_Data.show(5)</div><div class="line">//读取营销数据指定的11个字段，并将age、duration、previous三个字段的类型从Integer类型转换为Double类型</div><div class="line">val selected_Data=bank_Marketing_Data.select(&quot;age&quot;, </div><div class="line">                                            &quot;job&quot;,</div><div class="line">                                            &quot;marital&quot;, </div><div class="line">                                            &quot;default&quot;, </div><div class="line">                                            &quot;housing&quot;, </div><div class="line">                                            &quot;loan&quot;, </div><div class="line">                                            &quot;duration&quot;,</div><div class="line">                                            &quot;previous&quot;, </div><div class="line">                                            &quot;poutcome&quot;, </div><div class="line">                                            &quot;empvarrate&quot;, </div><div class="line">                                            &quot;y&quot;)</div><div class="line">                                            .withColumn(&quot;age&quot;, bank_Marketing_Data(&quot;age&quot;).cast(DoubleType))</div><div class="line">                                            .withColumn(&quot;duration&quot;, bank_Marketing_Data(&quot;duration&quot;).cast(DoubleType))</div><div class="line">                                            .withColumn(&quot;previous&quot;, bank_Marketing_Data(&quot;previous&quot;).cast(DoubleType))</div><div class="line"> //显示前5条记录，只包含指定的11个字段</div><div class="line"> println(&quot;11 columns data:&quot;)</div><div class="line"> selected_Data.show(5)  </div><div class="line"> //显示营销数据的数据量</div><div class="line"> println(&quot;data count:&quot;+selected_Data.count())</div></pre></td></tr></table></figure>
-<h4 id="注意此时调用的是hdfs里的文件，所以在工程中，resources里添加core-site-xml-并把defaultFS里的值修改，原来是master：9000-主机上没配置名称可能不识别。"><a href="#注意此时调用的是hdfs里的文件，所以在工程中，resources里添加core-site-xml-并把defaultFS里的值修改，原来是master：9000-主机上没配置名称可能不识别。" class="headerlink" title="注意此时调用的是hdfs里的文件，所以在工程中，resources里添加core-site.xml 并把defaultFS里的值修改，原来是master：9000  主机上没配置名称可能不识别。"></a>注意此时调用的是hdfs里的文件，所以在工程中，resources里添加core-site.xml 并把defaultFS里的值修改，原来是master：9000  主机上没配置名称可能不识别。</h4><p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-15/25863767.jpg" alt=""></p>
+<h4 id="注意此时调用的是hdfs里的文件所以在工程中resources里添加core-site.xml-并把defaultfs里的值修改原来是master9000-主机上没配置名称可能不识别">注意此时调用的是hdfs里的文件，所以在工程中，resources里添加core-site.xml 并把defaultFS里的值修改，原来是master：9000 主机上没配置名称可能不识别。</h4>
+<p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-15/25863767.jpg"></p>
 <p>得到结果为：</p>
-<p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-15/14531169.jpg" alt=""></p>
-<h4 id="1-2-观察概要统计"><a href="#1-2-观察概要统计" class="headerlink" title="1.2 观察概要统计"></a>1.2 观察概要统计</h4><p>​    在之前代码后面添加：</p>
+<p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-15/14531169.jpg"></p>
+<h4 id="观察概要统计">1.2 观察概要统计</h4>
+<p>​ 在之前代码后面添加：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">//对数据进行概要统计</div><div class="line">val summary=selected_Data.describe()</div><div class="line">println(&quot;Summary Statistics:&quot;)</div><div class="line">//显示概要统计信息</div><div class="line">summary.show()</div><div class="line"></div><div class="line">//查看每一列所包含的不同值数量</div><div class="line">val columnNames=selected_Data.columns</div><div class="line">val uniqueValues_PerField=columnNames.map &#123; field =&gt; field+&quot;:&quot;+selected_Data.select(field).distinct().count() &#125;</div><div class="line">println(&quot;Unique Values For each Field:&quot;)</div><div class="line">uniqueValues_PerField.foreach(println)</div></pre></td></tr></table></figure>
 <p>输出数据的概要统计：</p>
-<p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-15/56378710.jpg" alt=""></p>
-<h3 id="2、特征工程"><a href="#2、特征工程" class="headerlink" title="2、特征工程"></a>2、特征工程</h3><p>​    主要特征工程代码为：</p>
+<p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-15/56378710.jpg"></p>
+<h3 id="特征工程-1">2、特征工程</h3>
+<p>​ 主要特征工程代码为：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">val indexer = new StringIndexer().setInputCol(&quot;job&quot;).setOutputCol(&quot;jobIndex&quot;)</div><div class="line">val indexed = indexer.fit(selected_Data).transform(selected_Data)</div><div class="line">val encoder = new </div><div class="line">OneHotEncoder().setDropLast(false).setInputCol(&quot;jobIndex&quot;).setOutputCol(&quot;jobVec&quot;)</div><div class="line">val encoded = encoder.transform(indexed)</div><div class="line"></div><div class="line">val maritalIndexer=new StringIndexer().setInputCol(&quot;marital&quot;).setOutputCol(&quot;maritalIndex&quot;)</div><div class="line">val maritalIndexed=maritalIndexer.fit(encoded).transform(encoded)</div><div class="line">val maritalEncoder=new OneHotEncoder().setDropLast(false).setInputCol(&quot;maritalIndex&quot;).setOutputCol(&quot;maritalVec&quot;)</div><div class="line">val maritalEncoded=maritalEncoder.transform(maritalIndexed)</div><div class="line"></div><div class="line">val defaultIndexer=new StringIndexer().setInputCol(&quot;default&quot;).setOutputCol(&quot;defaultIndex&quot;)</div><div class="line">val defaultIndexed=defaultIndexer.fit(maritalEncoded).transform(maritalEncoded)</div><div class="line">val defaultEncoder=new OneHotEncoder().setDropLast(false).setInputCol(&quot;defaultIndex&quot;).setOutputCol(&quot;defaultVec&quot;)</div><div class="line">val defaultEncoded=defaultEncoder.transform(defaultIndexed)</div><div class="line"></div><div class="line">val housingIndexer=new StringIndexer().setInputCol(&quot;housing&quot;).setOutputCol(&quot;housingIndex&quot;)</div><div class="line">val housingIndexed=housingIndexer.fit(defaultEncoded).transform(defaultEncoded)</div><div class="line">val housingEncoder=new OneHotEncoder().setDropLast(false).setInputCol(&quot;housingIndex&quot;).setOutputCol(&quot;housingVec&quot;)</div><div class="line">val housingEncoded=housingEncoder.transform(housingIndexed)</div><div class="line"></div><div class="line">val poutcomeIndexer=new StringIndexer().setInputCol(&quot;poutcome&quot;).setOutputCol(&quot;poutcomeIndex&quot;)</div><div class="line">val poutcomeIndexed=poutcomeIndexer.fit(housingEncoded).transform(housingEncoded)</div><div class="line">val poutcomeEncoder=new OneHotEncoder().setDropLast(false).setInputCol(&quot;poutcomeIndex&quot;).setOutputCol(&quot;poutcomeVec&quot;)</div><div class="line">val poutcomeEncoded=poutcomeEncoder.transform(poutcomeIndexed)</div><div class="line"></div><div class="line">val loanIndexer=new StringIndexer().setInputCol(&quot;loan&quot;).setOutputCol(&quot;loanIndex&quot;)</div><div class="line">val loanIndexed=loanIndexer.fit(poutcomeEncoded).transform(poutcomeEncoded)</div><div class="line">val loanEncoder=new OneHotEncoder().setDropLast(false).setInputCol(&quot;loanIndex&quot;).setOutputCol(&quot;loanVec&quot;)</div><div class="line">val loanEncoded=loanEncoder.transform(loanIndexed)</div></pre></td></tr></table></figure>
 <p>运行结果：</p>
-<p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-15/5865170.jpg" alt=""></p>
-<h3 id="3、建立逻辑回归模型进行预测"><a href="#3、建立逻辑回归模型进行预测" class="headerlink" title="3、建立逻辑回归模型进行预测"></a>3、建立逻辑回归模型进行预测</h3><p>在上述代码中添加：</p>
+<p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-15/5865170.jpg"></p>
+<h3 id="建立逻辑回归模型进行预测">3、建立逻辑回归模型进行预测</h3>
+<p>在上述代码中添加：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">//实例化一个向量组装器对象，</div><div class="line">//将向量类型字段(&quot;jobVec&quot;,&quot;maritalVec&quot;, &quot;defaultVec&quot;,&quot;housingVec&quot;,&quot;poutcomeVec&quot;,&quot;loanVec&quot;)</div><div class="line">//和数值型字段(&quot;age&quot;,&quot;duration&quot;,&quot;previous&quot;,&quot;empvarrate&quot;)</div><div class="line">//形成一个新的字段:features，其中包含了所有的特征值</div><div class="line">val vectorAssembler = new VectorAssembler()</div><div class="line">.setInputCols(Array(&quot;jobVec&quot;,&quot;maritalVec&quot;, &quot;defaultVec&quot;,&quot;housingVec&quot;,&quot;poutcomeVec&quot;,&quot;loanVec&quot;,&quot;age&quot;,&quot;duration&quot;,&quot;previous&quot;,&quot;empvarrate&quot;))</div><div class="line">.setOutputCol(&quot;features&quot;)</div><div class="line"></div><div class="line">//对目标变量进行StringIndexer特征转换,输出新列:label</div><div class="line"> val indexerY = new StringIndexer().setInputCol(&quot;y&quot;).setOutputCol(&quot;label&quot;)</div><div class="line"> //将特征算法按顺序进行合并，形成一个算法数组</div><div class="line"> val transformers=Array(indexer,</div><div class="line">                        encoder,</div><div class="line">                        maritalIndexer,</div><div class="line">                        maritalEncoder,</div><div class="line">                        defaultIndexer,</div><div class="line">                        defaultEncoder,</div><div class="line">                        housingIndexer,</div><div class="line">                        housingEncoder,</div><div class="line">                        poutcomeIndexer,</div><div class="line">                        poutcomeEncoder,</div><div class="line">                        loanIndexer,</div><div class="line">                        loanEncoder,</div><div class="line">                        vectorAssembler,</div><div class="line">                        indexerY);</div><div class="line">//将原始数据selected_Data进行8-2分，80%用于训练数据。20%用于测试数据，评估训练模型的精确度。</div><div class="line">val splits = selected_Data.randomSplit(Array(0.8,0.2))</div><div class="line">val training = splits(0).cache()</div><div class="line">val test = splits(1).cache()</div><div class="line">//实例化逻辑回归算法</div><div class="line">val lr = new LogisticRegression()</div><div class="line">//将算法数组和逻辑回归算法合并,传入pipeline对象的stages中，然后作用于训练数据，训练模型</div><div class="line">var model = new Pipeline().setStages(transformers :+ lr).fit(training)</div><div class="line">//将上一步的训练模型作用于测试数据，返回测试结果</div><div class="line">var result = model.transform(test)</div><div class="line">//显示测试结果集中的真实值、预测值、原始值、百分比字段</div><div class="line">result.select(&quot;label&quot;, &quot;prediction&quot;,&quot;rawPrediction&quot;,&quot;probability&quot;).show(10,false)</div><div class="line">//创建二分类算法评估器，对测试结果进行评估</div><div class="line">val evaluator = new BinaryClassificationEvaluator()  </div><div class="line">var aucTraining = evaluator.evaluate(result)</div><div class="line">println(&quot;aucTraining = &quot;+aucTraining)</div></pre></td></tr></table></figure>
 <p>结果为：</p>
-<p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-15/18368171.jpg" alt=""></p>
-<h3 id="4、打成jar包提交集群上去运行"><a href="#4、打成jar包提交集群上去运行" class="headerlink" title="4、打成jar包提交集群上去运行"></a>4、打成jar包提交集群上去运行</h3><p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-15/48749115.jpg" alt=""></p>
+<p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-15/18368171.jpg"></p>
+<h3 id="打成jar包提交集群上去运行">4、打成jar包提交集群上去运行</h3>
+<p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-15/48749115.jpg"></p>
 <p>运行结果：</p>
-<p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-15/78858619.jpg" alt=""></p>
+<p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-15/78858619.jpg"></p>
 
       
     </div>
@@ -605,7 +613,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#利用Spark机器学习分析银行营销数据"><span class="nav-number">1.</span> <span class="nav-text">利用Spark机器学习分析银行营销数据</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#特征工程"><span class="nav-number">1.1.</span> <span class="nav-text">特征工程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#试验步骤"><span class="nav-number">1.2.</span> <span class="nav-text">试验步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、数据观察"><span class="nav-number">1.2.1.</span> <span class="nav-text">1、数据观察</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-简要观察"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">1.1 简要观察</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意此时调用的是hdfs里的文件，所以在工程中，resources里添加core-site-xml-并把defaultFS里的值修改，原来是master：9000-主机上没配置名称可能不识别。"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">注意此时调用的是hdfs里的文件，所以在工程中，resources里添加core-site.xml 并把defaultFS里的值修改，原来是master：9000  主机上没配置名称可能不识别。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-观察概要统计"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">1.2 观察概要统计</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、特征工程"><span class="nav-number">1.2.2.</span> <span class="nav-text">2、特征工程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、建立逻辑回归模型进行预测"><span class="nav-number">1.2.3.</span> <span class="nav-text">3、建立逻辑回归模型进行预测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、打成jar包提交集群上去运行"><span class="nav-number">1.2.4.</span> <span class="nav-text">4、打成jar包提交集群上去运行</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#利用spark机器学习分析银行营销数据"><span class="nav-number">1.</span> <span class="nav-text">利用Spark机器学习分析银行营销数据</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#特征工程"><span class="nav-number">1.1.</span> <span class="nav-text">特征工程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#试验步骤"><span class="nav-number">1.2.</span> <span class="nav-text">试验步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据观察"><span class="nav-number">1.2.1.</span> <span class="nav-text">1、数据观察</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#简要观察"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">1.1 简要观察</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意此时调用的是hdfs里的文件所以在工程中resources里添加core-site.xml-并把defaultfs里的值修改原来是master9000-主机上没配置名称可能不识别"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">注意此时调用的是hdfs里的文件，所以在工程中，resources里添加core-site.xml 并把defaultFS里的值修改，原来是master：9000 主机上没配置名称可能不识别。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#观察概要统计"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">1.2 观察概要统计</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特征工程-1"><span class="nav-number">1.2.2.</span> <span class="nav-text">2、特征工程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建立逻辑回归模型进行预测"><span class="nav-number">1.2.3.</span> <span class="nav-text">3、建立逻辑回归模型进行预测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#打成jar包提交集群上去运行"><span class="nav-number">1.2.4.</span> <span class="nav-text">4、打成jar包提交集群上去运行</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

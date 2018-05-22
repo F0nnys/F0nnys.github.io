@@ -69,19 +69,19 @@
 
 
 
-<meta name="description" content="利用 JAVA API操作Hbase表1、Hbase的初始化： 123456public void init() throws IOException &amp;#123;  config = HBaseConfiguration.create();  config.set(&quot;hbase.zookeeper.quorum&quot;, &quot;spark1234&quot;);  config.set(&quot;hbase.zookeep">
+<meta name="description" content="#利用 JAVA API操作Hbase表 1、Hbase的初始化： 123456public void init() throws IOException &amp;#123;  config = HBaseConfiguration.create();  config.set(&quot;hbase.zookeeper.quorum&quot;, &quot;spark1234&quot;);  config.set(&quot;hbase.zooke">
 <meta name="keywords" content="SPARK">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hbase+Phoenix学习(2)">
 <meta property="og:url" content="http://yoursite.com/2018/03/05/Hbase-Phoenix学习2/index.html">
 <meta property="og:site_name" content="My Study Notes">
-<meta property="og:description" content="利用 JAVA API操作Hbase表1、Hbase的初始化： 123456public void init() throws IOException &amp;#123;  config = HBaseConfiguration.create();  config.set(&quot;hbase.zookeeper.quorum&quot;, &quot;spark1234&quot;);  config.set(&quot;hbase.zookeep">
+<meta property="og:description" content="#利用 JAVA API操作Hbase表 1、Hbase的初始化： 123456public void init() throws IOException &amp;#123;  config = HBaseConfiguration.create();  config.set(&quot;hbase.zookeeper.quorum&quot;, &quot;spark1234&quot;);  config.set(&quot;hbase.zooke">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://owmmu20d1.bkt.clouddn.com/18-3-5/63348550.jpg">
 <meta property="og:updated_time" content="2018-03-14T15:11:27.533Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hbase+Phoenix学习(2)">
-<meta name="twitter:description" content="利用 JAVA API操作Hbase表1、Hbase的初始化： 123456public void init() throws IOException &amp;#123;  config = HBaseConfiguration.create();  config.set(&quot;hbase.zookeeper.quorum&quot;, &quot;spark1234&quot;);  config.set(&quot;hbase.zookeep">
+<meta name="twitter:description" content="#利用 JAVA API操作Hbase表 1、Hbase的初始化： 123456public void init() throws IOException &amp;#123;  config = HBaseConfiguration.create();  config.set(&quot;hbase.zookeeper.quorum&quot;, &quot;spark1234&quot;);  config.set(&quot;hbase.zooke">
 <meta name="twitter:image" content="http://owmmu20d1.bkt.clouddn.com/18-3-5/63348550.jpg">
 
 
@@ -336,14 +336,15 @@
       
 
       
-        <h1 id="利用-JAVA-API操作Hbase表"><a href="#利用-JAVA-API操作Hbase表" class="headerlink" title="利用 JAVA API操作Hbase表"></a>利用 JAVA API操作Hbase表</h1><p>1、Hbase的初始化：</p>
+        <p>#利用 JAVA API操作Hbase表</p>
+<p>1、Hbase的初始化：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">  config = HBaseConfiguration.create();</div><div class="line">  config.set(<span class="string">"hbase.zookeeper.quorum"</span>, <span class="string">"spark1234"</span>);</div><div class="line">  config.set(<span class="string">"hbase.zookeeper.property.clientPort"</span>, <span class="string">"12181"</span>);</div><div class="line">  connection = ConnectionFactory.createConnection(config);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <a id="more"></a>
 <p>2、创建表的方法：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">createTable</span><span class="params">(String tablename, String[] families)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">  <span class="comment">// hbase 表管理器</span></div><div class="line">  Admin admin = connection.getAdmin();</div><div class="line">  <span class="comment">// 操作的表名</span></div><div class="line">  TableName tableName = TableName.valueOf(tablename);</div><div class="line"></div><div class="line">  <span class="keyword">if</span> (!admin.tableExists(tableName)) &#123;</div><div class="line">    <span class="comment">// hbase表模式</span></div><div class="line">    HTableDescriptor tableDescriptor = <span class="keyword">new</span> HTableDescriptor(tableName);</div><div class="line">    <span class="comment">// 添加列族</span></div><div class="line">    <span class="keyword">for</span> (String family : families) &#123;</div><div class="line">      tableDescriptor.addFamily(<span class="keyword">new</span> HColumnDescriptor(family.getBytes()));</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 创建表</span></div><div class="line">    admin.createTable(tableDescriptor);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>3、创建main方法试验一下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">HbaseMainTest hmain = <span class="keyword">new</span> HbaseMainTest();</div><div class="line">        hmain.init();</div><div class="line">        String tableName = <span class="string">"mytest"</span>;</div><div class="line">        String[] families = &#123;<span class="string">"info1"</span>, <span class="string">"info2"</span>&#125;;</div><div class="line">        hmain.createTable(tableName, families);</div></pre></td></tr></table></figure>
-<p><img src="http://owmmu20d1.bkt.clouddn.com/18-3-5/63348550.jpg" alt=""></p>
+<p><img src="http://owmmu20d1.bkt.clouddn.com/18-3-5/63348550.jpg"></p>
 <p>4、删除表:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dropTable</span><span class="params">(String tablename)</span> </span>&#123;</div><div class="line">  <span class="keyword">try</span> &#123;</div><div class="line">    <span class="comment">// hbase 表管理器</span></div><div class="line">    Admin admin = connection.getAdmin();</div><div class="line">    <span class="comment">// 操作的表名</span></div><div class="line">    TableName tableName = TableName.valueOf(tablename);</div><div class="line">    admin.disableTable(tableName); <span class="comment">//注意要先disable一下才能删除</span></div><div class="line">    admin.deleteTable(tableName);</div><div class="line">  &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">    e.printStackTrace();</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>5、操作列：</p>
@@ -448,17 +449,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           
             <img class="site-author-image" itemprop="image"
@@ -523,22 +515,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#利用-JAVA-API操作Hbase表"><span class="nav-number">1.</span> <span class="nav-text">利用 JAVA API操作Hbase表</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

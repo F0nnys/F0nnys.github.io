@@ -69,13 +69,13 @@
 
 
 
-<meta name="description" content="要介绍SVM，就必须从感知机这一个基础概念说起。因为感知机是很多机器学习甚至神经网络的模型基础。（通过简单修改损失函数可以变为SVM，通过简单堆叠可以发展成神经网络）  感知机是什么 感知机能使用超平面将线性可分数据集分开。如图所示：">
+<meta name="description" content="要介绍SVM，就必须从感知机这一个基础概念说起。因为感知机是很多机器学习甚至神经网络的模型基础。（通过简单修改损失函数可以变为SVM，通过简单堆叠可以发展成神经网络）  感知机是什么  感知机能使用超平面将线性可分数据集分开。如图所示：">
 <meta name="keywords" content="SVM,ML">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SVM-1">
 <meta property="og:url" content="http://yoursite.com/2017/09/22/SVM/index.html">
 <meta property="og:site_name" content="My Study Notes">
-<meta property="og:description" content="要介绍SVM，就必须从感知机这一个基础概念说起。因为感知机是很多机器学习甚至神经网络的模型基础。（通过简单修改损失函数可以变为SVM，通过简单堆叠可以发展成神经网络）  感知机是什么 感知机能使用超平面将线性可分数据集分开。如图所示：">
+<meta property="og:description" content="要介绍SVM，就必须从感知机这一个基础概念说起。因为感知机是很多机器学习甚至神经网络的模型基础。（通过简单修改损失函数可以变为SVM，通过简单堆叠可以发展成神经网络）  感知机是什么  感知机能使用超平面将线性可分数据集分开。如图所示：">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://owmmu20d1.bkt.clouddn.com/17-9-22/76383780.jpg">
 <meta property="og:image" content="http://owmmu20d1.bkt.clouddn.com/17-9-22/72932865.jpg">
@@ -83,7 +83,7 @@
 <meta property="og:updated_time" content="2018-01-17T07:44:49.357Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SVM-1">
-<meta name="twitter:description" content="要介绍SVM，就必须从感知机这一个基础概念说起。因为感知机是很多机器学习甚至神经网络的模型基础。（通过简单修改损失函数可以变为SVM，通过简单堆叠可以发展成神经网络）  感知机是什么 感知机能使用超平面将线性可分数据集分开。如图所示：">
+<meta name="twitter:description" content="要介绍SVM，就必须从感知机这一个基础概念说起。因为感知机是很多机器学习甚至神经网络的模型基础。（通过简单修改损失函数可以变为SVM，通过简单堆叠可以发展成神经网络）  感知机是什么  感知机能使用超平面将线性可分数据集分开。如图所示：">
 <meta name="twitter:image" content="http://owmmu20d1.bkt.clouddn.com/17-9-22/76383780.jpg">
 
 
@@ -340,24 +340,25 @@
       
         <p>要介绍SVM，就必须从感知机这一个基础概念说起。因为感知机是很多机器学习甚至神经网络的模型基础。（通过简单修改损失函数可以变为SVM，通过简单堆叠可以发展成神经网络）</p>
 <blockquote>
-<h1 id="感知机是什么"><a href="#感知机是什么" class="headerlink" title="感知机是什么"></a>感知机是什么</h1></blockquote>
+<h1 id="感知机是什么">感知机是什么</h1>
+</blockquote>
 <p>感知机能使用超平面将线性可分数据集分开。如图所示：</p>
-<p><img src="http://owmmu20d1.bkt.clouddn.com/17-9-22/76383780.jpg" alt=""></p>
+<p><img src="http://owmmu20d1.bkt.clouddn.com/17-9-22/76383780.jpg"></p>
 <a id="more"></a>
-<p>具体分割过程：<br><img src="http://owmmu20d1.bkt.clouddn.com/17-9-22/72932865.jpg" alt=""></p>
-<p>对于线性不可分数据集，感知机会一直荡来荡去，最后因设置的迭代上限而停止：<br><img src="https://pic1.zhimg.com/v2-646760ec59dccb6dfd5251f46e339ae0_b.gif" alt=""></p>
-<blockquote>
-<h1 id="如何实现感知机模型呢？"><a href="#如何实现感知机模型呢？" class="headerlink" title="如何实现感知机模型呢？"></a>如何实现感知机模型呢？</h1></blockquote>
+<p>具体分割过程： <img src="http://owmmu20d1.bkt.clouddn.com/17-9-22/72932865.jpg"></p>
+<p>对于线性不可分数据集，感知机会一直荡来荡去，最后因设置的迭代上限而停止： <img src="https://pic1.zhimg.com/v2-646760ec59dccb6dfd5251f46e339ae0_b.gif"> &gt;# 如何实现感知机模型呢？</p>
 <p>超平面的一般定义式为：</p>
-<script type="math/tex; mode=display">
-wx+b=0</script><p>其中$w$、$x$为n维向量。对于一个数据集D={($x_1$,$y_1$),($x_2$,$y_2$),($x_3$,$y_3$)……($x_N$,$y_N$)}(其中$x$为输入坐标，$y$为标签类别，取1或者-1)。接下来只需要根据样本逐步更新$w$和$b$就可以使超平面分开数据集D。</p>
-<p>这里将$w$和$b$都先置0：</p>
+<p><span class="math display">\[
+wx+b=0
+\]</span></p>
+<p>其中<span class="math inline">\(w\)</span>、<span class="math inline">\(x\)</span>为n维向量。对于一个数据集D={(<span class="math inline">\(x_1\)</span>,<span class="math inline">\(y_1\)</span>),(<span class="math inline">\(x_2\)</span>,<span class="math inline">\(y_2\)</span>),(<span class="math inline">\(x_3\)</span>,<span class="math inline">\(y_3\)</span>)……(<span class="math inline">\(x_N\)</span>,<span class="math inline">\(y_N\)</span>)}(其中<span class="math inline">\(x\)</span>为输入坐标，<span class="math inline">\(y\)</span>为标签类别，取1或者-1)。接下来只需要根据样本逐步更新<span class="math inline">\(w\)</span>和<span class="math inline">\(b\)</span>就可以使超平面分开数据集D。</p>
+<p>这里将<span class="math inline">\(w\)</span>和<span class="math inline">\(b\)</span>都先置0：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Perception</span>:</span></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">    self._w = self._b = <span class="keyword">None</span></div><div class="line">    </div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">fit</span><span class="params">(self,x,y,lr=<span class="number">0.01</span>,epoch=<span class="number">1000</span>)</span>:</span></div><div class="line">    x,y = np.asarray(x,np.float32),np.asarray(y, np.float32)</div><div class="line">    self._w = np.zeros(x.shape[<span class="number">1</span>])</div><div class="line">    self._b = <span class="number">0.</span></div></pre></td></tr></table></figure>
 <p>其中的lr和epoch表示的是学习速率和迭代最大次数。</p>
 <p>运用函数距离来表示损失函数，且只有分类错误的点才会贡献梯度：</p>
-<p>$L(x,y)=max(-y(w\cdot x+b),0)$ </p>
-<p>选择使损失函数值最大的一个样本($x_i$,$y_i$)，用它来计算梯度然后梯度下降。如果这个样本 都被正确分类的话，那其他所有样本都已经被正确分类了。</p>
-<p>$\frac{\partial L(x_i,y_i)}{\partial w}=-y_ix_i​$、$\frac{\partial L(x_i,y_i)}{\partial b}=-y_i​$</p>
+<p><span class="math inline">\(L(x,y)=max(-y(w\cdot x+b),0)\)</span></p>
+<p>选择使损失函数值最大的一个样本(<span class="math inline">\(x_i\)</span>,<span class="math inline">\(y_i\)</span>)，用它来计算梯度然后梯度下降。如果这个样本 都被正确分类的话，那其他所有样本都已经被正确分类了。</p>
+<p><span class="math inline">\(\frac{\partial L(x_i,y_i)}{\partial w}=-y_ix_i​\)</span>、<span class="math inline">\(\frac{\partial L(x_i,y_i)}{\partial b}=-y_i​\)</span></p>
 <p>代码表示为：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(epoch):</div><div class="line">  y_pred = x.dot(self._w) + self._b</div><div class="line">  max_point = np.argmax(np.maximum(<span class="number">0</span>,-y_pred)*y)</div><div class="line">  <span class="keyword">if</span> y[max_point]*y_pred[max_point]&gt;<span class="number">0</span>:</div><div class="line">    <span class="keyword">break</span></div><div class="line">  delta = lr*y[max_point]</div><div class="line">  self._w +=delta*x[max_point]</div><div class="line">  self._b +=delta</div></pre></td></tr></table></figure>
 
@@ -543,7 +544,7 @@ wx+b=0</script><p>其中$w$、$x$为n维向量。对于一个数据集D={($x_1$,
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#感知机是什么"><span class="nav-number">1.</span> <span class="nav-text">感知机是什么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何实现感知机模型呢？"><span class="nav-number">2.</span> <span class="nav-text">如何实现感知机模型呢？</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#感知机是什么"><span class="nav-number">1.</span> <span class="nav-text">感知机是什么</span></a></li></ol></div>
             
 
           </div>

@@ -336,7 +336,8 @@
 
       
         
-          <h1 id="一、Kafka的基本使用"><a href="#一、Kafka的基本使用" class="headerlink" title="一、Kafka的基本使用"></a>一、Kafka的基本使用</h1><p>首先安装zookeeper(用来保存kafka的offset)、kafka，过程就不详细说明了。</p>
+          <p>#一、Kafka的基本使用</p>
+<p>首先安装zookeeper(用来保存kafka的offset)、kafka，过程就不详细说明了。</p>
 <p>1、启动zookeeper：./bin/zkServer.sh start</p>
 <p>2、配置kafka的log.dirs目录，以及zookeeper.connect=spark1234:12181/kafka0.9 (kafka在zookeeper的目录)</p>
 <p>3、复制一份server.properties为server1.properties，修改其中broker.id、log保存地址和listeners端口号，以便启动两个broker。</p>
@@ -485,13 +486,16 @@
 
       
         
-          <h2 id="利用SparkSQL分析网页日志数据"><a href="#利用SparkSQL分析网页日志数据" class="headerlink" title="利用SparkSQL分析网页日志数据"></a>利用SparkSQL分析网页日志数据</h2><p><a href="https://github.com/F0nnys/ML/tree/master/SPARKSQL/src/main/scala/com/test/log" target="_blank" rel="noopener">Github地址-&gt;</a></p>
-<h3 id="1、分析目的"><a href="#1、分析目的" class="headerlink" title="1、分析目的"></a>1、分析目的</h3><p>​    ·得到一个网站上最受欢迎模块的TopN访问次数</p>
-<p>​    ·按地市统计最受欢迎的TopN模块</p>
-<p>​    ·按流量统计最受欢迎的TopN模块</p>
-<h3 id="2、分析步骤"><a href="#2、分析步骤" class="headerlink" title="2、分析步骤"></a>2、分析步骤</h3><p>​    ·利用idea进行spark离线分析（local模式）</p>
-<p>​    ·利用spark集群讲作业提交到yarn上进行运行</p>
-<p>​    ·整体程序性能调优</p>
+          <h2 id="利用sparksql分析网页日志数据">利用SparkSQL分析网页日志数据</h2>
+<p><a href="https://github.com/F0nnys/ML/tree/master/SPARKSQL/src/main/scala/com/test/log" target="_blank" rel="noopener">Github地址-&gt;</a></p>
+<h3 id="分析目的">1、分析目的</h3>
+<p>​ ·得到一个网站上最受欢迎模块的TopN访问次数</p>
+<p>​ ·按地市统计最受欢迎的TopN模块</p>
+<p>​ ·按流量统计最受欢迎的TopN模块</p>
+<h3 id="分析步骤">2、分析步骤</h3>
+<p>​ ·利用idea进行spark离线分析（local模式）</p>
+<p>​ ·利用spark集群讲作业提交到yarn上进行运行</p>
+<p>​ ·整体程序性能调优</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/02/06/sparksql/#more" rel="contents">
@@ -637,11 +641,13 @@
 
       
         
-          <h1 id="利用Spark分析出租车打车数据"><a href="#利用Spark分析出租车打车数据" class="headerlink" title="利用Spark分析出租车打车数据"></a>利用Spark分析出租车打车数据</h1><h2 id="1-数据集简介"><a href="#1-数据集简介" class="headerlink" title="1 数据集简介"></a>1 数据集简介</h2><p>本数据集为四川省成都市的出租车GPS记录数据集。该数据集已提前清洗完成，仅提取了原始数据集中某一天的部分数据，并且去除了时间段在 0 点至 6 点之间的较少数据。</p>
+          <p>#利用Spark分析出租车打车数据</p>
+<p>##1 数据集简介</p>
+<p>本数据集为四川省成都市的出租车GPS记录数据集。该数据集已提前清洗完成，仅提取了原始数据集中某一天的部分数据，并且去除了时间段在 0 点至 6 点之间的较少数据。</p>
 <p>数据记录了成都市部分出租车在载客时的GPS位置和时间等信息，数据记录的格式为 CSV 格式。</p>
 <p>该数据集中的一条记录如下所示：</p>
-<p>1      30.624806     104.136604      211846<br>对各个字段逐个解释如下：</p>
-<p>TID：出租车的ID。每辆出租车的TID都是唯一的。<br>Lat：出租车状态为载客时的纬度。<br>Lon：出租车状态为载客时的经度。<br>Time：该条记录的时间戳。如 211846 代表 21 点 18 分 46 秒。</p>
+<p>1 30.624806 104.136604 211846 对各个字段逐个解释如下：</p>
+<p>TID：出租车的ID。每辆出租车的TID都是唯一的。 Lat：出租车状态为载客时的纬度。 Lon：出租车状态为载客时的经度。 Time：该条记录的时间戳。如 211846 代表 21 点 18 分 46 秒。</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/01/16/spark出租车数据挖掘/#more" rel="contents">
@@ -937,9 +943,9 @@
 
       
         
-          <p>​    之前介绍的感知机虽然可以对线性可分的数据集进行分类，但仅仅是达到分类作用，并不能保证分类的效果。所以这时候约束条件更多的SVM就出现了</p>
-<p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-15/50240232.jpg" alt=""></p>
-<p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-15/19979339.jpg" alt=""></p>
+          <p>​ 之前介绍的感知机虽然可以对线性可分的数据集进行分类，但仅仅是达到分类作用，并不能保证分类的效果。所以这时候约束条件更多的SVM就出现了</p>
+<p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-15/50240232.jpg"></p>
+<p><img src="http://owmmu20d1.bkt.clouddn.com/18-1-15/19979339.jpg"></p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/01/15/SVM-2/#more" rel="contents">
@@ -1233,24 +1239,20 @@
 
       
         
-          <h2 id="第二届智慧中国杯首数据科学竞赛，首发皇包车（HI-GUIDES）精品旅行服务成单预测竞赛"><a href="#第二届智慧中国杯首数据科学竞赛，首发皇包车（HI-GUIDES）精品旅行服务成单预测竞赛" class="headerlink" title="第二届智慧中国杯首数据科学竞赛，首发皇包车（HI GUIDES）精品旅行服务成单预测竞赛"></a>第二届智慧中国杯首数据科学竞赛，首发皇包车（HI GUIDES）精品旅行服务成单预测竞赛</h2><p><a href="http://www.dcjingsai.com/common/cmpt/%E7%B2%BE%E5%93%81%E6%97%85%E8%A1%8C%E6%9C%8D%E5%8A%A1%E6%88%90%E5%8D%95%E9%A2%84%E6%B5%8B_%E7%AB%9E%E8%B5%9B%E4%BF%A1%E6%81%AF.html" target="_blank" rel="noopener">精品旅行服务成单预测竞赛官网 -&gt;</a></p>
+          <h2 id="第二届智慧中国杯首数据科学竞赛首发皇包车hi-guides精品旅行服务成单预测竞赛">第二届智慧中国杯首数据科学竞赛，首发皇包车（HI GUIDES）精品旅行服务成单预测竞赛</h2>
+<p><a href="http://www.dcjingsai.com/common/cmpt/%E7%B2%BE%E5%93%81%E6%97%85%E8%A1%8C%E6%9C%8D%E5%8A%A1%E6%88%90%E5%8D%95%E9%A2%84%E6%B5%8B_%E7%AB%9E%E8%B5%9B%E4%BF%A1%E6%81%AF.html" target="_blank" rel="noopener">精品旅行服务成单预测竞赛官网 -&gt;</a></p>
 <p><a href="https://github.com/F0nnys/Data-competition" target="_blank" rel="noopener">github地址-&gt;</a></p>
-<h2 id="1-特征工程"><a href="#1-特征工程" class="headerlink" title="1 特征工程"></a>1 特征工程</h2><p>用户标签：</p>
+<h2 id="特征工程">1 特征工程</h2>
+<p>用户标签：</p>
 <ul>
-<li><p>orderhistory</p>
+<li>orderhistory
 <ul>
-<li><p>购买过的旅游服务总数量</p>
-</li>
-<li><p>购买过的普通旅游服务数量</p>
-</li>
-<li><p>购买过的精品旅游服务数量</p>
-</li>
-<li><p>精品+1/普通+1 or 精品订单数/（精品+普通）得出百分比</p>
-</li>
-<li><p>最后一次订单的时间，时间戳最后一次订单的年份，月份</p>
-</li>
-<li><p>一个用户的历史订单中去过每个大洲的次数</p>
-</li>
+<li><p>购买过的旅游服务总数量</p></li>
+<li><p>购买过的普通旅游服务数量</p></li>
+<li><p>购买过的精品旅游服务数量</p></li>
+<li><p>精品+1/普通+1 or 精品订单数/（精品+普通）得出百分比</p></li>
+<li><p>最后一次订单的时间，时间戳最后一次订单的年份，月份</p></li>
+<li><p>一个用户的历史订单中去过每个大洲的次数</p></li>
 <li><p>一个用户的历史订单中去过每个国家的次数（training data中有51个国家）</p>
           <!--noindex-->
           <div class="post-button text-center">
@@ -1397,8 +1399,9 @@
 
       
         
-          <h1 id="利用Spark机器学习分析银行营销数据"><a href="#利用Spark机器学习分析银行营销数据" class="headerlink" title="利用Spark机器学习分析银行营销数据"></a>利用Spark机器学习分析银行营销数据</h1><p>​    本实验会使用spark机器学习中的逻辑回归算法，分析银行营销数据，按照机器学习开发步骤，建立逻辑回归模型，预测客户是否会存款，并评估预测模型的精确度。</p>
-<p>​    编程语言为Scala<br>​    编程软件为idea工具，通过软件内运行，以及用maven打jar包到集群两种方式进行试验<br>​    Spark API版本为2.2</p>
+          <h1 id="利用spark机器学习分析银行营销数据">利用Spark机器学习分析银行营销数据</h1>
+<p>​ 本实验会使用spark机器学习中的逻辑回归算法，分析银行营销数据，按照机器学习开发步骤，建立逻辑回归模型，预测客户是否会存款，并评估预测模型的精确度。</p>
+<p>​ 编程语言为Scala ​ 编程软件为idea工具，通过软件内运行，以及用maven打jar包到集群两种方式进行试验 ​ Spark API版本为2.2</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/01/15/利用Spark机器学习分析银行营销数据/#more" rel="contents">
@@ -1546,9 +1549,10 @@
         
           <p>要介绍SVM，就必须从感知机这一个基础概念说起。因为感知机是很多机器学习甚至神经网络的模型基础。（通过简单修改损失函数可以变为SVM，通过简单堆叠可以发展成神经网络）</p>
 <blockquote>
-<h1 id="感知机是什么"><a href="#感知机是什么" class="headerlink" title="感知机是什么"></a>感知机是什么</h1></blockquote>
+<h1 id="感知机是什么">感知机是什么</h1>
+</blockquote>
 <p>感知机能使用超平面将线性可分数据集分开。如图所示：</p>
-<p><img src="http://owmmu20d1.bkt.clouddn.com/17-9-22/76383780.jpg" alt=""></p>
+<p><img src="http://owmmu20d1.bkt.clouddn.com/17-9-22/76383780.jpg"></p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/09/22/SVM/#more" rel="contents">
