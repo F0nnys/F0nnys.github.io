@@ -77,14 +77,14 @@
 <meta property="og:site_name" content="My Study Notes">
 <meta property="og:description" content="Netty服务端搭建与源码分析 一、NIO简单实现">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://i4.bvimg.com/646755/3ee59d3285ea1bab.jpg">
-<meta property="og:image" content="http://i2.bvimg.com/646755/d3b1ebd2c952194a.jpg">
-<meta property="og:image" content="http://i2.bvimg.com/646755/e0c0f6e3044e7114.jpg">
-<meta property="og:updated_time" content="2018-05-22T15:59:59.804Z">
+<meta property="og:image" content="http://owmmu20d1.bkt.clouddn.com/18-6-3/73307565.jpg">
+<meta property="og:image" content="http://owmmu20d1.bkt.clouddn.com/18-6-3/98650012.jpg">
+<meta property="og:image" content="http://owmmu20d1.bkt.clouddn.com/18-6-3/30438412.jpg">
+<meta property="og:updated_time" content="2018-06-03T09:40:16.571Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="netty学习">
 <meta name="twitter:description" content="Netty服务端搭建与源码分析 一、NIO简单实现">
-<meta name="twitter:image" content="http://i4.bvimg.com/646755/3ee59d3285ea1bab.jpg">
+<meta name="twitter:image" content="http://owmmu20d1.bkt.clouddn.com/18-6-3/73307565.jpg">
 
 
 
@@ -349,17 +349,18 @@
 <p>​ 查看源码发现，默认启动boss数量为1，启动worker数量为电脑核心线程数*2.</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">NioServerSocketChannelFactory</span><span class="params">(Executor bossExecutor, Executor workerExecutor)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>(bossExecutor, workerExecutor, getMaxThreads(workerExecutor));</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">NioServerSocketChannelFactory</span><span class="params">(Executor bossExecutor, Executor workerExecutor, <span class="keyword">int</span> workerCount)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>(bossExecutor, <span class="number">1</span>, workerExecutor, workerCount);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">.......</div><div class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_IO_THREADS = Runtime.getRuntime().availableProcessors() * <span class="number">2</span>;</div></pre></td></tr></table></figure>
 <p>​ 继续看NioServerSocketChannelFactory的源码发现，它会去new NioWorkerPool(workerExecutor, workerCount))和new NioServerBossPool(bossExecutor, bossCount, (ThreadNameDeterminer)null)。</p>
-<p>最后都关联到AbstractNioSelector<img src="http://i4.bvimg.com/646755/3ee59d3285ea1bab.jpg" alt="Markdown">，其中的run方法中主要有(省掉了中间很多代码)：</p>
+<p>最后都关联到AbstractNioSelector</p>
+<p><img src="http://owmmu20d1.bkt.clouddn.com/18-6-3/73307565.jpg"></p>
+<p>，其中的run方法中主要有(省掉了中间很多代码)：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">while</span>(<span class="keyword">true</span>) &#123;</div><div class="line">                <span class="keyword">this</span>.wakenUp.set(<span class="keyword">false</span>);</div><div class="line">    			<span class="keyword">int</span> selected = <span class="keyword">this</span>.select(selector);</div><div class="line">    			<span class="keyword">this</span>.processTaskQueue();</div><div class="line">    			<span class="keyword">this</span>.process(selector);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>其中select方法在boss中被重写，直接就是selector.select阻塞监听，而在worker中则是selector.select(SELECT_TIMEOUT)设置了500毫秒的阻塞时间。</p>
-<p>其中process方法<img src="http://i2.bvimg.com/646755/d3b1ebd2c952194a.jpg" alt="Markdown"></p>
+<p>其中process方法</p>
+<p><img src="http://owmmu20d1.bkt.clouddn.com/18-6-3/98650012.jpg"></p>
 <p>针对Worker和Boss都进行了重写，其中就跟最开始的NIO模型一致了，worker用k.readyOps()查看是否准备好了然后进行读写缓存操作，而boss就是</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">while</span>(i.hasNext()) &#123;</div><div class="line">    <span class="comment">//通过SelectionKey拿到对应的大门(NioServerSocketChannel)</span></div><div class="line">                SelectionKey k = (SelectionKey)i.next();</div><div class="line">                i.remove();</div><div class="line">                NioServerSocketChannel channel = (NioServerSocketChannel)k.attachment();</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    <span class="keyword">while</span>(<span class="keyword">true</span>) &#123;</div><div class="line">                        SocketChannel acceptedSocket = channel.socket.accept();</div><div class="line">                        <span class="keyword">if</span> (acceptedSocket == <span class="keyword">null</span>) &#123;</div><div class="line">                            <span class="keyword">break</span>;</div><div class="line">                        &#125;</div><div class="line">                        <span class="comment">//注册大门到这个selector</span></div><div class="line">                        registerAcceptedChannel(channel, acceptedSocket, <span class="keyword">this</span>.thread);</div><div class="line">                    &#125;</div></pre></td></tr></table></figure>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">registerAcceptedChannel</span><span class="params">(NioServerSocketChannel parent, SocketChannel acceptedSocket, Thread currentThread)</span> </span>&#123;</div><div class="line">       <span class="keyword">try</span> &#123;</div><div class="line">           <span class="comment">//拿到pipeline</span></div><div class="line">           ChannelSink sink = parent.getPipeline().getSink();</div><div class="line">           ChannelPipeline pipeline = parent.getConfig().getPipelineFactory().getPipeline();</div><div class="line">           <span class="comment">//拿到一个worker将channel，pipline与之绑定</span></div><div class="line">           NioWorker worker = (NioWorker)parent.workerPool.nextWorker();</div><div class="line">           worker.register(<span class="keyword">new</span> NioAcceptedSocketChannel(parent.getFactory(), pipeline, parent, sink, acceptedSocket, worker, currentThread), (ChannelFuture)<span class="keyword">null</span>);</div></pre></td></tr></table></figure>
 <p>register里面实现了registerTask：</p>
-<figure>
-<img src="http://i2.bvimg.com/646755/e0c0f6e3044e7114.jpg" alt="Markdown"><figcaption>Markdown</figcaption>
-</figure>
+<p><img src="http://owmmu20d1.bkt.clouddn.com/18-6-3/30438412.jpg"></p>
 <p>其中就包含了往taskQueue里写任务，所以注册其实是写在队列里同步执行的，所以就不存在并发问题（同时注册到相同的worker）。selector.wakeup使得seletor.select状态立马返回，去执行queue里的任务。</p>
 <h2 id="三netty心跳机制">三、netty心跳机制</h2>
 <p>设置一个timer计时器，一个IdleStateHandler在pipeline里就可以完成：</p>
@@ -491,7 +492,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -513,7 +514,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
