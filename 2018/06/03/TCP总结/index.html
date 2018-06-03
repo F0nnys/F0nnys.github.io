@@ -83,7 +83,7 @@
 <meta property="og:image" content="https://coolshell.cn/wp-content/uploads/2014/05/tcp_data_seq_num.jpg">
 <meta property="og:image" content="https://coolshell.cn/wp-content/uploads/2014/05/FASTIncast021.png">
 <meta property="og:image" content="https://coolshell.cn/wp-content/uploads/2014/05/tcp_sack_example-1024x577.jpg">
-<meta property="og:updated_time" content="2018-06-03T10:01:23.312Z">
+<meta property="og:updated_time" content="2018-06-03T10:03:06.485Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="TCP总结(一)">
 <meta name="twitter:description" content="TCP总结： 一、TCP协议的定义和丢包时的重传机制 ​ TCP在网络OSI的七层模型中的第四层——Transport层，IP在第三层——Network层，ARP在第二层——Data Link层，在第二层上的数据，我们叫Frame，在第三层上的数据叫Packet，第四层的数据叫Segment。 ​ 首先，我们需要知道，我们程序的数据首先会打到TCP的Segment中，然后TCP的Segment会打">
@@ -348,10 +348,11 @@
 <p>​ TCP头格式：</p>
 <p><img src="http://owmmu20d1.bkt.clouddn.com/18-6-3/84517056.jpg"></p>
 <ul>
-<li><strong>Sequence Number</strong>是包的序号，<strong>用来解决网络包乱序（reordering）问题。</strong></li>
-<li><strong>Acknowledgement Number</strong>就是ACK——用于确认收到，<strong>用来解决不丢包的问题</strong>。</li>
-<li><strong>Window又叫Advertised-Window</strong>，也就是著名的滑动窗口（Sliding Window），<strong>用于解决流控的</strong>。</li>
-<li><strong>TCP Flag</strong> ，也就是包的类型，<strong>主要是用于操控TCP的状态机的</strong>。</li>
+<li><p><strong>Sequence Number</strong>是包的序号，<strong>用来解决网络包乱序（reordering）问题。</strong></p></li>
+<li><p><strong>Acknowledgement Number</strong>就是ACK——用于确认收到，<strong>用来解决不丢包的问题</strong>。</p></li>
+<li><p><strong>Window又叫Advertised-Window</strong>，也就是著名的滑动窗口（Sliding Window），<strong>用于解决流控的</strong>。</p></li>
+<li><p><strong>TCP Flag</strong> ，也就是包的类型，<strong>主要是用于操控TCP的状态机的</strong>。</p>
+<a id="more"></a></li>
 </ul>
 <h3 id="tcp的状态机">TCP的状态机</h3>
 <p>​ 其实，<strong>网络上的传输是没有连接的，包括TCP也是一样的</strong>。而TCP所谓的“连接”，其实只不过是在通讯的双方维护一个“连接状态”，让它看上去好像有连接一样。所以，TCP的状态变换是非常重要的。</p>
